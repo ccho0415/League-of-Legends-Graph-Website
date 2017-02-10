@@ -1,0 +1,10 @@
+README.rst
+setup.py
+riotwatcher/__init__.py
+riotwatcher/riotwatcher.py
+riotwatcher/tests.py
+riotwatcher.egg-info/PKG-INFO
+riotwatcher.egg-info/SOURCES.txt
+riotwatcher.egg-info/dependency_links.txt
+riotwatcher.egg-info/requires.txt
+riotwatcher.egg-info/top_level.txt
