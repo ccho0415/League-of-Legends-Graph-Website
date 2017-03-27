@@ -6,7 +6,7 @@ app.use(express.static("./public"));
 // Routes =============================================================
 require("./routes/html-routes")(app);
 // require("./routes/api-routes")(app);
-// require("./routes/data-routes")(app);
+require("./routes/data-routes")(app);
 
 // 
 app.listen(PORT, function() {
