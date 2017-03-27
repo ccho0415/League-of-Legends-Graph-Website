@@ -1,0 +1,244 @@
+JSoop.define("Codex.details.view.common.build.item.Item", {
+    extend: "Ramen.view.binding.BindingView",
+    rtype: "common-item-build-item",
+    baseId: "build-item",
+    baseCls: "build-item",
+    tpl: '{{ item }} {% if count > 1 %} <div class="count">{{ count }}</div> {% endif %}',
+    bindings: {
+        item: {
+            type: "DragonRamen.binding.item.Icon",
+            model: "getItem"
+        }
+    },
+    initView: function() {
+        var a = this;
+        a.renderData = {
+            count: a.count,
+            type: a.transactionType
+        };
+        if (a.transactionType === "sell") {
+            a.addCls(a.baseCls + "-item-sell")
+        }
+        a.callParent(arguments)
+    },
+    getItem: function() {
+        var a = this;
+        return DragonRamen.get("item", a.version, a.item)
+    }
+});
+JSoop.define("Codex.details.view.common.build.item.Step", {
+    extend: "Ramen.view.container.Container",
+    requires: ["Codex.util.Formatters", "Codex.details.view.common.build.item.Item"],
+    rtype: "common-item-build-step",
+    baseId: "build-step",
+    baseCls: "build-step",
+    tpl: '<div class="connector"></div> <div class="{{ baseCls }}-container clearfix"> <div id="{{ id }}-container" class="{{ baseCls }}-items clearfix content-border"></div> <div class="{{ baseCls }}-time clearfix"> {{ timestamp }} </div> </div>',
+    childEls: {
+        containerEl: "container"
+    },
+    targetEl: "containerEl",
+    initView: function() {
+        var a = this;
+        a.itemDefaults = {
+            type: "Codex.details.view.common.build.item.Item",
+            version: a.model.getGame().get("version")
+        };
+        a.renderData = {
+            timestamp: Codex.util.Formatters.timeFormatMs(a.items[0].timestamp)
+        };
+        a.callParent(arguments)
+    }
+});
+JSoop.define("Codex.util.BuildParser", {
+    singleton: true,
+    startingThreshold: 120000,
+    stepThreshold: 30000,
+    getItemEvents: function(a) {
+        var b = a.getGame().getEvents().find(function(c) {
+            if (c.get("type") === "ITEM_PURCHASED" || c.get("type") === "ITEM_SOLD" || c.get("type") === "ITEM_UNDO") {
+                if (c.get("source").get("id") === a.get("id")) {
+                    return true
+                }
+            }
+            return false
+        });
+        b.sort(function(d, c) {
+            return d.get("timestamp") - c.get("timestamp")
+        });
+        return b
+    },
+    getStartingStep: function(a) {
+        var c = this
+          , b = [];
+        while (a.length) {
+            if (a[0].get("timestamp") < c.startingThreshold) {
+                b.push(a.shift())
+            } else {
+                return c.processStep(b)
+            }
+        }
+        return c.processStep(b)
+    },
+    getStep: function(a) {
+        var c = this, b = [], d;
+        if (a.length) {
+            b.push(a.shift());
+            d = b[0].get("timestamp")
+        } else {
+            return false
+        }
+        while (a.length) {
+            if (a[0].get("timestamp") < (d + c.stepThreshold)) {
+                b.push(a.shift());
+                d = b[b.length - 1].get("timestamp")
+            } else {
+                return c.processStep(b)
+            }
+        }
+        return c.processStep(b)
+    },
+    processStep: function(e) {
+        var d = this, b = {
+            buy: {},
+            sell: {}
+        }, f;
+        function c(h, g, i) {
+            if (!i.hasOwnProperty(h)) {
+                i[h] = g
+            } else {
+                i[h] = i[h] + g
+            }
+        }
+        function a(g, h) {
+            if (g === "buy") {
+                c(h, -1, b.buy)
+            } else {
+                c(h, -1, b.sell)
+            }
+        }
+        JSoop.each(e, function(j) {
+            var h = j.get("type")
+              , i = j.get("item")
+              , g = j.get("undoType");
+            if (!f) {
+                f = j.get("timestamp")
+            }
+            if (h === "ITEM_PURCHASED") {
+                c(i, 1, b.buy)
+            } else {
+                if (h === "ITEM_UNDO") {
+                    a(g, i)
+                } else {
+                    if (h === "ITEM_SOLD") {
+                        c(i, 1, b.sell)
+                    }
+                }
+            }
+        });
+        e = [];
+        JSoop.iterate(b.sell, function(h, g) {
+            d.addItem({
+                step: e,
+                count: h,
+                item: g,
+                timestamp: f,
+                transactionType: "sell"
+            })
+        });
+        JSoop.iterate(b.buy, function(h, g) {
+            d.addItem({
+                step: e,
+                count: h,
+                item: g,
+                timestamp: f,
+                transactionType: "buy"
+            })
+        });
+        return e
+    },
+    addItem: function(a) {
+        var f = a.step, e = a.count, d = a.item, g = a.timestamp, c = a.transactionType, b;
+        if (!Riot.DDragon.models.item.get(d).consumed) {
+            for (b = e; b > 0; b = b - 1) {
+                f.push({
+                    item: d,
+                    count: 1,
+                    transactionType: c,
+                    timestamp: g
+                })
+            }
+        } else {
+            f.push({
+                item: d,
+                count: e,
+                transactionType: c,
+                timestamp: g
+            })
+        }
+    },
+    getBuildSteps: function(a) {
+        var e = this
+          , c = e.getItemEvents(a)
+          , b = []
+          , d = e.getStartingStep(c);
+        if (d.length) {
+            b.push(d)
+        } else {
+            return b
+        }
+        while (true) {
+            d = e.getStep(c);
+            if (d) {
+                if (d.length) {
+                    b.push(d)
+                }
+            } else {
+                return b
+            }
+        }
+    }
+});
+JSoop.define("Codex.details.view.common.build.item.ItemBuild", {
+    extend: "Ramen.view.container.Container",
+    requires: ["Codex.util.BuildParser", "Codex.details.view.common.build.item.Step"],
+    rtype: "common-item-build",
+    baseId: "item-build",
+    baseCls: "item-build",
+    cls: "clearfix",
+    tpl: '<div class="content-border"> <div class="white-stone build-items"> <h4>{{ trans(\'items_header\') }}</h4> <div id="{{ id }}-container" class="build-container clearfix"> </div> </div> </div>',
+    childEls: {
+        containerEl: "container"
+    },
+    targetEl: "containerEl",
+    layout: {
+        type: "Ramen.view.layout.NoLayout"
+    },
+    initView: function() {
+        var b = this
+          , a = b.model.getGame();
+        b.itemDefaults = {
+            type: "Codex.details.view.common.build.item.Step",
+            model: b.model
+        };
+        b.callParent(arguments);
+        if (a.timeline) {
+            b.addSteps()
+        } else {
+            b.mon(a, "timeline:load", b.addSteps, b, {
+                single: true
+            })
+        }
+    },
+    addSteps: function() {
+        var c = this
+          , b = Codex.util.BuildParser.getBuildSteps(c.model)
+          , a = [];
+        JSoop.each(b, function(e, d) {
+            a.push({
+                items: e,
+                index: d
+            })
+        });
+        c.add(a)
+    }
+});

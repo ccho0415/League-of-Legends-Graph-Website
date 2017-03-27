@@ -1,5 +1,4 @@
-// Test summoner ID : 20278955
-$(document).ready(function(){
+High Charts
 // Way of avoiding scoping issue
 var newchart = {}
 // function to loadChart
@@ -24,19 +23,7 @@ $(function () {
         ]
     });
 });
-}
-// AJAX Call to Riot API
-	$.ajax({
-  		url: "https://na.api.pvp.net/api/lol/na/v1.3/game/by-summoner/20278955/recent?api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3",
-  		method: "GET"
-	}).done(function(data) {
-   		console.log(data);
-      loadChart();      
-   		$.each(data, function(){
-   			$.each(this, function(){
-   				let stat = this.stats
-
-  				$("#minions").append("<button class = 'minionsButton'>"+stat.minionsKilled+"</button>");
+}  				$("#goldEarned").append("<button class = 'minionsButton'>"+stat+"</button>");
 
 
    				// $.each(this,function(){
