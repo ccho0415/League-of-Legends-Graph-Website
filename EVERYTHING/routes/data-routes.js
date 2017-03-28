@@ -66,53 +66,34 @@ module.exports = function(app) {
 		// Pretty Print for body
 		// console.log(info);
   		//  console.log("=====================================================================================");
-   		var gameIdArr = [];
-   		var gameModeArr = [];
-   		var subtypeArr = [];
-   		var winArr = [];
-   		var killsArr = [];
-   		var deathsArr = [];
-   		var assistsArr = [];
-   		var goldArr = [];
-   		var minionsArr = [];
-   		var champsArr = [];		
+   		var data = {}
+   		var index = [];
+		function Gameobj (gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, champ) {
+			this.gameid= gameid;
+			this.gamemode= gamemode;
+			this.subtype= subtype;
+			this.win= win;
+			this.kills= kills;
+			this.deaths= deaths;
+			this.assists= assists;
+			this.gold= gold;
+			this.minions = minions;
+			this.champ= champ;		
+		}   			
 		for(i=0; i<info.games.length; i++){
 			var gameid =info.games[i].gameId
 			var stats = info.games[i].stats
 			var gamemode = info.games[i].gameMode
 			var subtype = info.games[i].subType
-			gameIdArr.push(gameid);
-			gameModeArr.push(gamemode);
-			subtypeArr.push(subtype);
-			winArr.push(stats.win);
-			killsArr.push(stats.championsKilled);
-			deathsArr.push(stats.numDeaths);
-			assistsArr.push(stats.assists);
-			goldArr.push(stats.goldEarned);
-			minionsArr.push(stats.minionsKilled);
-			champsArr.push(info.games[i].championId);												
+			var currentgame = new Gameobj(gameid, gamemode, subtype, stats.win, stats.championsKilled, stats.numDeaths, stats.assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId)
+			index.push(currentgame);												
 		}
    		console.log("=====================================================================================");
-   		var games = {
-   			gameids: gameIdArr,
-   			gamemodes: gameModeArr,
-   			subtypes: subtypeArr,
-   			wins: winArr,
-   			kills: killsArr,
-   			deaths: deathsArr,
-   			assists: assistsArr,
-   			gold: goldArr,
-   			minions: minionsArr,
-   			champs: champsArr	   			
-   		}
-   		console.log(games);
-   		res.json(games);
+   		res.json(index);
 
   	});
   });
 
-  // DELETE route for deleting todos. We can access the ID of the todo to delete in
-  // req.params.id
   app.post("/data/gameduration/:id", function(req, res) {
   	var gameid = req.params.id
   	var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
@@ -128,7 +109,7 @@ module.exports = function(app) {
   });
 
   // PUT route for updating todos. We can access the updated todo in req.body
-  app.post("/api/todos", function(req, res) {
+  app.post("/data/todos", function(req, res) {
 
   });
 };

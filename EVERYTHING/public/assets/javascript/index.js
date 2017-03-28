@@ -37,41 +37,36 @@ $(document).ready(function(){
       console.log("Getting the match history")
     }).then(function(data){
       console.log(data)
-      var max = data.gameids.length
-      for (i=0; i < max; i++){
-      var gameMode =data.gamemodes[i];
-      var subType = data.subtypes[i];
-      var gameId = data.gameids[i];
-      var wins = data.wins[i];
-      var kills = data.kills[i];
-      var deaths = data.deaths[i];
-      var assists = data.assists[i];
-      var gold = data.gold[i];
-      var minions = data.minions[i];
-      var champ = data.champs[i]; 
-      var duration;        
-      console.log(gameId);
-      gameDuration(gameId, gameMode, subType, wins, kills, deaths, assists, gold, minions, duration);
-  
-
-      }
+      data.forEach(function callback(value, index, data){
+        let gameid = value.gameid;
+        let gamemode= value.gamemode;
+        let subtype = value.subtype;
+        let win = value.win;
+        let kills = value.kills;
+        let deaths = value.deaths;
+        let assists = value.assists;
+        let gold = value.gold;
+        let minions = value.minions;
+        let champ = value.champ;
+        console.log(gameid);
+        setTimeout(function(){
+          gameDuration(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions)
+        }, 500);
+      })        
+       
     })
   }
-  function gameDuration(gameid, gameMode, subType, wins, kills, deaths, assists, gold, minions, duration){
-    return new Promise((resolve, reject)=> {
-      $.post("/data/gameduration/"+ gameid, function(){
-        console.log("Searching for game duration of "+ gameid + " game");
-      }).done(function(data){
-        console.log(data);
-        var duration = parseInt(data) / 60;
-        resolve(duration);
-        console.log(duration)
-        insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration)        
-      }).fail(function(error){
-        console.log(error);
-        reject(error);
-       });
-   });
+  function gameDuration(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions){
+    $.post("/data/gameduration/"+ gameid, function(){
+      console.log("Searching for game duration of "+ gameid + " game");
+    }).done(function(data){
+      console.log(data);
+      var duration = parseInt(data) / 60;
+      console.log(duration)
+      insertGame(gamemode,subtype, win, kills, deaths, assists, gold, minions, duration)
+    }).catch(function(error){
+      console.log(error);
+     });
   }
   function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration){
     if (gameMode == "CLASSIC"){
