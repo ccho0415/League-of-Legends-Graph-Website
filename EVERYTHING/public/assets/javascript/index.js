@@ -43,49 +43,36 @@ $(document).ready(function(){
       console.log(data)
       data.forEach(function callback(value, index, data){
         let gameid = value.gameid;
-        let gamemode= value.gamemode;
-        let subtype = value.subtype;
-        let win = value.win;
-        let kills = value.kills;
-        let deaths = value.deaths;
-        let assists = value.assists;
-        let gold = value.gold;
-        let minions = value.minions;
-        let champ = value.champ;
-        let duration = value.duration;
-        console.log(gameid);
-        cb(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, insertGame)
+        console.log(gameid);    
+        cb(data[index], insertGame)
       })        
        
     })
   }
-  function gameDuration(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, cb){
-    var duration;
+  function gameDuration(data, cb){
+    console.log(data.gameid)
+    console.log(data.subtype)
+    var duration = data.duration
+    var mastery;
+    console.log(data);
     $.ajax({
-      url: "/data/gameduration/"+ gameid,
+      url: "/data/gameduration/"+ data.gameid,
       method: "POST",
-      complete: function(data){
-        var data = data.responseJSON;
-        var duration = parseInt(data)/ 60;
+      async: false,
+      complete: function(dat){
+        var dat = dat.responseJSON;
+        var duration = parseInt(dat)/ 60;
         console.log(duration);
-        cb(gamemode,subtype, win, kills, deaths, assists, gold, minions, duration)          
+        if(duration !==0){
+          cb(data.gamemode, data.subtype, data.win, data.kills, data.deaths, data.assists, data.gold, data.minions, duration)   
+        }           
       },
       error: function(err){
         console.log(err);
       }
     });
 
-    // $.post( function(){
-    //   console.log("Searching for game duration of "+ gameid + " game");
-    // }).done(function(data){
-    //   console.log(data);
-    //   var duration = parseInt(data) / 60;
-    //   console.log(duration)
-    // }).catch(function(error){
-    //   console.log(error);
-    // });
-    //KNOWN ISSUE THIS CALLBACK DOESN'T WAIT FOR POST REQUEST TO FINISH TO GET THE MATCH DURATION
-    //FUTURE POSSIBLE ISSUE, NUMBER OF REQUESTS MADE TO THE SERVER AT ONCE 
+   
   
   }
   function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration){

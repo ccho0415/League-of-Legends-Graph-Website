@@ -16,15 +16,7 @@ module.exports = function(app) {
   	var name = req.params.summoner
   	var name = name.split(' ').join('');
   	var url = "https://na.api.riotgames.com/api/lol/NA/v1.4/summoner/by-name/"+name+"?api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
-  	request(url, function(error, response, body){
-  		// Check what type of response is received
-  		// console.log("=====================================================================================");  		
-  		// console.log("Err : "+error);
-  		// console.log("=====================================================================================");
-  		// console.log("Res : "+response &&response.statusCode);
-  		// console.log("=====================================================================================");  		
-  		// console.log("Body : "+body);
-   	// 	console.log("====================================================================================="); 		
+  	request(url, function(error, response, body){	
   		if (error){
   			error = "Query failed";
    			res.send(error); 			
@@ -68,7 +60,7 @@ module.exports = function(app) {
   		 console.log("=====================================================================================");
   //  		var data = {}
    		var index = [];
-		function Gameobj (gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, invalid, duration, mastery) {
+		function Gameobj (gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, invalid, duration, mastery, order) {
 			this.gameid= gameid;
 			this.gamemode= gamemode;
 			this.subtype= subtype;
@@ -83,6 +75,7 @@ module.exports = function(app) {
       this.spell2 = spell2;
       this.duration = duration;
       this.mastery = mastery;	
+      this.order = order
 		}   			
 		for(i=0; i<info.games.length; i++){
 			var gameid =info.games[i].gameId
@@ -107,9 +100,10 @@ module.exports = function(app) {
       }else{
         var deaths = stats.numDeaths
       }
-
+      var duration = 0;
+      var mastery = 0;
       console.log(stats)
-			var currentgame = new Gameobj(gameid, gamemode, subtype, stats.win, kills, deaths, assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId, info.games[i].spell1, info.games[i].spell2, info.games[i].invalid)
+			var currentgame = new Gameobj(gameid, gamemode, subtype, stats.win, kills, deaths, assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId, info.games[i].spell1, info.games[i].spell2, info.games[i].invalid, duration, mastery, i)
 			index.push(currentgame);											
 		}
    		console.log("=====================================================================================");
@@ -118,19 +112,19 @@ module.exports = function(app) {
   	});
   });
 
-//   app.post("/data/gameduration/:id", function(req, res) {
-//   	var gameid = req.params.id
-//   	var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
-//   	request(url, function(error, response, body){
-//   		var info = JSON.parse(body);
-//   	// Pretty Print Body
-//    	// 	console.log("=====================================================================================");  		
-//   		// console.log(info);
-//    	// 	console.log("=====================================================================================");
-//    		var duration = info.matchDuration;
-//    		res.json(duration);  		
-//   	})
-//   });
+  app.post("/data/gameduration/:id", function(req, res) {
+  	var gameid = req.params.id
+  	var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+  	request(url, function(error, response, body){
+  		var info = JSON.parse(body);
+  	// Pretty Print Body
+   	// 	console.log("=====================================================================================");  		
+  		// console.log(info);
+   	// 	console.log("=====================================================================================");
+   		var duration = info.matchDuration;
+   		res.json(duration);  		
+  	})
+  });
 
 //   // PUT route for updating todos. We can access the updated todo in req.body
 //   app.post("/data/todos", function(req, res) {
