@@ -64,11 +64,11 @@ module.exports = function(app) {
    		// console.log("=====================================================================================");
 		var info = JSON.parse(body);
 		// Pretty Print for body
-		// console.log(info);
-  		//  console.log("=====================================================================================");
-   		var data = {}
+		console.log(info);
+  		 console.log("=====================================================================================");
+  //  		var data = {}
    		var index = [];
-		function Gameobj (gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, champ) {
+		function Gameobj (gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, invalid, duration, mastery) {
 			this.gameid= gameid;
 			this.gamemode= gamemode;
 			this.subtype= subtype;
@@ -78,15 +78,39 @@ module.exports = function(app) {
 			this.assists= assists;
 			this.gold= gold;
 			this.minions = minions;
-			this.champ= champ;		
+			this.champ= champ;	
+      this.spell1 = spell1;
+      this.spell2 = spell2;
+      this.duration = duration;
+      this.mastery = mastery;	
 		}   			
 		for(i=0; i<info.games.length; i++){
 			var gameid =info.games[i].gameId
 			var stats = info.games[i].stats
 			var gamemode = info.games[i].gameMode
 			var subtype = info.games[i].subType
-			var currentgame = new Gameobj(gameid, gamemode, subtype, stats.win, stats.championsKilled, stats.numDeaths, stats.assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId)
-			index.push(currentgame);												
+      var kills;
+      var assists;
+      var deaths;
+      if (stats.championsKilled == undefined){
+        var kills = 0;
+      }else{
+        var kills = stats.championsKilled        
+      }
+      if(stats.assists == undefined){
+        var assists = 0;
+      }else{
+        var assists = stats.assists
+      }
+      if(stats.numDeaths == undefined){
+        var deaths = 0;
+      }else{
+        var deaths = stats.numDeaths
+      }
+
+      console.log(stats)
+			var currentgame = new Gameobj(gameid, gamemode, subtype, stats.win, kills, deaths, assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId, info.games[i].spell1, info.games[i].spell2, info.games[i].invalid)
+			index.push(currentgame);											
 		}
    		console.log("=====================================================================================");
    		res.json(index);
@@ -94,22 +118,22 @@ module.exports = function(app) {
   	});
   });
 
-  app.post("/data/gameduration/:id", function(req, res) {
-  	var gameid = req.params.id
-  	var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
-  	request(url, function(error, response, body){
-  		var info = JSON.parse(body);
-  	// Pretty Print Body
-   	// 	console.log("=====================================================================================");  		
-  		// console.log(info);
-   	// 	console.log("=====================================================================================");
-   		var duration = info.matchDuration;
-   		res.json(duration);  		
-  	})
-  });
+//   app.post("/data/gameduration/:id", function(req, res) {
+//   	var gameid = req.params.id
+//   	var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+//   	request(url, function(error, response, body){
+//   		var info = JSON.parse(body);
+//   	// Pretty Print Body
+//    	// 	console.log("=====================================================================================");  		
+//   		// console.log(info);
+//    	// 	console.log("=====================================================================================");
+//    		var duration = info.matchDuration;
+//    		res.json(duration);  		
+//   	})
+//   });
 
-  // PUT route for updating todos. We can access the updated todo in req.body
-  app.post("/data/todos", function(req, res) {
+//   // PUT route for updating todos. We can access the updated todo in req.body
+//   app.post("/data/todos", function(req, res) {
 
-  });
+//   });
 };

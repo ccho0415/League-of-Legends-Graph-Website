@@ -6,11 +6,14 @@ $(document).ready(function(){
 
 // Button Functions
   $("body").on("click", ".detail", searchMatch); 
-  $("#searchSumName").on("click", searchSummoner);
+  $("#searchSumName").on("click", function(event){
+      searchSummoner(event, recentGames)
+  });
+
 // Searching Summoner Name
-  function searchSummoner(event){
+  function searchSummoner(event, cb){
     summoner = $("#sname").val().trim();    
-    event.preventDefault();
+    event.preventDefault();   
       $("#result").empty();
       $("#data").empty();
       if (summoner == "") {
@@ -26,13 +29,14 @@ $(document).ready(function(){
           }else{
             $("#result").append("<h3>"+data.name+"</h3><br>"+
             "<img src = 'http://ddragon.leagueoflegends.com/cdn/7.6.1/img/profileicon/"+data.icon+".png'>" )
-            recentGames(data.id);           
+
+            cb(data.id, gameDuration);
           }
     });
         //============= 
       }
   }
-  function recentGames(id){
+  function recentGames(id, cb){
     $.post("/data/recentgames/"+id, function(){
       console.log("Getting the match history")
     }).then(function(data){
@@ -48,25 +52,41 @@ $(document).ready(function(){
         let gold = value.gold;
         let minions = value.minions;
         let champ = value.champ;
+        let duration = value.duration;
         console.log(gameid);
-        setTimeout(function(){
-          gameDuration(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions)
-        }, 500);
+        cb(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, insertGame)
       })        
        
     })
   }
-  function gameDuration(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions){
-    $.post("/data/gameduration/"+ gameid, function(){
-      console.log("Searching for game duration of "+ gameid + " game");
-    }).done(function(data){
-      console.log(data);
-      var duration = parseInt(data) / 60;
-      console.log(duration)
-      insertGame(gamemode,subtype, win, kills, deaths, assists, gold, minions, duration)
-    }).catch(function(error){
-      console.log(error);
-     });
+  function gameDuration(gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, cb){
+    var duration;
+    $.ajax({
+      url: "/data/gameduration/"+ gameid,
+      method: "POST",
+      complete: function(data){
+        var data = data.responseJSON;
+        var duration = parseInt(data)/ 60;
+        console.log(duration);
+        cb(gamemode,subtype, win, kills, deaths, assists, gold, minions, duration)          
+      },
+      error: function(err){
+        console.log(err);
+      }
+    });
+
+    // $.post( function(){
+    //   console.log("Searching for game duration of "+ gameid + " game");
+    // }).done(function(data){
+    //   console.log(data);
+    //   var duration = parseInt(data) / 60;
+    //   console.log(duration)
+    // }).catch(function(error){
+    //   console.log(error);
+    // });
+    //KNOWN ISSUE THIS CALLBACK DOESN'T WAIT FOR POST REQUEST TO FINISH TO GET THE MATCH DURATION
+    //FUTURE POSSIBLE ISSUE, NUMBER OF REQUESTS MADE TO THE SERVER AT ONCE 
+  
   }
   function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration){
     if (gameMode == "CLASSIC"){
