@@ -5,7 +5,7 @@
 // Dependencies
 // =============================================================
 var request = require('request');
-var $ = require('jQuery');
+var $ = require('jquery');
 var Promise = require("bluebird");
 // Routes
 // =============================================================

@@ -44,7 +44,7 @@ $(document).ready(function(){
       data.forEach(function callback(value, index, data){
         let gameid = value.gameid;
         console.log(gameid);    
-        cb(data[index], insertGame)
+        setTimeout(function(){cb(data[index], insertGame)},4000)
       })        
        
     })
@@ -61,10 +61,10 @@ $(document).ready(function(){
       async: false,
       complete: function(dat){
         var dat = dat.responseJSON;
-        var duration = parseInt(dat)/ 60;
+        var duration = Math.floor(parseInt(dat)/ 60);
         console.log(duration);
         if(duration !==0){
-          cb(data.gamemode, data.subtype, data.win, data.kills, data.deaths, data.assists, data.gold, data.minions, duration)   
+          cb(data.gamemode, data.subtype, data.win, data.kills, data.deaths, data.assists, data.gold, data.minions, duration, data.champ, data.gameid)   
         }           
       },
       error: function(err){
@@ -75,7 +75,7 @@ $(document).ready(function(){
    
   
   }
-  function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration){
+  function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration, champ, matchid){
     if (gameMode == "CLASSIC"){
       if (subType == "NORMAL" || subType == "RANKED_FLEX_SR" || subType =="RANKED_SOLO_5x5"){
         $("#data").append("<span>"+ gameMode +" </span>");
@@ -84,7 +84,8 @@ $(document).ready(function(){
         $("#data").append("<span> KDA : "+ kills + "/" + deaths + "/"+ assists + "</span>");
         $("#data").append("<span> Gold: "+ gold + " k <img src = 'http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png'> </span>");
         $("#data").append("<span> Minions : "+ minions + "<img src = 'http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png'> </span>");
-        $("#data").append("<span> Game Duration : "+ duration+ "</span> <br>")                        
+        $("#data").append("<span> Game Duration : "+ duration+ " mins</span>");
+        $("#data").append("<button data-champid="+champ+" data.matchid="+matchid+"> Analyze </button> <br>")                        
       }else{
         console.log( "Cannot be analyzed");
       }
