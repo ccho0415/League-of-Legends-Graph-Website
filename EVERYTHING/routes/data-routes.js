@@ -126,8 +126,16 @@ module.exports = function(app) {
   	})
   });
 
-//   // PUT route for updating todos. We can access the updated todo in req.body
-//   app.post("/data/todos", function(req, res) {
-
-//   });
+  app.post("/data/details/:id", function(req, res) {
+    var gameid = req.params.id
+    var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+    request(url, function(error, response, body){
+      var info = JSON.parse(body);
+    // Pretty Print Body
+    //  console.log("=====================================================================================");     
+      // console.log(info);
+    //  console.log("=====================================================================================");
+      res.json(info);    
+    })
+  });
 };

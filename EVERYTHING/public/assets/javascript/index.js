@@ -5,7 +5,7 @@ $(document).ready(function(){
 // Dependencies
 
 // Button Functions
-  $("body").on("click", ".detail", searchMatch); 
+  $("body").on("click", ".match-analysis", searchMatch); 
   $("#searchSumName").on("click", function(event){
       searchSummoner(event, recentGames)
   });
@@ -85,7 +85,7 @@ $(document).ready(function(){
         $("#data").append("<span> Gold: "+ gold + " k <img src = 'http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png'> </span>");
         $("#data").append("<span> Minions : "+ minions + "<img src = 'http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png'> </span>");
         $("#data").append("<span> Game Duration : "+ duration+ " mins</span>");
-        $("#data").append("<button data-champid="+champ+" data.matchid="+matchid+"> Analyze </button> <br>")                        
+        $("#data").append("<button data-champid="+champ+" data.matchid="+matchid+" class ='match-analysis'> Analyze </button> <br>")                        
       }else{
         console.log( "Cannot be analyzed");
       }
@@ -94,20 +94,15 @@ $(document).ready(function(){
       }       
   }
   function searchMatch(event){
-    var champid = $.parseJSON($(this).attr("data-champid"));
-    var matchid = $.parseJSON($(this).attr("data-matchid"))
+    event.preventDefault();
+    var champid = $(this).attr("data-champid");
+    var matchid = $(this).attr("data-matchid");
+    console.log(matchid);
     $.ajax({
-      url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+matchid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3",
+      url: "/data/details/"+ matchid,
       method: "GET"
     }).done(function(data){
       console.log(data);
-      $.each(data, function(){
-        $.each(this, function(){
-          if (champid == this.championId){
-            $("#match").append("<span>"+this.championId+" "+ this.participantId+" </span>")
-          };
-        })
-      })
     })
   }
 });
