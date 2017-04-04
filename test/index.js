@@ -58,7 +58,8 @@ for (i=0; i<champstatarr.length; i++) {
 	// console.log(champspells[3]) 			 
 // }
 });
-
+// Static Data Call End ===========================================================================
+// Match Data Call Start =========================================================================
 $.ajax({
 	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2466226913?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(results){
@@ -67,8 +68,54 @@ let summonerarr = results.participants
 
 for(i=0; i<summonerarr.length; i++){
 	let timeline = summonerarr[i].timeline
-	console.log(timeline.creepsPerMinDeltas)
+	// console.log(timeline.creepsPerMinDeltas)
 }
 // CS Per Min Section End ====================================================================================================================
-})
-// Static Data Call End ===========================================================================
+// Mastery Section Start
+// let summonerarr = results.participants 
+for(i=0; i< summonerarr.length; i++){
+// console.log("Masteries of Summoner "+ [i])
+// console.log(summonerarr[i].masteries);	
+}
+
+// Mastery Section End
+// Runes Section Start  ========================================================================================
+// let summonerarr = results.participants
+for (i=0; i<summonerarr.length; i++){
+	const runes = summonerarr[i].runes
+	// console.log("Runes of Summoner " +[i]);
+	for (j =0; j <runes.length; j++){
+	// console.log(runes[j]);		
+	}
+
+
+}
+// Runes Section End ========================================================================================
+// Roles and Champ Start ====================================================================================
+// let summonerarr=  results.participants
+
+for (i=0; i<summonerarr.length; i++){
+	const id = summonerarr[i].participantId
+	const champ = summonerarr[i].championId
+	const lane = summonerarr[i].timeline.lane
+	const role = summonerarr[i].timeline.role
+	const team = summonerarr[i].teamId
+	// console.log(id, champ, lane, role, team)
+}
+
+// Roles and Champ End ===================================================================================
+// Team Data Start =============================================================================================
+// console.log(results.teams[0])
+// console.log(results.teams[1])
+// Team Data End ===================================================================================================
+// Frames Start ====================================================================================
+let allframes = results.timeline.frames
+for(i=0; i<allframes.length; i++){
+	console.log([i])
+	console.log(allframes[i].events)
+	console.log(allframes[i].participantFrames)
+}
+// Frames End =========================================================================
+});
+
+// Match Data Call End =========================================================================
