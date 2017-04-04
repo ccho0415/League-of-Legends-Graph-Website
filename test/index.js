@@ -1,3 +1,10 @@
+// Time Function
+function timeconvert(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+// Time function Ends
 // Static Data Call Start ===========================================================================
 $.ajax({
   url: "https://global.api.riotgames.com/api/lol/static-data/NA/v1.2/champion?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
@@ -63,6 +70,7 @@ for (i=0; i<champstatarr.length; i++) {
 $.ajax({
 	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2466226913?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(results){
+	console.log(results)
 // CS Per Min Section Start ====================================================================================================================
 let summonerarr = results.participants 
 
@@ -100,7 +108,7 @@ for (i=0; i<summonerarr.length; i++){
 	const lane = summonerarr[i].timeline.lane
 	const role = summonerarr[i].timeline.role
 	const team = summonerarr[i].teamId
-	// console.log(id, champ, lane, role, team)
+	console.log(id, champ, lane, role, team)
 }
 
 // Roles and Champ End ===================================================================================
@@ -109,11 +117,105 @@ for (i=0; i<summonerarr.length; i++){
 // console.log(results.teams[1])
 // Team Data End ===================================================================================================
 // Frames Start ====================================================================================
-let allframes = results.timeline.frames
-for(i=0; i<allframes.length; i++){
-	console.log([i])
-	console.log(allframes[i].events)
-	console.log(allframes[i].participantFrames)
+const allframes = results.timeline.frames
+for(i=1; i<allframes.length; i++){
+	events = allframes[i].events
+	events.forEach(function(element){
+		eventType = element.eventType
+		timestamp = timeconvert(element.timestamp)
+		item = element.itemId
+		itemb4= element.itemBefore
+		itema4= element.itemAfter
+		partId = element.participantId
+		skill = element.skillSlot
+		levelType = element.levelUpType
+		ward = element.wardType
+		creatorId = element.creatorId
+		killer = element.killerId
+		monType = element.monsterType
+		monSub = element.monsterSubType
+		laneType = element.laneType
+		buildingType = element.buildingType
+		team = element.teamId
+		towerType = element.towerType
+		position = JSON.stringify(element.position, null, 2)
+		victim = element.victimId
+		if(partId == 0){
+			console.log("MINIONS")
+			console.log(element)
+		}
+		else{
+		if (eventType == "ITEM_PURCHASED") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+
+			"<ul> Participant : "+partId+"</ul></div>");		
+		}
+		if (eventType == "ITEM_DESTROYED") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+
+			"<ul> Participant : "+partId+"</ul></div>");		
+		}		
+		if(eventType == "SKILL_LEVEL_UP"){
+			$("#edit").append("<div class = 'eventframe skill col-md-3''><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<ul>"+skill+"</ul>"+
+			"<ul>"+levelType+"</ul>"+
+			"<ul> Participant : "+partId+"</ul></div>");		
+		}
+		if (eventType == "WARD_PLACED"){
+			$("#edit").append("<div class = 'eventframe ward col-md-3''><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<ul>"+ward+"</ul>"+
+			"<ul> Participant: "+creatorId+"</ul></div>")
+		}
+		if(eventType =="CHAMPION_KILL"){
+			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Position : "+position+"</ul>"+
+			"<ul> Victim: "+victim+"</ul></div>")			
+		}
+		if (eventType == "ITEM_UNDO") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"Item Before: <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+itemb4+".png>"+
+			"Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+itema4+".png>"+			
+			"<ul> Participant : "+partId+"</ul></div>");		
+		}
+		if(eventType =="WARD_KILL"){
+			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Ward Type: "+ward+"</ul></div>")			
+		}
+		if(eventType =="ELITE_MONSTER_KILL"){
+			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Monster Type :"+monType+"</ul>"+
+			"<ul> Monster Sub Type :"+monSub+"</ul>"+			
+			"<ul> Position : "+position+"</ul></div>")			
+		}
+		if(eventType =="BUILDING_KILL"){
+			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Lane Type :"+laneType+"</ul>"+
+			"<ul> Tower Type :"+towerType+"</ul>"+			
+			"<ul> Building Type :"+buildingType+"</ul>"+			
+			"<ul> Belongs To :"+team+"</ul>"+			
+			"<ul> Position : "+position+"</ul></div>")			
+		}
+		if (eventType == "ITEM_SOLD") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+		
+			"<ul> Participant : "+partId+"</ul></div>");		
+		}											
+	}
+	})
 }
 // Frames End =========================================================================
 });
