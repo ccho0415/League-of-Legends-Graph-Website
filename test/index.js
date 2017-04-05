@@ -4,10 +4,20 @@ function timeconvert(millis) {
   var seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
+var parts = []
+function particpiantObj(partid, champ, lane, role, team){
+	this.partid= partid;
+	this.champ= champ;
+	this.lane= lane;
+	this.role= role;
+	this.team= team;
+	// this.user= user;
+}
 // Time function Ends
 // Static Data Call Start ===========================================================================
 $.ajax({
-  url: "https://global.api.riotgames.com/api/lol/static-data/NA/v1.2/champion?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+	
+  url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(result) {
 // Champ Id to Name Section Start ==================================================================
 const champobj = result.keys
@@ -66,6 +76,9 @@ for (i=0; i<champstatarr.length; i++) {
 // }
 });
 // Static Data Call End ===========================================================================
+
+
+
 // Match Data Call Start =========================================================================
 $.ajax({
 	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2466226913?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
@@ -103,21 +116,39 @@ for (i=0; i<summonerarr.length; i++){
 // let summonerarr=  results.participants
 
 for (i=0; i<summonerarr.length; i++){
-	const id = summonerarr[i].participantId
-	const champ = summonerarr[i].championId
-	const lane = summonerarr[i].timeline.lane
-	const role = summonerarr[i].timeline.role
-	const team = summonerarr[i].teamId
-	console.log(id, champ, lane, role, team)
+	let id = summonerarr[i].participantId
+	let champ = summonerarr[i].championId
+	let lane = summonerarr[i].timeline.lane
+	let role = summonerarr[i].timeline.role
+	let team = summonerarr[i].teamId
+	var currentpart = new particpiantObj(id, champ, lane, role, team);
+	parts.push(currentpart);
 }
-
 // Roles and Champ End ===================================================================================
-// Team Data Start =============================================================================================
-// console.log(results.teams[0])
-// console.log(results.teams[1])
-// Team Data End ===================================================================================================
-// Frames Start ====================================================================================
+// console.log(parts)
+// Champion Img Url Start===============================================================================================
+$.ajax({
+  url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+}).done(function(result) {
+ champobj = result.keys
+for(i=0; i< parts.length; i++){
+	let index = parseInt(parts[i].champ)
+	// console.log(index)
+	// console.log("Champ Id:"+index+ " Champ Name: "+champobj[index])
+	parts[i].champname = champobj[index]
+	let imgname = champobj[index].split(' ').join('');
+	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.6.1/img/champion/"+imgname+".png";
+	// console.log(parts[i])
+}
+// Champion Img Url End=================================================================================
+});
+// Frames Events  and Participants Start ====================================================================================
 const allframes = results.timeline.frames
+let champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+let creatorimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+let killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+let victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+// console.log(parts[0].imgurl)
 for(i=1; i<allframes.length; i++){
 	events = allframes[i].events
 	events.forEach(function(element){
@@ -138,86 +169,256 @@ for(i=1; i<allframes.length; i++){
 		buildingType = element.buildingType
 		team = element.teamId
 		towerType = element.towerType
+		var assists;
+			if(element.assistingParticipantIds){
+				assists = element.assistingParticipantIds
+			}else{
+   				assists = "Nobody, Forever Alone"
+			}
 		position = JSON.stringify(element.position, null, 2)
 		victim = element.victimId
+		switch(partId){
+			case 1: 
+			  champimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  champimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  champimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  champimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  champimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  champimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  champimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  champimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  champimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  champimg = parts[9].imgurl;
+			  break;
+			default:
+			  champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+		switch(creatorId){
+			case 1: 
+			  creatorimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  creatorimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  creatorimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  creatorimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  creatorimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  creatorimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  creatorimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  creatorimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  creatorimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  creatorimg = parts[9].imgurl;
+			  break;
+			default:
+			  creatorimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+		switch(killer){
+			case 0:
+			  killerimg = "https://i.ytimg.com/vi/3MpdGYdEjng/hqdefault.jpg";
+			  break;
+			case 1: 
+			  killerimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  killerimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  killerimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  killerimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  killerimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  killerimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  killerimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  killerimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  killerimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  killerimg = parts[9].imgurl;
+			  break;
+			default:
+			  killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+		switch(victim){
+			case 1: 
+			  victimimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  victimimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  victimimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  victimimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  victimimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  victimimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  victimimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  victimimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  victimimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  victimimg = parts[9].imgurl;
+			  break;
+			default:
+			  victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
 		if(partId == 0){
-			console.log("MINIONS")
-			console.log(element)
+			// console.log("MINIONS")
+			// console.log(element)
 		}
 		else{
-		if (eventType == "ITEM_PURCHASED") {
+			if (eventType == "ITEM_PURCHASED") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"<img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+
-			"<ul> Participant : "+partId+"</ul></div>");		
-		}
-		if (eventType == "ITEM_DESTROYED") {
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			}
+			if (eventType == "ITEM_DESTROYED") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"<img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+
-			"<ul> Participant : "+partId+"</ul></div>");		
-		}		
-		if(eventType == "SKILL_LEVEL_UP"){
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			}		
+			if(eventType == "SKILL_LEVEL_UP"){
 			$("#edit").append("<div class = 'eventframe skill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"<ul>"+skill+"</ul>"+
 			"<ul>"+levelType+"</ul>"+
-			"<ul> Participant : "+partId+"</ul></div>");		
-		}
-		if (eventType == "WARD_PLACED"){
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			}
+			if (eventType == "WARD_PLACED"){
 			$("#edit").append("<div class = 'eventframe ward col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"<ul>"+ward+"</ul>"+
-			"<ul> Participant: "+creatorId+"</ul></div>")
-		}
-		if(eventType =="CHAMPION_KILL"){
+			"<ul> Participant: "+creatorId+"</ul><img src = "+creatorimg+"></div>")
+			}
+			if(eventType =="CHAMPION_KILL"){
 			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+			"<ul> Assistants: "+assists+"</ul>"+			
 			"<ul> Position : "+position+"</ul>"+
-			"<ul> Victim: "+victim+"</ul></div>")			
-		}
-		if (eventType == "ITEM_UNDO") {
+			"<ul> Victim: "+victim+"</ul><img src = "+victimimg+"></div>")			
+			}
+			if (eventType == "ITEM_UNDO") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"Item Before: <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+itemb4+".png>"+
 			"Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+itema4+".png>"+			
-			"<ul> Participant : "+partId+"</ul></div>");		
-		}
-		if(eventType =="WARD_KILL"){
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			}
+			if(eventType =="WARD_KILL"){
 			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
 			"<ul> Ward Type: "+ward+"</ul></div>")			
-		}
-		if(eventType =="ELITE_MONSTER_KILL"){
+			}
+			if(eventType =="ELITE_MONSTER_KILL"){		
 			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
 			"<ul> Monster Type :"+monType+"</ul>"+
 			"<ul> Monster Sub Type :"+monSub+"</ul>"+			
 			"<ul> Position : "+position+"</ul></div>")			
-		}
-		if(eventType =="BUILDING_KILL"){
+			}
+			if(eventType =="BUILDING_KILL"){
+			console.log(element)				
 			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul>"+
+			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+			"<ul> Assistants: "+assists+"</ul>"+			
 			"<ul> Lane Type :"+laneType+"</ul>"+
 			"<ul> Tower Type :"+towerType+"</ul>"+			
 			"<ul> Building Type :"+buildingType+"</ul>"+			
 			"<ul> Belongs To :"+team+"</ul>"+			
 			"<ul> Position : "+position+"</ul></div>")			
-		}
-		if (eventType == "ITEM_SOLD") {
+			}
+			if (eventType == "ITEM_SOLD") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+		
-			"<ul> Participant : "+partId+"</ul></div>");		
-		}											
-	}
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			}											
+		}
+
 	})
+	partFrames = allframes[i].participantFrames
+	// console.log(partFrames)
+
+	$.each(partFrames, function(index, value) {
+    let valueprint = JSON.stringify(value, null, 2)
+    $("#edit").append("<li>"+valueprint+"</li>")
+    // console.log(value.totalGold)
+	}); 												
+  $("#edit").append("<hr>")		
 }
-// Frames End =========================================================================
+// Frames Events and Participants End =========================================================================
+
+// Team Data Start =============================================================================================
+// console.log(results.teams[0])
+// console.log(results.teams[1])
+// Team Data End ===================================================================================================
+
 });
 
 // Match Data Call End =========================================================================
+
+// $.ajax({
+// 	url: "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/tegea?api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+// }).done(function(results){
+// 	console.log(results)
+// });

@@ -15,7 +15,7 @@ module.exports = function(app) {
   app.post("/data/sumname/:summoner", function(req, res) {
   	var name = req.params.summoner
   	var name = name.split(' ').join('');
-  	var url = "https://na.api.riotgames.com/api/lol/NA/v1.4/summoner/by-name/"+name+"?api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+  	var url = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/"+name+"?api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3";
   	request(url, function(error, response, body){	
   		if (error){
   			error = "Query failed";
@@ -25,15 +25,19 @@ module.exports = function(app) {
   			res.send(error);  		
   		} else{
   			info = JSON.parse(body);
+        console.log(info)
    			console.log("=====================================================================================");  			
-  			console.log("Summoner Id : "+info[name].id);
-  			console.log("Profile Icon : "+info[name].profileIconId);
-  			console.log("Summoner Name : "+info[name].name);
+        console.log("Account Id : "+info.accountId);  			
+        console.log("Summoner Id : "+info.id);
+
+  			console.log("Profile Icon : "+info.profileIconId);
+  			console.log("Summoner Name : "+info.name);
   		   	console.log("=====================================================================================");  	
   		  	var summoner = {
-  		  			name: info[name].name,
-  		  			icon: info[name].profileIconId,
-  		  			id: info[name].id
+  		  			name: info.name,
+  		  			icon: info.profileIconId,
+  		  			id: info.id,
+              accountid: info.accountId
   		  		}
   		  	res.json(summoner)			  			  			
   		}
