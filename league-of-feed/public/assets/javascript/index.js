@@ -1,41 +1,35 @@
 // Test summoner ID : 20278955
-
 $(document).ready(function(){
-
-// Dependencies
-
 // Button Functions
   $("body").on("click", ".match-analysis", searchMatch); 
   $("#searchSumName").on("click", function(event){
       searchSummoner(event, recentGames)
   });
-
-// Searching Summoner Name
+// Searching Summoner Name ========================================================================
   function searchSummoner(event, cb){
     summoner = $("#sname").val().trim();    
     event.preventDefault();   
-      $("#result").empty();
-      $("#data").empty();
-      if (summoner == "") {
-        alert("Please enter a summoner name");
-        return false;
+    $("#result").empty();
+    $("#data").empty();
+    if (summoner == "") {
+      alert("Please enter a summoner name");
+      return false;
     }else{
       $.post("/data/sumname/"+summoner, function() {
         console.log("Searching for a summoner with the name of "+summoner);
       }).then(function(data){
         console.log(data)
-          if (data == "Not a summoner"){
-            alert(summoner+" is not a summoner")
-          }else{
-            $("#result").append("<h3>"+data.name+"</h3><br>"+
-            "<img src = 'http://ddragon.leagueoflegends.com/cdn/7.6.1/img/profileicon/"+data.icon+".png'>" )
-
-            cb(data.id, gameDuration);
-          }
-    });
-        //============= 
+        if (data == "Not a summoner"){
+          alert(summoner+" is not a summoner")
+        }else{
+          $("#result").append("<h3>"+data.name+"</h3><br>"+
+          "<img src = 'http://ddragon.leagueoflegends.com/cdn/7.6.1/img/profileicon/"+data.icon+".png'>" )
+          setTimeout(function(){cb(data.id, gameDuration)}, 4000);
+        }
+      });
       }
   }
+//Searching Recent Games ====================================================================== 
   function recentGames(id, cb){
     $.post("/data/recentgames/"+id, function(){
       console.log("Getting the match history")
@@ -45,10 +39,10 @@ $(document).ready(function(){
         let gameid = value.gameid;
         console.log(gameid);    
         setTimeout(function(){cb(data[index], insertGame)},4000)
-      })        
-       
+      })               
     })
   }
+//Searching Duration ==========================================================================
   function gameDuration(data, cb){
     console.log(data.gameid)
     console.log(data.subtype)
@@ -56,7 +50,7 @@ $(document).ready(function(){
     var mastery;
     console.log(data);
     $.ajax({
-      url: "/data/gameduration/"+ data.gameid,
+      url: "/data/details/"+ data.gameid,
       method: "POST",
       async: false,
       complete: function(dat){
@@ -70,10 +64,7 @@ $(document).ready(function(){
       error: function(err){
         console.log(err);
       }
-    });
-
-   
-  
+    });  
   }
   function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration, champ, matchid){
     if (gameMode == "CLASSIC"){
@@ -105,4 +96,13 @@ $(document).ready(function(){
       console.log(data);
     })
   }
+  function staticData(){
+    $.ajax({
+      url: "/data/static",
+      method: "POST"
+    }).done(function(data){
+      console.log(data);
+    })
+  }
+  staticData();
 });

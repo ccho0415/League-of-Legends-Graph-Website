@@ -27,7 +27,6 @@ for(i=0; i< champarr.length; i++){
 	// console.log("Champ Id:"+champ[0]+ " Champ Name: "+champ[1])
 }
 // Champ Id to Name Section End ======================================================================
-
 // Champ Stat  Section Start ======================================================================
 const champstatobj = result.data
 const champstatarr = Object.entries(champstatobj)
@@ -63,16 +62,16 @@ for (i=0; i<champstatarr.length; i++) {
 // for (i=0; i < champstatarr.length; i++){
 	let champ = champstatarr[0]
 	let champspells = champ[1].spells
-	// console.log("Champ Name: "+ champ[0])
- //    console.log("Q : ")		
-	// console.log(champspells[0])
-	// console.log(champspells[0].cooldown)	
- //    console.log("W : ")		
-	// console.log(champspells[1])
- //    console.log("E : ")		 
-	// console.log(champspells[2])
- //    console.log("R : ")		 
-	// console.log(champspells[3]) 			 
+	console.log("Champ Name: "+ champ[0])
+    console.log("Q : ")		
+	console.log(champspells[0])
+	console.log(champspells[0].cooldown)	
+    console.log("W : ")		
+	console.log(champspells[1])
+    console.log("E : ")		 
+	console.log(champspells[2])
+    console.log("R : ")		 
+	console.log(champspells[3]) 			 
 // }
 });
 // Static Data Call End ===========================================================================
@@ -137,11 +136,10 @@ for(i=0; i< parts.length; i++){
 	// console.log("Champ Id:"+index+ " Champ Name: "+champobj[index])
 	parts[i].champname = champobj[index]
 	let imgname = champobj[index].split(' ').join('');
-	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.6.1/img/champion/"+imgname+".png";
-	// console.log(parts[i])
+	console.log(imgname)
+	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.7.1/img/champion/"+imgname+".png";
+	console.log(parts[i])
 }
-// Champion Img Url End=================================================================================
-});
 // Frames Events  and Participants Start ====================================================================================
 const allframes = results.timeline.frames
 let champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
@@ -324,13 +322,13 @@ for(i=1; i<allframes.length; i++){
 			if (eventType == "ITEM_PURCHASED") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+
+			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
 			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
 			if (eventType == "ITEM_DESTROYED") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+
+			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
 			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}		
 			if(eventType == "SKILL_LEVEL_UP"){
@@ -357,8 +355,8 @@ for(i=1; i<allframes.length; i++){
 			if (eventType == "ITEM_UNDO") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"Item Before: <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+itemb4+".png>"+
-			"Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+itema4+".png>"+			
+			"Item Before: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itemb4+".png>"+
+			"Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itema4+".png>"+			
 			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
 			if(eventType =="WARD_KILL"){
@@ -390,7 +388,7 @@ for(i=1; i<allframes.length; i++){
 			if (eventType == "ITEM_SOLD") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.6.1/img/item/"+item+".png>"+		
+			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+		
 			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}											
 		}
@@ -407,6 +405,9 @@ for(i=1; i<allframes.length; i++){
   $("#edit").append("<hr>")		
 }
 // Frames Events and Participants End =========================================================================
+
+// Champion Img Url End=================================================================================
+});
 
 // Team Data Start =============================================================================================
 // console.log(results.teams[0])
