@@ -6,6 +6,12 @@ var Schema = mongoose.Schema;
 // New Schema
 var ChampionSchema = new Schema({
   // firstName: a trimmed, required string
+  patch: {
+    type: Number
+  },
+  id: {
+    type: Number
+  },
   champName: {
     type: String,
     trim: true
@@ -49,6 +55,9 @@ var ChampionSchema = new Schema({
   hpRegPer: {
     type: Number
   },
+  movespeed: {
+    type: Number
+  },
   mp: {
     type: Number
   },
@@ -67,11 +76,11 @@ var ChampionSchema = new Schema({
   spellblockPer: {
     type: Number
   },
-  Q: Schema.Types.Mixed,
-  W: Schema.Types.Mixed,
-  E: Schema.Types.Mixed,
-  R: Schema.Types.Mixed   
-});
+  Q: [Schema.Types.Mixed],
+  W: [Schema.Types.Mixed],
+  E: [Schema.Types.Mixed],
+  R: [Schema.Types.Mixed]   
+}, {strict: false});
 
 var Champion = mongoose.model("Champion", ChampionSchema);
 

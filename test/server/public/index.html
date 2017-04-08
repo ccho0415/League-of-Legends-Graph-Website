@@ -23,8 +23,84 @@
     $("#update").on("click", function(event){
       champstatic(event, updateServer)
     });
+function champObj(patch, id, champName,armor,armorPer,ad,adPer,range,asOff,asPer,crit,critPer,hp,hpPer,hpReg,hpRegPer,movespeed, mp,mpPer,mpReg, mpRegPer,spellblock,spellblockPer,q,w,e,r ){
+this.patch = patch;
+this.id = id;
+this.champName=champName;
+this.armor= armor;
+this.armorPer= armorPer;
+this.ad= ad;
+this.adPer= adPer;
+this.range= range;
+this.asOff= asOff;
+this.asPer= asPer;
+this.crit= crit;
+this.critPer= critPer;
+this.hp= hp;
+this.hpPer= hpPer;
+this.hpReg= hpReg;
+this.hpRegPer= hpRegPer;
+this.movespeed= movespeed;
+this.mp= mp;
+this.mpPer= mpPer;
+this.mpReg= mpReg;
+this.mpRegPer= mpRegPer;
+this.spellblock= spellblock;
+this.spellblockPer= spellblockPer;
+this.Q= q;
+this.W= w;
+this.E= e;
+this.R= r;
+}
     function champstatic(event, cb){
       event.preventDefault();
+      $.ajax({
+        url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+      }).done(function(result) {
+        const champobj = result.keys
+        const champarr = Object.entries(champobj)        
+        const champstatobj = result.data
+        const champstatarr = Object.entries(champstatobj)
+        console.log(champstatarr)
+        for (i=0; i<champstatarr.length; i++) {
+          let champ = champstatarr[i]
+          let patch = "7.7";
+          let id = champ[1].id
+          let champstat = champ[1].stats
+          let name= champ[0];
+          let armor= champstat.armor;
+          let armorper= champstat.armorperlevel;
+          let ad= champstat.attackdamage;
+          let adper= champstat.attackdamageperlevel;
+          let range= champstat.attackrange;
+          let asoff= champstat.attackspeedoffset;
+          let asper= champstat.attackspeedoffset; 
+          let crit= champstat.crit;
+          let critper= champstat.critperlevel;
+          let hp = champstat.hp;
+          let hpper= champstat.hpperlevel;
+          let hpreg= champstat.hpregen;
+          let hpregper= champstat.hpregenperlevel;
+          let movespeed= champstat.movespeed;
+          let mp= champstat.hpregenperlevel;
+          let mpper= champstat.mpperlevel;
+          let mpreg= champstat.mpregen;
+          let mpregper= champstat.mpregenperlevel;
+          let spellblock= champstat.spellblock;
+          let spellblockper= champstat.spellblockperlevel;
+          let champspells = champ[1].spells
+          let q = champspells[0];
+          let w = champspells[1];
+          let e = champspells[2];
+          let r = champspells[3];
+          var currentchamp = new champObj(patch, id, name,armor,armorper,ad,adper,range,asoff,asper,crit,critper,hp,hpper,hpreg,hpregper,movespeed, mp,mpper,mpreg, mpregper,spellblock,spellblockper,q,w,e,r);
+          cb(currentchamp);
+
+        }
+});     
+    }
+    function updateServer(object){
+      console.log("Bop")
     }
   </script>
 </html>
