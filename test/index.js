@@ -319,6 +319,8 @@ for(i=1; i<allframes.length; i++){
 			// console.log(element)
 		}
 		else{
+
+			// This can probably written as cases 
 			if (eventType == "ITEM_PURCHASED") {
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
@@ -359,13 +361,13 @@ for(i=1; i<allframes.length; i++){
 			"Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itema4+".png>"+			
 			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
-			if(eventType =="WARD_KILL"){
+			if(eventType == "WARD_KILL"){
 			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
 			"<ul> Ward Type: "+ward+"</ul></div>")			
 			}
-			if(eventType =="ELITE_MONSTER_KILL"){		
+			if(eventType == "ELITE_MONSTER_KILL"){		
 			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
 			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
