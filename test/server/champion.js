@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 var ChampionSchema = new Schema({
   // firstName: a trimmed, required string
   patch: {
-    type: Number
+    type: String
   },
   id: {
     type: Number
@@ -75,11 +75,7 @@ var ChampionSchema = new Schema({
   },
   spellblockPer: {
     type: Number
-  },
-  Q: [Schema.Types.Mixed],
-  W: [Schema.Types.Mixed],
-  E: [Schema.Types.Mixed],
-  R: [Schema.Types.Mixed]   
+  }  
 }, {strict: false});
 
 var Champion = mongoose.model("Champion", ChampionSchema);

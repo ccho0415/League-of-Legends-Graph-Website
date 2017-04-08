@@ -100,7 +100,11 @@ this.R= r;
 });     
     }
     function updateServer(object){
-      console.log("Bop")
+    $.post("/submit", { data: object}, function(){
+      console.log("Adding to server")
+    }).then(function(data){
+      console.log(data);
+    });      
     }
   </script>
 </html>

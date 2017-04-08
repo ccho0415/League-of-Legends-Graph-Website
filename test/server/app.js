@@ -39,14 +39,13 @@ db.once("open", function() {
 
 // Routes
 // ======
-
 app.post("/submit", function(req, res) {
 
 
 	// Request. for each champ make an object with these infos. then make the mongoose call
-
+  // console.log(req.body);
   var makechamp = new Champ(req.body);
-
+  console.log(makechamp);
   // save a user to our mongoDB
   makechamp.save(function(error, doc) {
     // send an error to the browser
@@ -61,6 +60,6 @@ app.post("/submit", function(req, res) {
 });
 
 // Listen on port 3000
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(3015, function() {
+  console.log("App running on port 3015!");
 });
