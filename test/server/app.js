@@ -48,15 +48,11 @@ app.get("/allchampions", function(req, res) {
       res.send(champMap)
     })
 })
-// app.get("/champ/:id", function(req, res) {
-//     Champ.find({}, function(err, champs){
-//       var champMap = {};
-//       champs.forEach(function(champ){
-//         champMap[champ._id] = champ
-//       });
-//       res.send(champMap)
-//     })
-// })
+app.get("/champ/:id", function(req, res) {
+    Champ.findOne({"data[id]": req.params.id}, function(err, result){
+res.send(result);
+    })
+});
 app.post("/submit", function(req, res) {
   var makechamp = new Champ(req.body);
   console.log(makechamp);
