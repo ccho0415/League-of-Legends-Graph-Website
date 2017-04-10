@@ -106,10 +106,11 @@ module.exports = function(app) {
    		 res.json(index);
   	});
   });
-  app.post("/data/details:id", function(req, res) {
+  app.post("/data/details/:id", function(req, res) {
   	var gameid = req.params.id
   	var url = "https://na.api.riotgames.com/api/lol/NA/v2.2/match/"+gameid+"?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
-  	request(url, function(error, response, body){
+    console.log(url);
+    request(url, function(error, response, body){
   		var info = JSON.parse(body);
   	// Pretty Print Body
    	// 	console.log("=====================================================================================");  		
