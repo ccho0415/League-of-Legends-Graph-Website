@@ -63,6 +63,21 @@ app.get("/champ/:id", function(req, res) {
 res.send(result);
     })
 });
+app.get("/match/:id", function(req, res){
+    Match.findOne({"data.matchId": req.params.id}, function(err, result){
+    if(err){
+      res.json({
+        confirmation: 'fail',
+        message: 'Not Found'
+      })
+      return
+    }
+    res.json({
+      confirmation: 'success',
+      result: result
+    })
+    })
+})
 app.post("/submit/:id", function(req, res) {
   var makechamp = new Champ(req.body);
   console.log(makechamp);

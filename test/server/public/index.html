@@ -19,6 +19,7 @@
   <body>
    <button id = "update">Submit</button>
    <button id = "matchtest">Test</button>
+   <button data-match = "2471298550" id= "matchmadetest">Double?</button>
   </body>
   <script type="text/javascript">
     $("#update").on("click", function(event){
@@ -26,7 +27,21 @@
     });
     $("#matchtest").on("click", function(event){
       match(event, updateMatchServer)
-    })
+    });
+    $("#matchmadetest").on("click", function(event){
+      check(event, checkDouble)
+    });
+
+    function check(event, cb){
+      let id = $("#matchmadetest").data("match");
+      console.log(id)
+      cb(id)
+    }
+
+
+
+
+
     function matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline){
     this.matchVersion = matchVersion;
     this.region = region;
@@ -154,6 +169,7 @@ this.R= r;
       console.log(data);
     });      
     }
+    // Add to the server
     function updateMatchServer(object){
       let matchid = object.matchId;
       console.log(matchid);
@@ -162,6 +178,19 @@ this.R= r;
       }).then(function(data){
         console.log(data);
       });
-    }    
+    }
+    // Checking in the Server
+    function checkDouble(id){
+    $.get("/match/"+id, function(){
+      console.log("Checking for data")
+    }).then(function(data){
+      if(data.result){
+        console.log(data.result)
+      }else{
+        console.log("Not in the database")
+      }
+    })
+    }
+
   </script>
 </html>
