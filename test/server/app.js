@@ -25,7 +25,7 @@ app.use(express.static("public"));
 // Database configuration with mongoose
 mongoose.connect("mongodb://localhost/league-of-feed");
 var db = mongoose.connection;
-
+var collection = "league-of-feed"
 // Show any mongoose errors
 db.on("error", function(error) {
   console.log("Mongoose Error: ", error);
@@ -39,11 +39,25 @@ db.once("open", function() {
 
 // Routes
 // ======
+app.get("/allchampions", function(req, res) {
+    Champ.find({}, function(err, champs){
+      var champMap = {};
+      champs.forEach(function(champ){
+        champMap[champ._id] = champ
+      });
+      res.send(champMap)
+    })
+})
+// app.get("/champ/:id", function(req, res) {
+//     Champ.find({}, function(err, champs){
+//       var champMap = {};
+//       champs.forEach(function(champ){
+//         champMap[champ._id] = champ
+//       });
+//       res.send(champMap)
+//     })
+// })
 app.post("/submit", function(req, res) {
-
-
-	// Request. for each champ make an object with these infos. then make the mongoose call
-  // console.log(req.body);
   var makechamp = new Champ(req.body);
   console.log(makechamp);
   // save a user to our mongoDB
