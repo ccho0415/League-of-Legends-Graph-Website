@@ -80,6 +80,7 @@ this.R= r;
       $.ajax({
         url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
       }).done(function(result) {
+        let patch = result.version
         const champobj = result.keys
         const champarr = Object.entries(champobj)        
         const champstatobj = result.data
@@ -87,7 +88,6 @@ this.R= r;
         console.log(champstatarr)
         for (i=0; i<champstatarr.length; i++) {
           let champ = champstatarr[i]
-          let patch = "7.7";
           let id = champ[1].id
           let champstat = champ[1].stats
           let name= champ[0];

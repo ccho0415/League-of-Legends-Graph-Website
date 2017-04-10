@@ -20,6 +20,7 @@ $.ajax({
   url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(result) {
 // Champ Id to Name Section Start ==================================================================
+console.log(result.version)
 const champobj = result.keys
 const champarr = Object.entries(champobj)
 for(i=0; i< champarr.length; i++){
