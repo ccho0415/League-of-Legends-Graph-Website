@@ -18,11 +18,33 @@
   </head>
   <body>
    <button id = "update">Submit</button>
+   <button id = "matchtest">Test</button>
   </body>
   <script type="text/javascript">
     $("#update").on("click", function(event){
       champstatic(event, updateServer)
     });
+    $("#matchtest").on("click", function(event){
+      match(event, updateMatchServer)
+    })
+    function matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline){
+    this.matchVersion = matchVersion;
+    this.region = region;
+    this.matchId = matchId;
+    this.matchMode = matchMode;
+    this.matchType = matchType;
+    this.matchDuration = matchDuration;
+    this.queueType = queueType;
+    this.mapId = mapId;
+    this.season = season;
+    this.participantIdentities = participantIdentities;
+    this.participants = participants;
+   this.teams = teams;
+   this.timeline  = timeline;
+    }
+
+
+
 function champObj(patch, id, champName,armor,armorPer,ad,adPer,range,asOff,asPer,crit,critPer,hp,hpPer,hpReg,hpRegPer,movespeed, mp,mpPer,mpReg, mpRegPer,spellblock,spellblockPer,q,w,e,r ){
 this.patch = patch;
 this.id = id;
@@ -52,6 +74,7 @@ this.W= w;
 this.E= e;
 this.R= r;
 }
+// Updating champions with static data
     function champstatic(event, cb){
       event.preventDefault();
       $.ajax({
@@ -99,6 +122,31 @@ this.R= r;
         }
 });     
     }
+// inputting match details with static data
+    function match(event, cb){
+      event.preventDefault();
+      $.ajax({
+        url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2471298550?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+      }).done(function(result){
+        console.log(result);
+        let matchVersion = result.matchVersion;
+        let region = result.region;
+        let matchId = result.matchId;
+        let matchMode = result.matchMode;
+        let matchType = result.matchType;
+        let matchDuration = result.matchDuration;
+        let queueType = result.queueType;
+        let mapId = result.mapId;
+        let season = result.season;
+        let participantIdentities = result.participantIdentities;
+        let participants = result.participants;
+        let teams = result.teams;
+        let timeline = result.timeline;
+       var currentmatch = new matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline)
+        cb(currentmatch);
+      })
+    }    
+
     function updateServer(object){
     $.post("/submit", { data: object}, function(){
       console.log("Adding to server")
@@ -106,6 +154,14 @@ this.R= r;
       console.log(data);
     });      
     }
-    
+    function updateMatchServer(object){
+      let matchid = object.matchId;
+      console.log(matchid);
+      $.post("/submitmatch", {data: object}, function(){
+        console.log("Adding to server")
+      }).then(function(data){
+        console.log(data);
+      });
+    }    
   </script>
 </html>

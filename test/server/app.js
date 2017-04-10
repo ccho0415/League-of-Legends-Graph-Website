@@ -8,14 +8,15 @@ mongoose.Promise = Promise;
 
 // Require our userModel model
 var Champ = require("./champion.js");
-
+var Match = require("./match.js");
 // Initialize Express
 var app = express();
 
 // Use morgan and body parser with our app
 app.use(logger("dev"));
-app.use(bodyParser.urlencoded({
-  extended: false
+app.use(bodyParser.json({limit: '10000mb'}));
+app.use(bodyParser.urlencoded({ limit: '10000mb', parameterLimit: 10000000000,
+  extended: true
 }));
 
 // Make public a static dir
@@ -48,16 +49,40 @@ app.get("/allchampions", function(req, res) {
       res.send(champMap)
     })
 })
+app.get("/allmatches", function(req, res) {
+    Match.find({}, function(err, matches){
+      var matchMap = {};
+      matches.forEach(function(match){
+        matchMap[match._id] = match
+      });
+      res.send(matchMap)
+    })
+})
 app.get("/champ/:id", function(req, res) {
     Champ.findOne({"data[id]": req.params.id}, function(err, result){
 res.send(result);
     })
 });
-app.post("/submit", function(req, res) {
+app.post("/submit/:id", function(req, res) {
   var makechamp = new Champ(req.body);
   console.log(makechamp);
   // save a user to our mongoDB
   makechamp.save(function(error, doc) {
+    // send an error to the browser
+    if (error) {
+      res.send(error);
+    }
+    // or send the doc to our browser
+    else {
+      res.send(doc);
+    }
+  });
+});
+app.post("/submitmatch/:id", function(req, res) {
+  var makematch = new Match(req.body);
+  console.log(makematch);
+  // save a user to our mongoDB
+  makematch.save(function(error, doc) {
     // send an error to the browser
     if (error) {
       res.send(error);
