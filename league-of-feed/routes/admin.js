@@ -5,33 +5,42 @@
 // Dependencies
 // =============================================================
 var controllers = require("../controllers")
+var champion = require("../controllers/ChampionController.js")
+var match = require("../controllers/MatchController.js")
 var path = require("path");
 module.exports = function(app) {
 	app.get("/admin", function(req,res){
 		res.sendFile(path.join(__dirname, "../public/admin.html"))
 	});
 
-	app.post("/admin/:resource", function(req, res, result){
-		var resource = req.params.resource
-		var controller = controllers[resource]
-	if (controller == null) {
-		res.json({
-			confirmation: 'Fail',
-			message: 'Invalid Resource Request :  '+ resource
-		})
-		return
-	}
+	app.post("/admin/champion", function(req, res, result){
 	let allchamps = req.body
 	for (var key in allchamps){
 		var obj = allchamps[key]
 		for (var item in obj){
-			controller.create(obj[item], function(err, result){
+			champion.create(obj[item], function(err, result){
 				console.log(result)
 			})
 		
 		}
 	}
 
+	});
+	app.post("/admin/match", function(req, res, result){
+		var foo = req.body
+		console.log('////////////////FOOOOOOOOOOOO/////////////////////')
+		console.log(foo)
+		console.log('////////////////ENDFOOOOOOOOOOOO/////////////////////')		
+		match.create(foo, function(err, result){
+			if(err){
+				console.log(err)
+			}
+			res.json({
+				confirmation: 'success',
+				results: result});
+			return
+			var foo = "";
+		})
 	});
 	app.get("/admin/:resource/", function(req, res, result){
 		var resource = req.params.resource

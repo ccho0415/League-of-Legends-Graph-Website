@@ -57,10 +57,8 @@ module.exports = function(app) {
 		  console.log(info);
   		console.log("=====================================================================================");
    		var index = [];
-		  function Gameobj (gameid, gamemode, subtype, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, invalid, duration, mastery) {
+		  function Gameobj (gameid, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, invalid, players) {
 			 this.gameid= gameid;
-			 this.gamemode= gamemode;
-			 this.subtype= subtype;
 			 this.win= win;
 			 this.kills= kills;
 			 this.deaths= deaths;
@@ -70,14 +68,11 @@ module.exports = function(app) {
 			 this.champ= champ;	
        this.spell1 = spell1;
        this.spell2 = spell2;
-       this.duration = duration;
-       this.mastery = mastery;	
+       this.players = players;	
 		  }   			
 		  for(i=0; i<info.games.length; i++){
 			 var gameid =info.games[i].gameId
 			 var stats = info.games[i].stats
-			 var gamemode = info.games[i].gameMode
-			 var subtype = info.games[i].subType
        var kills;
        var assists;
        var deaths;
@@ -96,11 +91,10 @@ module.exports = function(app) {
        }else{
         var deaths = stats.numDeaths
        }
-       var duration = 0;
-       var mastery = 0;
-       console.log(stats)
-			 var currentgame = new Gameobj(gameid, gamemode, subtype, stats.win, kills, deaths, assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId, info.games[i].spell1, info.games[i].spell2, info.games[i].invalid, duration, mastery)
-			 index.push(currentgame);											
+       var players = info.games[i].fellowPlayers
+			 var currentgame = new Gameobj(gameid, stats.win, kills, deaths, assists, stats.goldEarned, stats.minionsKilled, info.games[i].championId, info.games[i].spell1, info.games[i].spell2, info.games[i].invalid, players)
+			 index.push(currentgame);		
+       console.log(currentgame)									
 		  }
    		 console.log("=====================================================================================");
    		 res.json(index);
@@ -112,7 +106,7 @@ module.exports = function(app) {
     console.log(url);
     request(url, function(error, response, body){
   		var result = JSON.parse(body);
-      function matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline){
+      function matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, analysis){
         this.matchVersion = matchVersion;
         this.region = region;
         this.matchId = matchId;
@@ -126,6 +120,7 @@ module.exports = function(app) {
         this.participants = participants;
         this.teams = teams;
         this.timeline  = timeline;
+        this.analysis = analysis;
       }
       let matchVersion = result.matchVersion;
       let region = result.region;
@@ -140,7 +135,8 @@ module.exports = function(app) {
       let participants = result.participants;
       let teams = result.teams;
       let timeline = result.timeline;
-      var currentmatch = new matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline);
+      let analysis = {}
+      var currentmatch = new matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, analysis);
       res.json(currentmatch)       		
   	})
   });

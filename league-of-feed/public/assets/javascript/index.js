@@ -24,13 +24,13 @@ $(document).ready(function(){
       $.post("/data/sumname/"+summoner, function() {
         console.log("Searching for a summoner with the name of "+summoner);
       }).then(function(data){
-        console.log(data)
+        // console.log(data)
         if (data == "Not a summoner"){
           alert(summoner+" is not a summoner")
         }else{
           $("#result").append("<h3>"+data.name+"</h3><br>"+
           "<img src = 'http://ddragon.leagueoflegends.com/cdn/7.6.1/img/profileicon/"+data.icon+".png'>" )
-          setTimeout(function(){cb(data.id, gameDuration)}, 4000);
+          setTimeout(function(){cb(data.id, matchCall)}, 4000);
         }
       });
       }
@@ -40,39 +40,89 @@ $(document).ready(function(){
     $.post("/data/recentgames/"+id, function(){
       console.log("Getting the match history")
     }).then(function(data){
-      console.log(data)
+      // console.log(data)
       data.forEach(function callback(value, index, data){
         let gameid = value.gameid;
         console.log(gameid);    
-        setTimeout(function(){cb(data[index], insertGame)},4000)
+        setTimeout(function(){cb(data[index], createMatchObj)},4000)
       })               
     })
   }
 //Searching Duration ==========================================================================
-  function gameDuration(data, cb){
+  function matchCall(data, cb){
     console.log(data.gameid)
-    console.log(data.subtype)
     var duration = data.duration
     var mastery;
-    console.log(data);
+    // console.log(data);
     $.ajax({
       url: "/data/details/"+ data.gameid,
       method: "POST",
       async: false,
       complete: function(result){
         var result = result.responseJSON;
-        console.log(result)
-        var duration = timeconvertseconds(parseInt(result.matchDuration));
-        console.log(duration);
-        if(duration !==0){
-          cb(data.gamemode, data.subtype, data.win, data.kills, data.deaths, data.assists, data.gold, data.minions, duration, data.champ, data.gameid)   
-        }           
+        cb(data, result, postMatch)            
       },
       error: function(err){
         console.log(err);
       }
     });  
   }
+  function matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, players , analysis){
+    this.matchVersion = matchVersion;
+    this.region = region;
+    this.matchId = matchId;
+    this.matchMode = matchMode;
+    this.matchType = matchType;
+    this.matchDuration = matchDuration;
+    this.queueType = queueType;
+    this.mapId = mapId;
+    this.season = season;
+    this.participantIdentities = participantIdentities;
+    this.participants = participants;
+    this.teams = teams;
+    this.timeline  = timeline;
+    this.players = players;
+    this.analysis = analysis;
+  }  
+  function createMatchObj(data, result, cb){
+    // console.log(data)
+    let players = data.players;
+    let win = data.win;
+    let kills = data.kills;
+    let deaths = data.deaths;
+    let gold = data.gold;
+    let minions = data.minons;
+    // console.log(result)
+    let champ = data.champ
+    let spell1 = data.spell1
+    let spell2 = data.spell2
+    let matchDuration = timeconvertseconds(parseInt(result.matchDuration));
+    // console.log(matchDuration);
+    let matchId = result.matchId;
+    let matchVersion = result.matchVersion;
+    let matchMode = result.matchMode;
+    let matchType = result.matchType;
+    let queueType = result.queueType;
+    let region = result.region;
+    let mapId = result.mapId;
+    let season = result.season;
+    let teams = result.teams;
+    let timeline = result.timeline;
+    let participantIdentities = result.participantIdentities;
+    let participants = result.participants;
+    let analysis = "meow";                       
+    var currentMatch = new matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, players, analysis );
+    cb(currentMatch, insertGame)
+  }  
+    function postMatch(object, cb){
+      console.log(object)
+      let matchid = object.matchId;
+      $.post("/admin/match", {object}, function(){
+        console.log("Adding to server")
+      }).then(function(data){
+        console.log(data);
+      });
+    }  
   function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration, champ, matchid){
     if (gameMode == "CLASSIC"){
       if (subType == "NORMAL" || subType == "RANKED_FLEX_SR" || subType =="RANKED_SOLO_5x5"){
