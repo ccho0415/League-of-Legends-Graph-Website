@@ -5,6 +5,12 @@ $(document).ready(function(){
   $("#searchSumName").on("click", function(event){
       searchSummoner(event, recentGames)
   });
+  // Time Conversion ==================================================================== 
+  function timeconvertseconds(millis) {
+    var minutes = Math.floor(millis / 60);
+    var seconds = ((millis % 60) / 1).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  }  
 // Searching Summoner Name ========================================================================
   function searchSummoner(event, cb){
     summoner = $("#sname").val().trim();    
@@ -53,9 +59,10 @@ $(document).ready(function(){
       url: "/data/details/"+ data.gameid,
       method: "POST",
       async: false,
-      complete: function(dat){
-        var dat = dat.responseJSON;
-        var duration = Math.floor(parseInt(dat)/ 60);
+      complete: function(result){
+        var result = result.responseJSON;
+        console.log(result)
+        var duration = timeconvertseconds(parseInt(result.matchDuration));
         console.log(duration);
         if(duration !==0){
           cb(data.gamemode, data.subtype, data.win, data.kills, data.deaths, data.assists, data.gold, data.minions, duration, data.champ, data.gameid)   
@@ -96,13 +103,4 @@ $(document).ready(function(){
       console.log(data);
     })
   }
-  function staticData(){
-    $.ajax({
-      url: "/data/static",
-      method: "POST"
-    }).done(function(data){
-      console.log(data);
-    })
-  }
-  staticData();
 });
