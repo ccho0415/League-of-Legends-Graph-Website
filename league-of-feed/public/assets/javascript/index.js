@@ -60,7 +60,7 @@ $(document).ready(function(){
       async: false,
       complete: function(result){
         var result = result.responseJSON;
-        cb(data, result, postMatch)            
+        cb(data, result, checkMatch)            
       },
       error: function(err){
         console.log(err);
@@ -90,8 +90,9 @@ $(document).ready(function(){
     let win = data.win;
     let kills = data.kills;
     let deaths = data.deaths;
+    let assists = data.assists;
     let gold = data.gold;
-    let minions = data.minons;
+    let minions = data.minions;
     // console.log(result)
     let champ = data.champ
     let spell1 = data.spell1
@@ -112,23 +113,73 @@ $(document).ready(function(){
     let participants = result.participants;
     let analysis = "meow";                       
     var currentMatch = new matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, players, analysis );
-    cb(currentMatch, insertGame)
+    cb(currentMatch, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, postMatch, insertGame)
   }  
-    function postMatch(object, cb){
-      console.log(object)
-      let matchid = object.matchId;
+    function checkMatch(object, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, cb1, cb2){
+      var gameMode;
+      var subType;
+      var duration;
+      var matchId;
+      matchid = object.matchId;
+      champ = champ
+      spell1 = spell1
+      spell2 = spell2  
+      win = win
+      kills = kills
+      deaths = deaths
+      assists = assists
+      gold = gold
+      minions = minions
+      $.get("/admin/match/id/"+matchid, function(){
+        console.log("Checking for data");
+      }).then(function(data){
+        console.log(data)       
+        if(data.results){
+        let gameMode = data.results.object.matchMode
+        let subType = data.results.object.matchType
+        let duration = data.results.object.matchDuration
+        let matchId = data.results.object.matchId
+        cb2(gameMode, subType, win, kills, deaths, assists, gold, minions, duration, champ, spell1, spell2, matchId)   
+        }else{
+          cb1(object, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, insertGame)
+        }
+      })
+    }
+    function postMatch(object, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, cb){
+     console.log(minions)
+      var gameMode;
+      var subType;
+      var duration;
+      var matchId;
+      matchid = object.matchId;
+      champ = champ
+      spell1 = spell1
+      spell2 = spell2  
+      win = win
+      kills = kills
+      deaths = deaths
+      assists = assists
+      gold = gold
+      minions = minions            
       $.post("/admin/match", {object}, function(){
         console.log("Adding to server")
       }).then(function(data){
-        console.log(data);
+        console.log(data.results);
+        console.log(data.results.object);
+        console.log(data.results.object.analysis);
+        let gameMode = data.results.object.matchMode
+        let subType = data.results.object.matchType
+        let duration = data.results.object.matchDuration
+        let matchId = data.results.object.matchId
+        cb(gameMode, subType, win, kills, deaths, assists, gold, minions, duration, champ, spell1, spell2, matchId)
       });
     }  
-  function insertGame(gameMode, subType, wins, kills, deaths, assists, gold, minions, duration, champ, matchid){
+  function insertGame(gameMode, subType, win, kills, deaths, assists, gold, minions, duration, champ, spell1, spell2, matchid){
     if (gameMode == "CLASSIC"){
-      if (subType == "NORMAL" || subType == "RANKED_FLEX_SR" || subType =="RANKED_SOLO_5x5"){
+      if (subType == "NORMAL" || subType == "RANKED_FLEX_SR" || subType =="RANKED_SOLO_5x5" || subType == "MATCHED_GAME"){
         $("#data").append("<span>"+ gameMode +" </span>");
         $("#data").append("<span>"+ subType+ " </span>");
-        $("#data").append("<span> Win: "+wins+" </span>");
+        $("#data").append("<span> Win: "+win+" </span>");
         $("#data").append("<span> KDA : "+ kills + "/" + deaths + "/"+ assists + "</span>");
         $("#data").append("<span> Gold: "+ gold + " k <img src = 'http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png'> </span>");
         $("#data").append("<span> Minions : "+ minions + "<img src = 'http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png'> </span>");

@@ -20,9 +20,6 @@ module.exports = {
 		})
 	},
 	create: function(obj, callback){
-	console.log("I AM GRABBING THIS")	
-		console.log(obj)
-	console.log("++++++++++++++++++++++++++++++++")
 		Match.create(obj, function(err, match){
 			if(err){
 				callback(err, null)

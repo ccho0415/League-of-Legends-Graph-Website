@@ -27,11 +27,6 @@ module.exports = function(app) {
 
 	});
 	app.post("/admin/match", function(req, res, result){
-		var foo = req.body
-		console.log('////////////////FOOOOOOOOOOOO/////////////////////')
-		console.log(foo)
-		console.log('////////////////ENDFOOOOOOOOOOOO/////////////////////')		
-		match.create(foo, function(err, result){
 			if(err){
 				console.log(err)
 			}
