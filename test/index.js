@@ -1,3 +1,16 @@
+$("body").on("click", ".ahri", timeModal)
+
+function timeModal() {
+	console.log("I am ahri!")
+	var children = $(this).children()[1];
+	var state = $(children).attr("data-role")	
+	if (state == "hidden"){
+		$(children).attr("data-role", "graph");
+	}else{
+		$(children).attr("data-role", "hidden")
+	}
+
+}
 // Time Function
 function timeconvert(millis) {
   var minutes = Math.floor(millis / 60000);
@@ -13,107 +26,13 @@ function particpiantObj(partid, champ, lane, role, team){
 	this.team= team;
 	// this.user= user;
 }
-// Time function Ends
-// Static Data Call Start ===========================================================================
-$.ajax({
-	
-  url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
-}).done(function(result) {
-// Champ Id to Name Section Start ==================================================================
-console.log(result.version)
-const champobj = result.keys
-const champarr = Object.entries(champobj)
-for(i=0; i< champarr.length; i++){
-	let champ = champarr[i]
-	// console.log("Champ Id:"+champ[0]+ " Champ Name: "+champ[1])
-}
-// Champ Id to Name Section End ======================================================================
-// Champ Stat  Section Start ======================================================================
-const champstatobj = result.data
-const champstatarr = Object.entries(champstatobj)
-for (i=0; i<champstatarr.length; i++) {
-	let champ = champstatarr[i]
-	let champstat = champ[1].stats 
-	// console.log("Champ Name: "+ champ[0])
-	// console.log("Armor: "+champstat.armor);
-	// console.log("Armor Per: "+champstat.armorperlevel);
-	// console.log("AD: "+champstat.attackdamage);
-	// console.log("AD: "+champstat.attackdamageperlevel);
-	// console.log("Range: "+champstat.attackrange);
-	// console.log("AS Offset: "+champstat.attackspeedoffset);
-	// console.log("AS Per: "+champstat.attackspeedoffset);	
-	// console.log("Crit: "+champstat.crit);
-	// console.log("Crit Per: "+champstat.critperlevel);
-	// console.log("HP: "+champstat.hp);
-	// console.log("HP Per: "+champstat.hpperlevel);
-	// console.log("HP Reg: "+champstat.hpregen);
-	// console.log("HP Reg Per: "+champstat.hpregenperlevel);
-	// console.log("Movespeed: "+champstat.movespeed);
-	// console.log("MP: "+champstat.hpregenperlevel);
-	// console.log("MP Per: "+champstat.mpperlevel);
-	// console.log("MP Regen: "+champstat.mpregen);
-	// console.log("MP Regen Per: "+champstat.mpregenperlevel);
-	// console.log("Spellblock: "+champstat.spellblock);
-	// console.log("Spellblock: "+champstat.spellblockperlevel);																														
-}
-// Champ Stat Section End
-// Champ Spell Section Start ================================================================================
-// const champstatobj = result.data
-// const champstatarr = Object.entries(champstatobj)
-// for (i=0; i < champstatarr.length; i++){
-	let champ = champstatarr[0]
-	let champspells = champ[1].spells
-	console.log("Champ Name: "+ champ[0])
-    console.log("Q : ")		
-	console.log(champspells[0])
-	console.log(champspells[0].cooldown)	
-    console.log("W : ")		
-	console.log(champspells[1])
-    console.log("E : ")		 
-	console.log(champspells[2])
-    console.log("R : ")		 
-	console.log(champspells[3]) 			 
-// }
-});
-// Static Data Call End ===========================================================================
-
-
-
 // Match Data Call Start =========================================================================
 $.ajax({
-	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2466226913?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2471298550?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(results){
 	console.log(results)
-// CS Per Min Section Start ====================================================================================================================
-let summonerarr = results.participants 
-
-for(i=0; i<summonerarr.length; i++){
-	let timeline = summonerarr[i].timeline
-	// console.log(timeline.creepsPerMinDeltas)
-}
-// CS Per Min Section End ====================================================================================================================
-// Mastery Section Start
-// let summonerarr = results.participants 
-for(i=0; i< summonerarr.length; i++){
-// console.log("Masteries of Summoner "+ [i])
-// console.log(summonerarr[i].masteries);	
-}
-
-// Mastery Section End
-// Runes Section Start  ========================================================================================
-// let summonerarr = results.participants
-for (i=0; i<summonerarr.length; i++){
-	const runes = summonerarr[i].runes
-	// console.log("Runes of Summoner " +[i]);
-	for (j =0; j <runes.length; j++){
-	// console.log(runes[j]);		
-	}
-
-
-}
-// Runes Section End ========================================================================================
 // Roles and Champ Start ====================================================================================
-// let summonerarr=  results.participants
+let summonerarr=  results.participants
 
 for (i=0; i<summonerarr.length; i++){
 	let id = summonerarr[i].participantId
@@ -124,6 +43,7 @@ for (i=0; i<summonerarr.length; i++){
 	var currentpart = new particpiantObj(id, champ, lane, role, team);
 	parts.push(currentpart);
 }
+console.log(parts)
 // Roles and Champ End ===================================================================================
 // console.log(parts)
 // Champion Img Url Start===============================================================================================
@@ -141,12 +61,303 @@ for(i=0; i< parts.length; i++){
 	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.7.1/img/champion/"+imgname+".png";
 	console.log(parts[i])
 }
-// Frames Events  and Participants Start ====================================================================================
+// Graph 2 
+for(i=0; i<parts.length; i++){
+	let particpiantId = parts[i].partid
+	let champname = parts[i].champname
+	let imgurl = parts[i].imgurl
+	let lane = parts[i].lane
+	let role = parts[i].role
+	let team = parts[i].team
+
+	if(team == 100 && lane == "TOP"){
+		$("#t1top").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	}else if(team == 100 && lane == "JUNGLE"){
+		$("#t1jung").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	}else if(team == 100 && lane == "MIDDLE"){
+		$("#t1mid").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	} else if(team == 100 && lane == "BOTTOM" && role == "DUO_CARRY"){
+		$("#t1bot").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	} else if(team == 100 && lane == "BOTTOM" && role == "DUO_SUPPORT"){
+		$("#t1sup").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	} else if(team == 200 && lane == "TOP"){
+		$("#t2top").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	}else if(team == 200 && lane == "JUNGLE"){
+		$("#t2jung").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	}else if(team == 200 && lane == "MIDDLE"){
+		$("#t2mid").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	} else if(team == 200 && lane == "BOTTOM" && role == "DUO_CARRY"){
+		$("#t2bot").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	} else if (team == 200 && lane == "BOTTOM" && role == "DUO_SUPPORT"){
+		$("#t2sup").append(
+			"<h5 class = 'champname'>"+champname+"</h5>"+
+			"<img class = 'champimg' src ='"+imgurl+"'>"+
+			"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+		)
+	}
+
+}
+// Graph 1
+// Use this image for data points for now http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305
 const allframes = results.timeline.frames
 let champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let creatorimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+// console.log(parts[0].imgurl)
+for(i=1; i<allframes.length; i++){
+	events = allframes[i].events
+	events.forEach(function(element){
+		eventType = element.eventType
+		timestamp = timeconvert(element.timestamp)
+		item = element.itemId
+		itemb4= element.itemBefore
+		itema4= element.itemAfter
+		partId = element.participantId
+		skill = element.skillSlot
+		levelType = element.levelUpType
+		ward = element.wardType
+		creatorId = element.creatorId
+		killer = element.killerId
+		monType = element.monsterType
+		monSub = element.monsterSubType
+		laneType = element.laneType
+		buildingType = element.buildingType
+		team = element.teamId
+		towerType = element.towerType
+		var assists;
+			if(element.assistingParticipantIds){
+				assists = element.assistingParticipantIds
+			}else{
+   				assists = "Nobody, Forever Alone"
+			}
+		position = JSON.stringify(element.position, null, 2)
+		victim = element.victimId
+		switch(partId){
+			case 1: 
+			  champimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  champimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  champimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  champimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  champimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  champimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  champimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  champimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  champimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  champimg = parts[9].imgurl;
+			  break;
+			default:
+			  champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+		switch(creatorId){
+			case 1: 
+			  creatorimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  creatorimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  creatorimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  creatorimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  creatorimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  creatorimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  creatorimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  creatorimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  creatorimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  creatorimg = parts[9].imgurl;
+			  break;
+			default:
+			  creatorimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+		switch(killer){
+			case 0:
+			  killerimg = "https://i.ytimg.com/vi/3MpdGYdEjng/hqdefault.jpg";
+			  break;
+			case 1: 
+			  killerimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  killerimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  killerimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  killerimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  killerimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  killerimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  killerimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  killerimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  killerimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  killerimg = parts[9].imgurl;
+			  break;
+			default:
+			  killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+		switch(victim){
+			case 1: 
+			  victimimg = parts[0].imgurl;
+			  break;
+			case 2: 
+			  victimimg = parts[1].imgurl;
+			  break;
+			case 3: 
+			  victimimg = parts[2].imgurl;
+			  break;
+			case 4: 
+			  victimimg = parts[3].imgurl;
+			  break;
+			case 5: 
+			  victimimg = parts[4].imgurl;
+			  break;
+			case 6: 
+			  victimimg = parts[5].imgurl;
+			  break;
+			case 7: 
+			  victimimg = parts[6].imgurl;
+			  break;
+			case 8: 
+			  victimimg = parts[7].imgurl;
+			  break;
+			case 9: 
+			  victimimg = parts[8].imgurl;
+			  break;
+			case 10: 
+			  victimimg = parts[9].imgurl;
+			  break;
+			default:
+			  victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+		}
+			if(eventType == "CHAMPION_KILL"){
+				var graphdiv = $("<ul class = 'ahri'>"+
+				"<img  height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
+				"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
+					"<ul>"+eventType+"</ul>"+
+					"<ul> Time: "+timestamp+"</ul>"+			
+					"<ul> Killer: "+killer+"</ul><img src = "+killerimg+"> "+
+					"<ul> Assistants: "+assists+"</ul>"+			
+					"<ul> Position : "+position+"</ul>"+
+					"<ul> Victim: "+victim+"</ul><img src = "+victimimg+">"+
+				"</div></ul>")
+			$("#eventgraph").append(graphdiv)			
+			}
+			if(eventType == "ELITE_MONSTER_KILL"){	
+				var graphdiv = $("<ul class = 'ahri'>"+
+				"<img height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
+				"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
+					"<ul>"+eventType+"</ul>"+
+					"<ul> Time: "+timestamp+"</ul>"+			
+					"<ul> Killer: "+killer+"</ul><img src = "+killerimg+">"+
+					"<ul> Monster Type :"+monType+"</ul>"+
+					"<ul> Monster Sub Type :"+monSub+"</ul>"+			
+					"<ul> Position : "+position+"</ul>"+
+				"</div></ul>")	
+			$("#eventgraph").append(graphdiv)			
+			}
+			if(eventType == "BUILDING_KILL"){
+				var graphdiv = $("<ul class = 'ahri'>"+
+			"<img  height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
+			"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
+				"<ul>"+eventType+"</ul>"+
+				"<ul> Time: "+timestamp+"</ul>"+			
+				"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+				"<ul> Assistants: "+assists+"</ul>"+			
+				"<ul> Lane Type :"+laneType+"</ul>"+
+				"<ul> Tower Type :"+towerType+"</ul>"+			
+				"<ul> Building Type :"+buildingType+"</ul>"+			
+				"<ul> Belongs To :"+team+"</ul>"+			
+				"<ul> Position : "+position+"</ul>"+
+				"</div></ul>")			
+			$("#eventgraph").append(graphdiv)			
+			}					
+	});
+}
+// Frames Events  and Participants Start ====================================================================================
+// const allframes = results.timeline.frames
+// let champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+// let creatorimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+// let killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
+// let victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 // console.log(parts[0].imgurl)
 for(i=1; i<allframes.length; i++){
 	events = allframes[i].events
@@ -420,9 +631,3 @@ for(i=1; i<allframes.length; i++){
 });
 
 // Match Data Call End =========================================================================
-
-// $.ajax({
-// 	url: "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/tegea?api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
-// }).done(function(results){
-// 	console.log(results)
-// });

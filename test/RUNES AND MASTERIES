@@ -1,0 +1,33 @@
+$.ajax({
+	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2471298550?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+}).done(function(results){
+	console.log(results)
+// CS Per Min Section Start ====================================================================================================================
+let summonerarr = results.participants 
+
+for(i=0; i<summonerarr.length; i++){
+	let timeline = summonerarr[i].timeline
+	// console.log(timeline.creepsPerMinDeltas)
+}
+// CS Per Min Section End ====================================================================================================================
+// Mastery Section Start
+// let summonerarr = results.participants 
+for(i=0; i< summonerarr.length; i++){
+// console.log("Masteries of Summoner "+ [i])
+// console.log(summonerarr[i].masteries);	
+}
+
+// Mastery Section End
+// Runes Section Start  ========================================================================================
+// let summonerarr = results.participants
+for (i=0; i<summonerarr.length; i++){
+	const runes = summonerarr[i].runes
+	// console.log("Runes of Summoner " +[i]);
+	for (j =0; j <runes.length; j++){
+	// console.log(runes[j]);		
+	}
+
+
+}
+// Runes Section End ========================================================================================
+});

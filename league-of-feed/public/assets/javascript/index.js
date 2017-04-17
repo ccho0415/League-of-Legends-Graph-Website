@@ -67,6 +67,7 @@ $(document).ready(function(){
       }
     });  
   }
+// Constructor Function for Matches
   function matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, players , analysis){
     this.matchVersion = matchVersion;
     this.region = region;
@@ -84,6 +85,7 @@ $(document).ready(function(){
     this.players = players;
     this.analysis = analysis;
   }  
+// Create the Constructor
   function createMatchObj(data, result, cb){
     // console.log(data)
     let players = data.players;
@@ -115,6 +117,7 @@ $(document).ready(function(){
     var currentMatch = new matchObj(matchVersion, region, matchId, matchMode, matchType, matchDuration, queueType, mapId, season, participantIdentities, participants, teams, timeline, players, analysis );
     cb(currentMatch, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, postMatch, insertGame)
   }  
+// Check if match is in the database
     function checkMatch(object, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, cb1, cb2){
       var gameMode;
       var subType;
@@ -145,6 +148,7 @@ $(document).ready(function(){
         }
       })
     }
+// Post matches into the database
     function postMatch(object, win, kills, deaths, assists, gold, minions, champ, spell1, spell2, cb){
      console.log(minions)
       var gameMode;
@@ -173,7 +177,8 @@ $(document).ready(function(){
         let matchId = data.results.object.matchId
         cb(gameMode, subType, win, kills, deaths, assists, gold, minions, duration, champ, spell1, spell2, matchId)
       });
-    }  
+    }
+  // Create the match history list 
   function insertGame(gameMode, subType, win, kills, deaths, assists, gold, minions, duration, champ, spell1, spell2, matchid){
     if (gameMode == "CLASSIC"){
       if (subType == "NORMAL" || subType == "RANKED_FLEX_SR" || subType =="RANKED_SOLO_5x5" || subType == "MATCHED_GAME"){

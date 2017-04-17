@@ -11,13 +11,59 @@
   <style type="text/css">
   	.eventframe{
     display: inline-block;   		
-
     border: 5px solid steelblue;
-	vertical-align: top     		
+	  vertical-align: top     		
   	}
+    .team1{
+      display: inline-block;
+      left: 0px;
+      margin: 30px;
+    }
+    .team2{
+      display: inline-block;
+      right: 0px;
+      margin: 30px;
+    }
+    #edit{
+      margin-top: 50px;
+    }
+    .champname{
+      margin: 5px;
+    }
+    .champimg{
+      margin: 10px;
+    }
+    [data-role = "hidden"]{
+      display: none;
+    }
+    [data-role = "graph"]{
+      display: inline-block;
+    }
   </style>
 <body>
-<div id = "edit"></div>
+
+<div class = "team1" id= "t1top"> Team 1 Top</div>
+<div class = "team2" id= "t2top"> Team 2 Top</div>
+<br>
+<div class = "team1" id= "t1jung"> Team 1 Jungle</div>
+<div class = "team2" id= "t2jung"> Team 2 Jungle</div>
+<br>
+<div class = "team1" id= "t1mid"> Team 1 Mid</div>
+<div class = "team2" id= "t2mid"> Team 2 Mid</div>
+<br>
+<div class = "team1" id= "t1bot"> Team 1 Bot</div>
+<div class = "team2" id= "t2bot"> Team 2 Bot</div>
+<br>
+<div class = "team1" id= "t1sup"> Team 1 Support</div>
+<div class = "team2" id= "t2sup"> Team 2 Support</div>
+<br>
+<br>
+
+<div id = "eventgraph">Event</div>
+
+
+
+<div id = "edit">Participant</div>
 </body>
 <script src= 'index.js'></script>
 </html>
