@@ -1,0 +1,130 @@
+	// partFrames.forEach(function(event){
+	// 	console.log(element);
+	// })
+	// events.forEach(function(element){
+	// 	eventType = element.eventType
+	// 	timestamp = timeconvert(element.timestamp)
+	// 	itemb4= element.itemBefore
+	// 	itema4= element.itemAfter
+	// 	partId = element.participantId
+	// 	levelType = element.levelUpType
+	// 	killer = element.killerId
+	// 	monType = element.monsterType
+	// 	monSub = element.monsterSubType
+	// 	laneType = element.laneType
+	// 	buildingType = element.buildingType
+	// 	team = element.teamId
+	// 	towerType = element.towerType
+	// 	var assists;
+	// 		if(element.assistingParticipantIds){
+	// 			assists = element.assistingParticipantIds
+	// 		}else{
+ //   				assists = "Nobody, Forever Alone"
+	// 		}
+	// 	position = JSON.stringify(element.position, null, 2)
+	// 	victim = element.victimId
+	// 	switch(partId){
+	// 		case 1: 
+	// 		  champimg = parts[0].imgurl;
+	// 		  break;
+	// 		case 2: 
+	// 		  champimg = parts[1].imgurl;
+	// 		  break;
+	// 		case 3: 
+	// 		  champimg = parts[2].imgurl;
+	// 		  break;
+	// 		case 4: 
+	// 		  champimg = parts[3].imgurl;
+	// 		  break;
+	// 		case 5: 
+	// 		  champimg = parts[4].imgurl;
+	// 		  break;
+	// 		case 6: 
+	// 		  champimg = parts[5].imgurl;
+	// 		  break;
+	// 		case 7: 
+	// 		  champimg = parts[6].imgurl;
+	// 		  break;
+	// 		case 8: 
+	// 		  champimg = parts[7].imgurl;
+	// 		  break;
+	// 		case 9: 
+	// 		  champimg = parts[8].imgurl;
+	// 		  break;
+	// 		case 10: 
+	// 		  champimg = parts[9].imgurl;
+	// 		  break;
+	// 		default:
+	// 		  champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+	// 	}
+	// 	switch(killer){
+	// 		case 0:
+	// 		  killerimg = "https://i.ytimg.com/vi/3MpdGYdEjng/hqdefault.jpg";
+	// 		  break;
+	// 		case 1: 
+	// 		  killerimg = parts[0].imgurl;
+	// 		  break;
+	// 		case 2: 
+	// 		  killerimg = parts[1].imgurl;
+	// 		  break;
+	// 		case 3: 
+	// 		  killerimg = parts[2].imgurl;
+	// 		  break;
+	// 		case 4: 
+	// 		  killerimg = parts[3].imgurl;
+	// 		  break;
+	// 		case 5: 
+	// 		  killerimg = parts[4].imgurl;
+	// 		  break;
+	// 		case 6: 
+	// 		  killerimg = parts[5].imgurl;
+	// 		  break;
+	// 		case 7: 
+	// 		  killerimg = parts[6].imgurl;
+	// 		  break;
+	// 		case 8: 
+	// 		  killerimg = parts[7].imgurl;
+	// 		  break;
+	// 		case 9: 
+	// 		  killerimg = parts[8].imgurl;
+	// 		  break;
+	// 		case 10: 
+	// 		  killerimg = parts[9].imgurl;
+	// 		  break;
+	// 		default:
+	// 		  killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+	// 	}
+	// 	switch(victim){
+	// 		case 1: 
+	// 		  victimimg = parts[0].imgurl;
+	// 		  break;
+	// 		case 2: 
+	// 		  victimimg = parts[1].imgurl;
+	// 		  break;
+	// 		case 3: 
+	// 		  victimimg = parts[2].imgurl;
+	// 		  break;
+	// 		case 4: 
+	// 		  victimimg = parts[3].imgurl;
+	// 		  break;
+	// 		case 5: 
+	// 		  victimimg = parts[4].imgurl;
+	// 		  break;
+	// 		case 6: 
+	// 		  victimimg = parts[5].imgurl;
+	// 		  break;
+	// 		case 7: 
+	// 		  victimimg = parts[6].imgurl;
+	// 		  break;
+	// 		case 8: 
+	// 		  victimimg = parts[7].imgurl;
+	// 		  break;
+	// 		case 9: 
+	// 		  victimimg = parts[8].imgurl;
+	// 		  break;
+	// 		case 10: 
+	// 		  victimimg = parts[9].imgurl;
+	// 		  break;
+	// 		default:
+	// 		  victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
+	// 	}

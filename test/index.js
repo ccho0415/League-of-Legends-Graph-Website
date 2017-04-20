@@ -1,15 +1,74 @@
 $("body").on("click", ".ahri", timeModal)
+function mapAppend(cordobj){
+	var cordarr = []
+	cordobj.forEach(function(element){
+		cordarr.push(element[0])
+		cordarr.push(element[1])
+	
+	})
+	console.log(cordarr)
 
+	var cords = [ [cordarr[0], cordarr[1]], [cordarr[2], cordarr[3]], [cordarr[4], cordarr[5]], [cordarr[6], cordarr[7]], [cordarr[8], cordarr[9]], [cordarr[10], cordarr[11]], [cordarr[12], cordarr[13]], [cordarr[14], cordarr[15]], [cordarr[16], cordarr[17]], [cordarr[18], cordarr[19]]],
+    // Domain for the current Summoner's Rift on the in-game mini-map
+    domain = {
+            min: {x: -120, y: -120},
+            max: {x: 14870, y: 14980}
+    },
+    width = 512,
+    height = 512,
+    bg = "https://s3-us-west-1.amazonaws.com/riot-developer-portal/docs/minimap-ig.png",
+    xScale, yScale, svg;
+	color = d3.scale.linear()
+    	.domain([0, 3])
+    	.range(["white", "steelblue"])
+    	.interpolate(d3.interpolateLab);
+	
+	xScale = d3.scale.linear()
+  	.domain([domain.min.x, domain.max.x])
+  	.range([0, width]);
+	
+	yScale = d3.scale.linear()
+  	.domain([domain.min.y, domain.max.y])
+  	.range([height, 0]);
+	
+	svg = d3.select("#map").append("svg:svg")
+    	.attr("width", width)
+    	.attr("height", height);
+	
+	svg.append('image')
+    	.attr('xlink:href', bg)
+    	.attr('x', '0')
+    	.attr('y', '0')
+    	.attr('width', width)
+    	.attr('height', height);
+	
+	svg.append('svg:g').selectAll("circle")
+    	.data(cords)
+    	.enter().append("svg:circle")
+        	.attr('cx', function(d) { return xScale(d[0]) })
+        	.attr('cy', function(d) { return yScale(d[1]) })
+        	.attr('r', 5)
+        	.attr('fill', 'purple')
+        	.attr('class', 'location');	
+}
 function timeModal() {
+	$("g").empty();	
 	console.log("I am ahri!")
-	var children = $(this).children()[1];
-	var state = $(children).attr("data-role")	
+	var children = $(this).children()
+	var firstchild = $(this).children()[1];
+	var secondchild = $(this).children()[2];
+	var state = $(firstchild).attr("data-role")	
 	if (state == "hidden"){
-		$(children).attr("data-role", "graph");
+		$(firstchild).attr("data-role", "graph");
+	var cordattr = $(secondchild).attr("data-cord");
+	var cordobj = JSON.parse(cordattr)
+	mapAppend(cordobj)		
 	}else{
-		$(children).attr("data-role", "hidden")
+		$(firstchild).attr("data-role", "hidden")
 	}
 
+	cordattr = "";
+	cordobj = {};
 }
 // Time Function
 function timeconvert(millis) {
@@ -28,7 +87,7 @@ function particpiantObj(partid, champ, lane, role, team){
 }
 // Match Data Call Start =========================================================================
 $.ajax({
-	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2471298550?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2477649342?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(results){
 	console.log(results)
 // Roles and Champ Start ====================================================================================
@@ -43,23 +102,23 @@ for (i=0; i<summonerarr.length; i++){
 	var currentpart = new particpiantObj(id, champ, lane, role, team);
 	parts.push(currentpart);
 }
-console.log(parts)
+// console.log(parts)
 // Roles and Champ End ===================================================================================
 // console.log(parts)
 // Champion Img Url Start===============================================================================================
 $.ajax({
   url: "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(result) {
- champobj = result.keys
+champobj = result.keys
 for(i=0; i< parts.length; i++){
 	let index = parseInt(parts[i].champ)
 	// console.log(index)
 	// console.log("Champ Id:"+index+ " Champ Name: "+champobj[index])
 	parts[i].champname = champobj[index]
 	let imgname = champobj[index].split(' ').join('');
-	console.log(imgname)
+	// console.log(imgname)
 	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.7.1/img/champion/"+imgname+".png";
-	console.log(parts[i])
+	// console.log(parts[i])
 }
 // Graph 2 
 for(i=0; i<parts.length; i++){
@@ -136,39 +195,57 @@ for(i=0; i<parts.length; i++){
 // Graph 1
 // Use this image for data points for now http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305
 const allframes = results.timeline.frames
+
 let champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let creatorimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
-// console.log(parts[0].imgurl)
-for(i=1; i<allframes.length; i++){
-	events = allframes[i].events
-	events.forEach(function(element){
-		eventType = element.eventType
-		timestamp = timeconvert(element.timestamp)
-		item = element.itemId
-		itemb4= element.itemBefore
-		itema4= element.itemAfter
-		partId = element.participantId
-		skill = element.skillSlot
-		levelType = element.levelUpType
-		ward = element.wardType
-		creatorId = element.creatorId
-		killer = element.killerId
-		monType = element.monsterType
-		monSub = element.monsterSubType
-		laneType = element.laneType
-		buildingType = element.buildingType
-		team = element.teamId
-		towerType = element.towerType
+var events = [];
+var partframes = [];
+var length = allframes.length
+var width = 20*length
+console.log(allframes)
+
+for(i=0; i<allframes.length; i++){
+var events = allframes[i].events
+var partframes = allframes[i].participantFrames	
+
+if (allframes[i].participantFrames){
+
+
+}else {
+	console.log("No Participant Frames")
+}
+var frames = [];
+console.log(allframes.length)
+if(allframes[i].events){
+	for(j=0; j<events.length; j++){
+		let event =events[j]
+		eventType = event.eventType
+		timestamp = timeconvert(event.timestamp)
+		item = event.itemId
+		itemb4= event.itemBefore
+		itema4= event.itemAfter
+		partId = event.participantId
+		skill = event.skillSlot
+		levelType = event.levelUpType
+		ward = event.wardType
+		creatorId = event.creatorId
+		killer = event.killerId
+		monType = event.monsterType
+		monSub = event.monsterSubType
+		laneType = event.laneType
+		buildingType = event.buildingType
+		team = event.teamId
+		towerType = event.towerType
 		var assists;
-			if(element.assistingParticipantIds){
-				assists = element.assistingParticipantIds
+			if(event.assistingParticipantIds){
+				assists = event.assistingParticipantIds
 			}else{
    				assists = "Nobody, Forever Alone"
 			}
-		position = JSON.stringify(element.position, null, 2)
-		victim = element.victimId
+		position = JSON.stringify(event.position, null, 2)
+		victim = event.victimId
 		switch(partId){
 			case 1: 
 			  champimg = parts[0].imgurl;
@@ -308,50 +385,96 @@ for(i=1; i<allframes.length; i++){
 			default:
 			  victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
 		}
-			if(eventType == "CHAMPION_KILL"){
-				var graphdiv = $("<ul class = 'ahri'>"+
-				"<img  height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
-				"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
-					"<ul>"+eventType+"</ul>"+
-					"<ul> Time: "+timestamp+"</ul>"+			
-					"<ul> Killer: "+killer+"</ul><img src = "+killerimg+"> "+
-					"<ul> Assistants: "+assists+"</ul>"+			
-					"<ul> Position : "+position+"</ul>"+
-					"<ul> Victim: "+victim+"</ul><img src = "+victimimg+">"+
-				"</div></ul>")
-			$("#eventgraph").append(graphdiv)			
+			if (eventType == "ITEM_SOLD") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+		
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			}	
+			if (eventType == "ITEM_PURCHASED") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
-			if(eventType == "ELITE_MONSTER_KILL"){	
-				var graphdiv = $("<ul class = 'ahri'>"+
-				"<img height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
-				"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
-					"<ul>"+eventType+"</ul>"+
-					"<ul> Time: "+timestamp+"</ul>"+			
-					"<ul> Killer: "+killer+"</ul><img src = "+killerimg+">"+
-					"<ul> Monster Type :"+monType+"</ul>"+
-					"<ul> Monster Sub Type :"+monSub+"</ul>"+			
-					"<ul> Position : "+position+"</ul>"+
-				"</div></ul>")	
-			$("#eventgraph").append(graphdiv)			
+			if (eventType == "ITEM_DESTROYED") {
+			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			"<ul> Time: "+timestamp+"</ul>"+			
+			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
+			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
-			if(eventType == "BUILDING_KILL"){
-				var graphdiv = $("<ul class = 'ahri'>"+
-			"<img  height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
-			"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
-				"<ul>"+eventType+"</ul>"+
-				"<ul> Time: "+timestamp+"</ul>"+			
-				"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
-				"<ul> Assistants: "+assists+"</ul>"+			
-				"<ul> Lane Type :"+laneType+"</ul>"+
-				"<ul> Tower Type :"+towerType+"</ul>"+			
-				"<ul> Building Type :"+buildingType+"</ul>"+			
-				"<ul> Belongs To :"+team+"</ul>"+			
-				"<ul> Position : "+position+"</ul>"+
-				"</div></ul>")			
-			$("#eventgraph").append(graphdiv)			
-			}					
-	});
+	}
+} else{
+	console.log("No Event Frames")
 }
+
+
+
+	// 		if(eventType == "CHAMPION_KILL"){
+	// 			var cordarr = [];
+	// 		$.each(partFrames, function(index, value) {	
+	// 			console.log(value)
+	// 			cordarr.push("["+value.position.x+","+value.position.y+"]");
+
+	// 		});				
+	// 			var graphdiv = $("<ul class = 'ahri'>"+
+	// 			"<img  height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
+	// 			"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
+	// 				"<ul>"+eventType+"</ul>"+
+	// 				"<ul> Time: "+timestamp+"</ul>"+			
+	// 				"<ul> Killer: "+killer+"</ul><img src = "+killerimg+"> "+
+	// 				"<ul> Assistants: "+assists+"</ul>"+			
+	// 				"<ul> Position : "+position+"</ul>"+
+	// 				"<ul> Victim: "+victim+"</ul><img src = "+victimimg+">"+
+	// 			"</div>"+
+	// 			"<div data-role = 'alwayshidden' data-cord='["+cordarr+"]'></div></ul>")
+	// 		}
+	// 		$("#eventgraph").append(graphdiv)
+	// 						var cordarr = [];
+	// 		$.each(partFrames, function(index, value) {	
+	// 			cordarr.push("["+value.position.x+","+value.position.y+"]");
+
+	// 		});	
+	// 		if(eventType == "ELITE_MONSTER_KILL"){	
+	// 			var graphdiv = $("<ul class = 'ahri'>"+
+	// 			"<img height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
+	// 			"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
+	// 				"<ul>"+eventType+"</ul>"+
+	// 				"<ul> Time: "+timestamp+"</ul>"+			
+	// 				"<ul> Killer: "+killer+"</ul><img src = "+killerimg+">"+
+	// 				"<ul> Monster Type :"+monType+"</ul>"+
+	// 				"<ul> Monster Sub Type :"+monSub+"</ul>"+			
+	// 				"<ul> Position : "+position+"</ul>"+
+	// 			"</div>"+
+	// 			"<div data-role = 'alwayshidden' data-cord='["+cordarr+"]'></div></ul>")
+	// 		$("#eventgraph").append(graphdiv)		
+	// 		}
+	// 		if(eventType == "BUILDING_KILL"){
+	// 			var cordarr = [];
+	// 		$.each(partFrames, function(index, value) {	
+	// 			cordarr.push("["+value.position.x+","+value.position.y+"]");
+
+	// 		});				
+	// 			var graphdiv = $("<ul class = 'ahri'>"+
+	// 		"<img  height= 150px; width= auto src='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'>"+
+	// 		"<div data-role = 'hidden' class = 'eventframe kill col-md-3'>"+
+	// 			"<ul>"+eventType+"</ul>"+
+	// 			"<ul> Time: "+timestamp+"</ul>"+			
+	// 			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+	// 			"<ul> Assistants: "+assists+"</ul>"+			
+	// 			"<ul> Lane Type :"+laneType+"</ul>"+
+	// 			"<ul> Tower Type :"+towerType+"</ul>"+			
+	// 			"<ul> Building Type :"+buildingType+"</ul>"+			
+	// 			"<ul> Belongs To :"+team+"</ul>"+			
+	// 			"<ul> Position : "+position+"</ul>"+
+	// 			"</div>"+
+	// 			"<div data-role = 'alwayshidden' data-cord='["+cordarr+"]'></div></ul>")
+	// 		$("#eventgraph").append(graphdiv)						
+	// 		}					
+	// });
+}
+
+
 // Frames Events  and Participants Start ====================================================================================
 // const allframes = results.timeline.frames
 // let champimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
@@ -534,76 +657,76 @@ for(i=1; i<allframes.length; i++){
 
 			// This can probably written as cases 
 			if (eventType == "ITEM_PURCHASED") {
-			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			// $("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
+			// "<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
 			if (eventType == "ITEM_DESTROYED") {
-			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			// $("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
+			// "<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}		
 			if(eventType == "SKILL_LEVEL_UP"){
-			$("#edit").append("<div class = 'eventframe skill col-md-3''><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul>"+skill+"</ul>"+
-			"<ul>"+levelType+"</ul>"+
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			// $("#edit").append("<div class = 'eventframe skill col-md-3''><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<ul>"+skill+"</ul>"+
+			// "<ul>"+levelType+"</ul>"+
+			// "<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
 			if (eventType == "WARD_PLACED"){
-			$("#edit").append("<div class = 'eventframe ward col-md-3''><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul>"+ward+"</ul>"+
-			"<ul> Participant: "+creatorId+"</ul><img src = "+creatorimg+"></div>")
+			// $("#edit").append("<div class = 'eventframe ward col-md-3''><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<ul>"+ward+"</ul>"+
+			// "<ul> Participant: "+creatorId+"</ul><img src = "+creatorimg+"></div>")
 			}
 			if(eventType =="CHAMPION_KILL"){
-			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
-			"<ul> Assistants: "+assists+"</ul>"+			
-			"<ul> Position : "+position+"</ul>"+
-			"<ul> Victim: "+victim+"</ul><img src = "+victimimg+"></div>")			
+			// $("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+			// "<ul> Assistants: "+assists+"</ul>"+			
+			// "<ul> Position : "+position+"</ul>"+
+			// "<ul> Victim: "+victim+"</ul><img src = "+victimimg+"></div>")			
 			}
 			if (eventType == "ITEM_UNDO") {
-			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"Item Before: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itemb4+".png>"+
-			"Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itema4+".png>"+			
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			// $("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "Item Before: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itemb4+".png>"+
+			// "Item After: <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+itema4+".png>"+			
+			// "<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}
 			if(eventType == "WARD_KILL"){
-			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
-			"<ul> Ward Type: "+ward+"</ul></div>")			
+			// $("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+			// "<ul> Ward Type: "+ward+"</ul></div>")			
 			}
 			if(eventType == "ELITE_MONSTER_KILL"){		
-			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
-			"<ul> Monster Type :"+monType+"</ul>"+
-			"<ul> Monster Sub Type :"+monSub+"</ul>"+			
-			"<ul> Position : "+position+"</ul></div>")			
+			// $("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+			// "<ul> Monster Type :"+monType+"</ul>"+
+			// "<ul> Monster Sub Type :"+monSub+"</ul>"+			
+			// "<ul> Position : "+position+"</ul></div>")			
 			}
 			if(eventType =="BUILDING_KILL"){
 			console.log(element)				
-			$("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
-			"<ul> Assistants: "+assists+"</ul>"+			
-			"<ul> Lane Type :"+laneType+"</ul>"+
-			"<ul> Tower Type :"+towerType+"</ul>"+			
-			"<ul> Building Type :"+buildingType+"</ul>"+			
-			"<ul> Belongs To :"+team+"</ul>"+			
-			"<ul> Position : "+position+"</ul></div>")			
+			// $("#edit").append("<div class = 'eventframe kill col-md-3''><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "<ul> Killer: "+killer+"</ul> <img src = "+killerimg+">"+
+			// "<ul> Assistants: "+assists+"</ul>"+			
+			// "<ul> Lane Type :"+laneType+"</ul>"+
+			// "<ul> Tower Type :"+towerType+"</ul>"+			
+			// "<ul> Building Type :"+buildingType+"</ul>"+			
+			// "<ul> Belongs To :"+team+"</ul>"+			
+			// "<ul> Position : "+position+"</ul></div>")			
 			}
 			if (eventType == "ITEM_SOLD") {
-			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
-			"<ul> Time: "+timestamp+"</ul>"+			
-			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+		
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			// $("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
+			// "<ul> Time: "+timestamp+"</ul>"+			
+			// "Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+		
+			// "<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
 			}											
 		}
 
@@ -613,13 +736,24 @@ for(i=1; i<allframes.length; i++){
 
 	$.each(partFrames, function(index, value) {
     let valueprint = JSON.stringify(value, null, 2)
-    $("#edit").append("<li>"+valueprint+"</li>")
+    // $("#edit").append("<li>"+valueprint+"</li>")
     // console.log(value.totalGold)
 	}); 												
-  $("#edit").append("<hr>")		
+  // $("#edit").append("<hr>")		
 }
 // Frames Events and Participants End =========================================================================
-
+var count = 0
+var minuteframe = "";
+var objectiveframe = "";
+for(f=0; f<allframes.length; f++){
+var minuteframe = minuteframe+("<rect x='"+count+"' y='0' width='20' height='80' style='fill:transparent;'/>")
+var objectiveframe = objectiveframe+("<image x='"+count+"' y='0' width='20' height='80' href='http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305'></image>")
+count = count+20	
+}
+console.log(count)
+console.log(minuteframe)
+var timelinegraph = '<div class = "graph" id="timeline"><svg height="80" width="'+width+'"><g transform ="translate(0,0)" class ="objectiveframe">'+objectiveframe+'</g><g transform = "translate(0,0)" class = "frames">'+minuteframe+'</g></svg></div>'
+$("#eventgraph").append(timelinegraph)
 // Champion Img Url End=================================================================================
 });
 
