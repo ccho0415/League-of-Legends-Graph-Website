@@ -202,7 +202,7 @@ let killerimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 let victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"
 var events = [];
 var partframes = [];
-var length = allframes.length
+// var length = allframes.length
 var width = 20*length
 console.log(allframes)
 
