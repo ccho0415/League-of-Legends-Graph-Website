@@ -386,22 +386,25 @@ if(allframes[i].events){
 			  victimimg = "http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/minion.png"			  			  			  			  
 		}
 			if (eventType == "ITEM_SOLD") {
+			console.log(item)
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"Item  : <img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+		
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			"Item  : <img class='itemimg' src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+		
+			"<ul class='bump'> Participant : "+partId+"</ul><img class = 'champimg' src = "+champimg+"><br></div>");		
 			}	
 			if (eventType == "ITEM_PURCHASED") {
+			console.log(item)
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			"<img class='itemimg' src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
+			"<ul class='bump'> Participant : "+partId+"</ul><img class = 'champimg' src = "+champimg+"><br></div>");		
 			}
 			if (eventType == "ITEM_DESTROYED") {
+			console.log(item)
 			$("#edit").append("<div class = 'eventframe item col-md-3'><li>"+eventType+"</li>"+
 			"<ul> Time: "+timestamp+"</ul>"+			
-			"<img src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
-			"<ul> Participant : "+partId+"</ul><img src = "+champimg+"></div>");		
+			"<img class='itemimg' src = http://ddragon.leagueoflegends.com/cdn/7.7.1/img/item/"+item+".png>"+
+			"<ul class='bump'> Participant : "+partId+"</ul><img class = 'champimg' src = "+champimg+"><br></div>");		
 			}
 	}
 } else{
