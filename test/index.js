@@ -87,7 +87,7 @@ function particpiantObj(partid, champ, lane, role, team){
 }
 // Match Data Call Start =========================================================================
 $.ajax({
-	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2477649342?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+	url: "https://na.api.riotgames.com/api/lol/NA/v2.2/match/2484895810?includeTimeline=true&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
 }).done(function(results){
 	console.log(results)
 // Roles and Champ Start ====================================================================================
@@ -117,7 +117,7 @@ for(i=0; i< parts.length; i++){
 	parts[i].champname = champobj[index]
 	let imgname = champobj[index].split(' ').join('');
 	// console.log(imgname)
-	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.7.1/img/champion/"+imgname+".png";
+	parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/"+imgname+".png";
 	// console.log(parts[i])
 }
 // Graph 2 
