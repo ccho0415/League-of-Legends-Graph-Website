@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var PORT = 3000;
+var exphbs  = require('express-handlebars');
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 
@@ -15,6 +16,10 @@ app.use(bodyParser.json({limit: '10000mb'}));
 app.use(bodyParser.urlencoded({ limit: '10000mb', parameterLimit: 10000000000,
   extended: true
 }));
+// Handlebars engine
+
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 // Static Directory ===================================================
 app.use(express.static("./public"));
 // Database configuration with mongoose
@@ -35,6 +40,7 @@ db.once("open", function() {
 require("./routes/index")(app);
 require("./routes/admin")(app);
 require("./routes/data")(app);
+require("./routes/matchAnalysis")(app)
 
 
 // 
