@@ -141,10 +141,11 @@ module.exports = function(app) {
   	})
   });
   app.get("/data/static-champ", function(req, res){
-    var url = "https://na1.api.riotgames.com/lol/static-data/v3/champions?champData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+    var url = "https://na1.api.riotgames.com/lol/static-data/v3/champions?champListData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
     request(url, function(error, response, body){
       var allchamps = [];      
       var info = JSON.parse(body);
+      console.log(info)
       let patch = info.version
       const champobj = info.keys;
       const champstatobj = info.data;
@@ -183,6 +184,7 @@ module.exports = function(app) {
         let id = champ[1].id
         let champstat = champ[1].stats
         let name= champ[0];
+        console.log(champ)
         let armor= champstat.armor;
         let armorper= champstat.armorperlevel;
         let ad= champstat.attackdamage;
