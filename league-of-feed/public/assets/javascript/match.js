@@ -191,6 +191,7 @@ function appendChampDiv(parts){
 
 function loadTimeline(timeline, cb){
 	console.log(timeline.frames.length)
+	console.log(timeline)
 	cb()
 }
 function temmie(){
