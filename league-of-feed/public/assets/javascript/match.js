@@ -1,5 +1,7 @@
 var parts = [];
 var champStaticData = [];	
+var eventline = [];
+var itemline = [];
 function champObj(name, id, patch, ad, adper, armor, armorper, asoff, asper, crit, critper, hp, hpper, hpreg, hpregper, movespeed, mp, mpper, mpreg, mpregper, range, spellblock, spellblockper, q, w, e, r){
 	this.name = name;
 	this.id = id;
@@ -190,12 +192,33 @@ function appendChampDiv(parts){
 
 
 function loadTimeline(timeline, cb){
-	console.log(timeline.frames.length)
-	console.log(timeline)
+	var count = 0;
+	var max = timeline.frames.length
+	var width = max*20
+	var minuteframe = "";	
+	for(i=0; i < max; i++ ){
+		var frame = timeline.frames[i]
+		var event = frame.events   
+		if(event){
+			event.forEach(function(element){
+				var eventType = element.eventType
+				if (eventType == "ELITE_MONSTER_KILL" || eventType == "CHAMPION_KILL" || eventType == "BUILDING_KILL"){
+					eventline.push(element);
+				}else if (eventType == "ITEM_SOLD"|| eventType == "ITEM_PURCHASED" || eventType == "ITEM_DESTROYED" || eventType == "ITEM_UNDO"){
+					itemline.push(element);
+				}
+			})
+		}else{}
+	}
+	var timelinegraph = '<div class = "graph" id="timeline"><svg height="80" width="'+width+'"><g transform = "translate(0,0)" class = "frames">'+minuteframe+'</g></svg></div>'
+	$("#timelinegraph").append(timelinegraph)	
 	cb()
 }
 function temmie(){
 	console.log("I AM TEMMIE")
+
+	console.log(eventline)
+	console.log(itemline)
 }
 $(document).ready(function () {
 	getData(loadTimeline);
