@@ -192,27 +192,7 @@ function appendChampDiv(parts){
 
 
 function loadTimeline(timeline, cb){
-	var count = 0;
-	var max = timeline.frames.length
-	var width = max*20
-	var minuteframe = "";	
-	for(i=0; i < max; i++ ){
-		var frame = timeline.frames[i]
-		var event = frame.events   
-		if(event){
-			event.forEach(function(element){
-				var eventType = element.eventType
-				if (eventType == "ELITE_MONSTER_KILL" || eventType == "CHAMPION_KILL" || eventType == "BUILDING_KILL"){
-					eventline.push(element);
-				}else if (eventType == "ITEM_SOLD"|| eventType == "ITEM_PURCHASED" || eventType == "ITEM_DESTROYED" || eventType == "ITEM_UNDO"){
-					itemline.push(element);
-				}
-			})
-		}else{}
-	}
-	var timelinegraph = '<div class = "graph" id="timeline"><svg height="80" width="'+width+'"><g transform = "translate(0,0)" class = "frames">'+minuteframe+'</g></svg></div>'
-	$("#timelinegraph").append(timelinegraph)	
-	cb()
+
 }
 function temmie(){
 	console.log("I AM TEMMIE")
