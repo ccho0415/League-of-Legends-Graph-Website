@@ -131,72 +131,81 @@ cb(parts)
 }
 function appendChampDiv(parts){
 	for(i=0; i<parts.length; i++){
-		let particpiantId = parts[i].partid
+		let participantId = parts[i].partid
 		let champname = parts[i].champname
 		let imgurl = parts[i].imgurl
 		let lane = parts[i].lane
 		let role = parts[i].role
-		let team = parts[i].team
-	
+		let team = parts[i].team			
 		if(team == 100 && lane == "TOP"){
 			$("#t1top").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+				
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 100 && lane == "JUNGLE"){
 			$("#t1jung").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 100 && lane == "MIDDLE"){
 			$("#t1mid").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 100 && lane == "BOTTOM" && role == "DUO_CARRY"){
 			$("#t1bot").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 100 && lane == "BOTTOM" && role == "DUO_SUPPORT"){
 			$("#t1sup").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 200 && lane == "TOP"){
 			$("#t2top").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 200 && lane == "JUNGLE"){
 			$("#t2jung").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 200 && lane == "MIDDLE"){
 			$("#t2mid").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 200 && lane == "BOTTOM" && role == "DUO_CARRY"){
 			$("#t2bot").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if (team == 200 && lane == "BOTTOM" && role == "DUO_SUPPORT"){
 			$("#t2sup").html(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class='partid' id = part"+particpiantId+" data-participant="+particpiantId+" style='display: none;'>"		
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}
 	}
