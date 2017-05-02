@@ -63,24 +63,24 @@ function getData(){
 	})
 }
 function loadParticipants(participants, cb){
-var result;
-for (i=0; i<participants.length; i++){
-	let id = participants[i].participantId
-	let champ = participants[i].championId
-	let lane = participants[i].timeline.lane
-	let role = participants[i].timeline.role
-	let team = participants[i].teamId
-	var currentpart = new particpiantObj(id, champ, lane, role, team);
-	parts.push(currentpart);
-}
-for(i=0; i <parts.length; i++){
-	$.ajax({
-		url:"/admin/champion/id/"+parts[i].champ
-	}).done(function(champdata){
-		result = champdata.results
-		cb(result, appendChampObj)
-	})
-}
+	var result;
+	for (i=0; i<participants.length; i++){
+		let id = participants[i].participantId
+		let champ = participants[i].championId
+		let lane = participants[i].timeline.lane
+		let role = participants[i].timeline.role
+		let team = participants[i].teamId
+		var currentpart = new particpiantObj(id, champ, lane, role, team);
+		parts.push(currentpart);
+	}
+	for(i=0; i <parts.length; i++){
+		$.ajax({
+			url:"/admin/champion/id/"+parts[i].champ
+		}).done(function(champdata){
+			result = champdata.results
+			cb(result, appendChampObj)
+		})
+	}
 }
 function createChampObj(static, cb){
 	var name = static.champName
@@ -211,28 +211,27 @@ function appendChampDiv(parts){
 	}
 
 }
-
-
 function timeHandler(e, cb){
 	e.preventDefault();
 	let timestamp = $("#timestamp").val()
-	cb(timestamp, itemAppend)
+	cb(timestamp, itemAppend, skillAppend)
 }
-
-
-function frameRequest(timestamp, cb){
+function frameRequest(timestamp, cb, cb2){
 	const allframes = timeline.frames
 	console.log(allframes)
 	var timeRequested = timestamp
 	var event;
 	var events = [];
-	var objectProcessor;	
+	var itemProcessor;	
+	var skillProcessor;
 	for(i=0; i < allframes.length; i++){
 		var events = allframes[i].events
 		if(allframes[i].events){
 			for(j=0; j<events.length; j++){
 				event = events[j]
 				eventType = event.eventType
+				skillSlot = event.skillSlot
+				levelUpType = event.levelUpType
 				timestamp = parseInt(event.timestamp)
 				item = parseInt(event.itemId)
 				itemb4= parseInt(event.itemBefore)
@@ -242,53 +241,70 @@ function frameRequest(timestamp, cb){
 				// skillslot = parseInt(event)			
 				switch(partId){
 					case 1: 
-			  		objectProcessor = partOneObject
+			  		itemProcessor = partOneItemObject
+			  		skillProcessor = partOneSkillObject
 			  		break;
 					case 2: 
-			  		objectProcessor = partTwoObject			  		
+			  		itemProcessor = partTwoItemObject
+			  		skillProcessor = partTwoSkillObject			  		
 			  		break;
 					case 3: 
-			  		objectProcessor = partThreeObject			  		
+			  		itemProcessor = partThreeItemObject
+			  		skillProcessor = partThreeSkillObject			  		
 			  		break;
 					case 4: 
-			  		objectProcessor = partFourObject			  		
+			  		itemProcessor = partFourItemObject
+			  		skillProcessor = partFourSkillObject			  		
 			  		break;
 					case 5: 
-			  		objectProcessor = partFiveObject			  		
+			  		itemProcessor = partFiveItemObject
+			  		skillProcessor = partFiveSkillObject			  		
 			  		break;
 					case 6: 
-			  		objectProcessor = partSixObject			  		
+			  		itemProcessor = partSixItemObject
+			  		skillProcessor = partSixSkillObject			  		
 			  		break;
 					case 7: 
-			  		objectProcessor = partSevenObject			  		
+			  		itemProcessor = partSevenItemObject
+			  		skillProcessor = partSevenSkillObject			  		
 			  		break;
 					case 8: 
-			  		objectProcessor = partEightObject			  		
+			  		itemProcessor = partEightItemObject
+			  		skillProcessor = partEightSkillObject			  		
 			  		break;
 					case 9: 
-			  		objectProcessor = partNineObject			  		
+			  		itemProcessor = partNineItemObject
+			  		skillProcessor = partNineSkillObject			  		
 			  		break;
 					case 10: 
-			  		objectProcessor = partTenObject			  		
+			  		itemProcessor = partTenItemObject
+			  		skillProcessor = partTenSkillObject			  		
 			  		break;
 					default:
-			  		objectProcessor = temmie	  			  			  			  
+			  		itemProcessor = temmie
+			  		skillProcessor = temmie	  			  			  			  
 				}
 				if(eventType == "ITEM_SOLD" || eventType == "ITEM_PURCHASED" || eventType == "ITEM_DESTROYED"){
 					if (timestamp < timeRequested){					
-						cb(event, eventType, timestamp, item, partId, objectProcessor)
+						cb(event, eventType, timestamp, item, partId, itemProcessor)
 					}else{
+						return
 						// console.log("Greater")
 					}	
 				}else if (eventType == "ITEM_UNDO"){
 					if (timestamp < timeRequested){					
-						cb(event, eventType, timestamp, "0", partId, objectProcessor)
+						cb(event, eventType, timestamp, "0", partId, itemProcessor)
 					}else{
+						return
 						// console.log("Greater")
 					}						
 				}else if (eventType == "SKILL_LEVEL_UP"){
-					console.log(event)
-					// console.log("Not a Item Event")
+					if(timestamp < timeRequested){
+						cb2(event, eventType, timestamp, partId, skillSlot, levelUpType, skillProcessor)
+					}else{
+						return
+						// console.log("Greater")
+					}
 				}					
 
 
@@ -297,6 +313,24 @@ function frameRequest(timestamp, cb){
 		} else{
 			// console.log("No Event Frames")
 		}
+	}
+	console.log(champ1Obj)
+	console.log(champ2Obj)
+	console.log(champ3Obj)
+	console.log(champ4Obj)
+	console.log(champ5Obj)
+	console.log(champ6Obj)
+	console.log(champ7Obj)
+	console.log(champ8Obj)
+	console.log(champ9Obj)
+	console.log(champ10Obj)
+}
+function skillAppend(event, eventType, timestamp, partId, skillSlot, levelUpType, cb){
+	console.log("I AM TEMMIE")
+	if(levelUpType == "NORMAL"){
+		cb(event, eventType, timestamp, skillSlot, partId, levelUpType)
+	}else{
+		console.log(event)
 	}
 }
 function temmie(){
@@ -318,7 +352,11 @@ var champ1Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0
 }
 var champ2Obj = {
 	Item1: "0",
@@ -331,7 +369,11 @@ var champ2Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ3Obj = {
 	Item1: "0",
@@ -344,7 +386,11 @@ var champ3Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ4Obj = {
 	Item1: "0",
@@ -357,7 +403,11 @@ var champ4Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ5Obj = {
 	Item1: "0",
@@ -370,7 +420,11 @@ var champ5Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ6Obj = {
 	Item1: "0",
@@ -383,7 +437,11 @@ var champ6Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ7Obj = {
 	Item1: "0",
@@ -409,7 +467,11 @@ var champ8Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ9Obj = {
 	Item1: "0",
@@ -422,7 +484,11 @@ var champ9Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 var champ10Obj = {
 	Item1: "0",
@@ -435,7 +501,11 @@ var champ10Obj = {
 	ItemTrinket: "0",
 	Consumable: [],
 	Alive: "",
-	Position: ""
+	Position: "",
+	Q: 0,
+	W: 0,
+	E: 0,
+	R: 0	
 }
 function itemAppend(event, eventType, timestamp, item, partId, cb){
 	if (eventType == "ITEM_SOLD") {					
@@ -452,7 +522,198 @@ function itemAppend(event, eventType, timestamp, item, partId, cb){
 	cb(event, eventType, timestamp, 0 , partId)
 	}
 }
-function partOneObject(event, eventType, timestamp, item, partId){
+function partOneSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ1Obj.Q)
+		var newskill = skill + 1
+		champ1Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ1Obj.W)
+		var newskill = skill + 1
+		champ1Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ1Obj.E)
+		var newskill = skill + 1
+		champ1Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ1Obj.R)
+		var newskill = skill + 1
+		champ1Obj.R = newskill
+	}
+}
+function partTwoSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ2Obj.Q)
+		var newskill = skill + 1
+		champ2Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ2Obj.W)
+		var newskill = skill + 1
+		champ2Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ2Obj.E)
+		var newskill = skill + 1
+		champ2Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ2Obj.R)
+		var newskill = skill + 1
+		champ2Obj.R = newskill
+	}
+}
+function partThreeSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ3Obj.Q)
+		var newskill = skill + 1
+		champ3Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ3Obj.W)
+		var newskill = skill + 1
+		champ3Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ3Obj.E)
+		var newskill = skill + 1
+		champ3Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ3Obj.R)
+		var newskill = skill + 1
+		champ3Obj.R = newskill
+	}
+}
+function partFourSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ4Obj.Q)
+		var newskill = skill + 1
+		champ4Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ4Obj.W)
+		var newskill = skill + 1
+		champ4Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ4Obj.E)
+		var newskill = skill + 1
+		champ4Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ4Obj.R)
+		var newskill = skill + 1
+		champ4Obj.R = newskill
+	}
+}
+function partFiveSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ5Obj.Q)
+		var newskill = skill + 1
+		champ5Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ5Obj.W)
+		var newskill = skill + 1
+		champ5Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ5Obj.E)
+		var newskill = skill + 1
+		champ5Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ5Obj.R)
+		var newskill = skill + 1
+		champ5Obj.R = newskill
+	}
+}
+function partSixSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ6Obj.Q)
+		var newskill = skill + 1
+		champ6Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ6Obj.W)
+		var newskill = skill + 1
+		champ6Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ6Obj.E)
+		var newskill = skill + 1
+		champ6Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ6Obj.R)
+		var newskill = skill + 1
+		champ6Obj.R = newskill
+	}
+}
+function partSevenSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ7Obj.Q)
+		var newskill = skill + 1
+		champ7Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ7Obj.W)
+		var newskill = skill + 1
+		champ7Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ7Obj.E)
+		var newskill = skill + 1
+		champ7Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ7Obj.R)
+		var newskill = skill + 1
+		champ7Obj.R = newskill
+	}
+}
+function partEightSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ8Obj.Q)
+		var newskill = skill + 1
+		champ8Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ8Obj.W)
+		var newskill = skill + 1
+		champ8Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ8Obj.E)
+		var newskill = skill + 1
+		champ8Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ8Obj.R)
+		var newskill = skill + 1
+		champ8Obj.R = newskill
+	}
+}
+function partNineSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ9Obj.Q)
+		var newskill = skill + 1
+		champ9Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ9Obj.W)
+		var newskill = skill + 1
+		champ9Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ9Obj.E)
+		var newskill = skill + 1
+		champ9Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ9Obj.R)
+		var newskill = skill + 1
+		champ9Obj.R = newskill
+	}
+}
+function partTenSkillObject(event, eventType, timestamp, skillSlot, partId, levelUpType){
+	if(eventType == "SKILL_LEVEL_UP" && skillSlot == 1){
+		var skill = parseInt(champ10Obj.Q)
+		var newskill = skill + 1
+		champ10Obj.Q = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 2){
+		var skill = parseInt(champ10Obj.W)
+		var newskill = skill + 1
+		champ10Obj.W = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 3){
+		var skill = parseInt(champ10Obj.E)
+		var newskill = skill + 1
+		champ10Obj.E = newskill
+	}else if(eventType == "SKILL_LEVEL_UP" && skillSlot == 4){
+		var skill = parseInt(champ10Obj.R)
+		var newskill = skill + 1
+		champ10Obj.R = newskill
+	}
+}
+
+function partOneItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -672,7 +933,7 @@ function partOneObject(event, eventType, timestamp, item, partId){
 	}
 
 }
-function partTwoObject(event, eventType, timestamp, item, partId){
+function partTwoItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -889,7 +1150,7 @@ function partTwoObject(event, eventType, timestamp, item, partId){
 			return
 	}		
 }
-function partThreeObject(event, eventType, timestamp, item, partId){
+function partThreeItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -1106,7 +1367,7 @@ function partThreeObject(event, eventType, timestamp, item, partId){
 			return
 	}
 }
-function partFourObject(event, eventType, timestamp, item, partId){
+function partFourItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	 var inventorydiv = "";
@@ -1323,7 +1584,7 @@ function partFourObject(event, eventType, timestamp, item, partId){
 			return
 	}	
 }
-function partFiveObject(event, eventType, timestamp, item, partId){
+function partFiveItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = ""
@@ -1537,7 +1798,7 @@ function partFiveObject(event, eventType, timestamp, item, partId){
 			return
 	}
 }
-function partSixObject(event, eventType, timestamp, item, partId){
+function partSixItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -1750,7 +2011,7 @@ function partSixObject(event, eventType, timestamp, item, partId){
 			return
 	}
 }
-function partSevenObject(event, eventType, timestamp, item, partId){
+function partSevenItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -1967,7 +2228,7 @@ function partSevenObject(event, eventType, timestamp, item, partId){
 			return
 	}
 }
-function partEightObject(event, eventType, timestamp, item, partId){
+function partEightItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -2185,7 +2446,7 @@ function partEightObject(event, eventType, timestamp, item, partId){
 	}
 
 }
-function partNineObject(event, eventType, timestamp, item, partId){
+function partNineItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
@@ -2403,7 +2664,7 @@ function partNineObject(event, eventType, timestamp, item, partId){
 	}
 
 }
-function partTenObject(event, eventType, timestamp, item, partId){
+function partTenItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
 	var inventorydiv = "";
