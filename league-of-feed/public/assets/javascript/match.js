@@ -216,7 +216,7 @@ function appendChampDiv(parts){
 function timeHandler(e, cb){
 	e.preventDefault();
 	let timestamp = $("#timestamp").val()
-	cb(timestamp, frameAppend)
+	cb(timestamp, itemAppend)
 }
 
 
@@ -224,7 +224,6 @@ function frameRequest(timestamp, cb){
 	const allframes = timeline.frames
 	console.log(allframes)
 	var timeRequested = timestamp
-	var frame = $("#frame")
 	var event;
 	var events = [];
 	var objectProcessor;	
@@ -276,13 +275,13 @@ function frameRequest(timestamp, cb){
 				}
 				if(eventType == "ITEM_SOLD" || eventType == "ITEM_PURCHASED" || eventType == "ITEM_DESTROYED"){
 					if (timestamp < timeRequested){					
-						cb(event, eventType, timestamp, item, partId, frame, objectProcessor)
+						cb(event, eventType, timestamp, item, partId, objectProcessor)
 					}else{
 						// console.log("Greater")
 					}	
 				}else if (eventType == "ITEM_UNDO"){
 					if (timestamp < timeRequested){					
-						cb(event, eventType, timestamp, "0", partId, frame, objectProcessor)
+						cb(event, eventType, timestamp, "0", partId, objectProcessor)
 					}else{
 						// console.log("Greater")
 					}						
@@ -436,7 +435,7 @@ var champ10Obj = {
 	Alive: "",
 	Position: ""
 }
-function frameAppend(event, eventType, timestamp, item, partId, frame, cb){
+function itemAppend(event, eventType, timestamp, item, partId, cb){
 	if (eventType == "ITEM_SOLD") {					
 
 	cb(event, eventType, timestamp, item, partId)		
