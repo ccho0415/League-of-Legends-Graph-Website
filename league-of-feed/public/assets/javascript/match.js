@@ -2,6 +2,10 @@ var parts = [];
 var champStaticData = [];
 var timeline;
 var matchDuration;
+$(document).ready(function () {
+	getData(temButtons);
+
+})
 function timeconvertseconds(millis) {
   var minutes = Math.floor(millis / 60);
   var seconds = ((millis % 60) / 1).toFixed(0);
@@ -12,9 +16,10 @@ function timeconvertmilseconds(millis){
   var seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;	
 }  
-$("#timesubmit").on("click", function(e){
-	timeHandler(e, frameRequest)
-});
+$("body").on("click", ".objectiveButton", function(e){
+	var timestamp = $(this).attr("data-timestamp")
+	temButtonHandler(timestamp, timeHandler)
+})
 function champObj(name, id, patch, ad, adper, armor, armorper, asoff, asper, crit, critper, hp, hpper, hpreg, hpregper, movespeed, mp, mpper, mpreg, mpregper, range, spellblock, spellblockper, q, w, e, r){
 	this.name = name;
 	this.id = id;
@@ -48,7 +53,7 @@ function particpiantObj(partid, champ, lane, role, team){
 	this.role= role;
 	this.team= team;
 }
-function getData(){
+function getData(cb){
 	let match = $("#matchId").data("match")	
 	$.ajax({
 		url:"/admin/match/id/"+match,
@@ -60,7 +65,9 @@ function getData(){
 		loadParticipants(participants, createChampObj)
 		timeline = data.results.object.timeline
 		matchDuration = data.results.object.matchDuration
+		cb(timeline)		
 	})
+
 }
 function loadParticipants(participants, cb){
 	var result;
@@ -211,9 +218,168 @@ function appendChampDiv(parts){
 	}
 
 }
-function timeHandler(e, cb){
-	e.preventDefault();
-	let timestamp = $("#timestamp").val()
+function timeHandler(timestamp, cb){
+	champ1Obj.Item1 = "0"
+	champ1Obj.Item2 = "0"
+	champ1Obj.Item3 = "0"
+	champ1Obj.Item4 = "0"
+	champ1Obj.Item5 = "0"
+	champ1Obj.Item6 = "0"
+	champ1Obj.Item7 = "0"	
+	champ1Obj.ItemTrinket = "0"
+	champ1Obj.Consumable = []
+	champ1Obj.Alive = ""
+	champ1Obj.Position = ""	
+	champ1Obj.Q = 0
+	champ1Obj.W = 0
+	champ1Obj.E = 0
+	champ1Obj.R = 0
+	champ2Obj.Item1 = "0"
+	champ2Obj.Item2 = "0"
+	champ2Obj.Item3 = "0"
+	champ2Obj.Item4 = "0"
+	champ2Obj.Item5 = "0"
+	champ2Obj.Item6 = "0"
+	champ2Obj.Item7 = "0"	
+	champ2Obj.ItemTrinket = "0"
+	champ2Obj.Consumable = []
+	champ2Obj.Alive = ""
+	champ2Obj.Position = ""		
+	champ2Obj.Q = 0
+	champ2Obj.W = 0
+	champ2Obj.E = 0
+	champ2Obj.R = 0
+	champ3Obj.Item1 = "0"
+	champ3Obj.Item2 = "0"
+	champ3Obj.Item3 = "0"
+	champ3Obj.Item4 = "0"
+	champ3Obj.Item5 = "0"
+	champ3Obj.Item6 = "0"
+	champ3Obj.Item7 = "0"	
+	champ3Obj.ItemTrinket = "0"
+	champ3Obj.Consumable = []
+	champ3Obj.Alive = ""
+	champ3Obj.Position = ""		
+	champ3Obj.Q = 0
+	champ3Obj.W = 0
+	champ3Obj.E = 0
+	champ3Obj.R = 0
+	champ4Obj.Item1 = "0"
+	champ4Obj.Item2 = "0"
+	champ4Obj.Item3 = "0"
+	champ4Obj.Item4 = "0"
+	champ4Obj.Item5 = "0"
+	champ4Obj.Item6 = "0"
+	champ4Obj.Item7 = "0"	
+	champ4Obj.ItemTrinket = "0"
+	champ4Obj.Consumable = []
+	champ4Obj.Alive = ""
+	champ4Obj.Position = ""		
+	champ4Obj.Q = 0
+	champ4Obj.W = 0
+	champ4Obj.E = 0
+	champ4Obj.R = 0
+	champ5Obj.Item1 = "0"
+	champ5Obj.Item2 = "0"
+	champ5Obj.Item3 = "0"
+	champ5Obj.Item4 = "0"
+	champ5Obj.Item5 = "0"
+	champ5Obj.Item6 = "0"
+	champ5Obj.Item7 = "0"	
+	champ5Obj.ItemTrinket = "0"
+	champ5Obj.Consumable = []
+	champ5Obj.Alive = ""
+	champ5Obj.Position = ""		
+	champ5Obj.Q = 0
+	champ5Obj.W = 0
+	champ5Obj.E = 0
+	champ5Obj.R = 0	
+	champ6Obj.Item1 = "0"
+	champ6Obj.Item2 = "0"
+	champ6Obj.Item3 = "0"
+	champ6Obj.Item4 = "0"
+	champ6Obj.Item5 = "0"
+	champ6Obj.Item6 = "0"
+	champ6Obj.Item7 = "0"	
+	champ6Obj.ItemTrinket = "0"
+	champ6Obj.Consumable = []
+	champ6Obj.Alive = ""
+	champ6Obj.Position = ""		
+	champ6Obj.Q = 0
+	champ6Obj.W = 0
+	champ6Obj.E = 0
+	champ6Obj.R = 0
+	champ7Obj.Item1 = "0"
+	champ7Obj.Item2 = "0"
+	champ7Obj.Item3 = "0"
+	champ7Obj.Item4 = "0"
+	champ7Obj.Item5 = "0"
+	champ7Obj.Item6 = "0"
+	champ7Obj.Item7 = "0"	
+	champ7Obj.ItemTrinket = "0"
+	champ7Obj.Consumable = []
+	champ7Obj.Alive = ""
+	champ7Obj.Position = ""		
+	champ7Obj.Q = 0
+	champ7Obj.W = 0
+	champ7Obj.E = 0
+	champ7Obj.R = 0
+	champ8Obj.Item1 = "0"
+	champ8Obj.Item2 = "0"
+	champ8Obj.Item3 = "0"
+	champ8Obj.Item4 = "0"
+	champ8Obj.Item5 = "0"
+	champ8Obj.Item6 = "0"
+	champ8Obj.Item7 = "0"	
+	champ8Obj.ItemTrinket = "0"
+	champ8Obj.Consumable = []
+	champ8Obj.Alive = ""
+	champ8Obj.Position = ""		
+	champ8Obj.Q = 0
+	champ8Obj.W = 0
+	champ8Obj.E = 0
+	champ8Obj.R = 0
+	champ9Obj.Item1 = "0"
+	champ9Obj.Item2 = "0"
+	champ9Obj.Item3 = "0"
+	champ9Obj.Item4 = "0"
+	champ9Obj.Item5 = "0"
+	champ9Obj.Item6 = "0"
+	champ9Obj.Item7 = "0"	
+	champ9Obj.ItemTrinket = "0"
+	champ9Obj.Consumable = []
+	champ9Obj.Alive = ""
+	champ9Obj.Position = ""		
+	champ9Obj.Q = 0
+	champ9Obj.W = 0
+	champ9Obj.E = 0
+	champ9Obj.R = 0
+	champ10Obj.Item1 = "0"
+	champ10Obj.Item2 = "0"
+	champ10Obj.Item3 = "0"
+	champ10Obj.Item4 = "0"
+	champ10Obj.Item5 = "0"
+	champ10Obj.Item6 = "0"
+	champ10Obj.Item7 = "0"	
+	champ10Obj.ItemTrinket = "0"
+	champ10Obj.Consumable = []
+	champ10Obj.Alive = ""
+	champ10Obj.Position = ""		
+	champ10Obj.Q = 0
+	champ10Obj.W = 0
+	champ10Obj.E = 0
+	champ10Obj.R = 0					
+	$("#part1inventory").empty()
+	$("#part2inventory").empty()	
+	$("#part3inventory").empty()	
+	$("#part4inventory").empty()	
+	$("#part5inventory").empty()
+	$("#part6inventory").empty()
+	$("#part7inventory").empty()	
+	$("#part8inventory").empty()	
+	$("#part9inventory").empty()	
+	$("#part10inventory").empty()
+
 	cb(timestamp, itemAppend, skillAppend)
 }
 function frameRequest(timestamp, cb, cb2){
@@ -337,10 +503,44 @@ function temmie(){
 	console.log("I AM TEMMIE")
 
 }
-$(document).ready(function () {
-	getData();
+function temButtons(timeline){
+	console.log("I AM TEMMIE")
+	const allframes = timeline.frames
+	console.log(allframes)
+	var timeRequested = timestamp
+	var event;
+	var events = [];
+	var itemProcessor;	
+	var skillProcessor;
+	var container = $("#buttoncontainer")
+	for(i=0; i < allframes.length; i++){
+		var events = allframes[i].events
+		if(allframes[i].events){
+			for(j=0; j<events.length; j++){
+				event = events[j]
+				eventType = event.eventType
+				levelUpType = event.levelUpType
+				timestamp = parseInt(event.timestamp)
+				partId = parseInt(event.participantId)
+				victim = parseInt(event.victimId)
+				if(eventType == "CHAMPION_KILL"){
+					container.append("<button class='objectiveButton' data-timestamp="+timestamp+" type='button' style= 'background-image:url('http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305')'/>")
 
-})
+				}else if (eventType == "BUILDING_KILL"){
+					container.append("<button class='objectiveButton' data-timestamp="+timestamp+" type='button' style= 'background-image:url('http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305')'/>")
+
+				}else if (eventType == "ELITE_MONSTER_KILL"){
+					container.append("<button class='objectiveButton' data-timestamp="+timestamp+" type='button' style= 'background-image:url('http://vignette1.wikia.nocookie.net/leagueoflegends/images/0/0b/Ahri_Poro_Icon.png/revision/latest?cb=20150214173305')'/>")
+
+				}
+			}
+		}	
+	}
+}
+function temButtonHandler(timestamp, cb){
+	cb(timestamp, frameRequest)
+
+}
 var champ1Obj = {
 	Item1: "0",
 	Item2: "0",
