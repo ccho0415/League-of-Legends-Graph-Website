@@ -2,6 +2,7 @@ var parts = [];
 var champStaticData = [];
 var timeline;
 var matchDuration;
+var loopBreak = false;
 $(document).ready(function () {
 	getData(temButtons);
 
@@ -64,7 +65,6 @@ function getData(cb){
 		var participants = data.results.object.participants		
 		loadParticipants(participants, createChampObj)
 		timeline = data.results.object.timeline
-		matchDuration = data.results.object.matchDuration
 		cb(timeline)		
 	})
 
@@ -134,7 +134,7 @@ function appendChampObj(current, cb){
 			parts[i].imgurl = "http://ddragon.leagueoflegends.com/cdn/7.8.1/img/champion/"+imgname+".png";										
 		}
 	}
-cb(parts)
+	cb(parts)
 }
 function appendChampDiv(parts){
 	for(i=0; i<parts.length; i++){
@@ -380,7 +380,7 @@ function timeHandler(timestamp, cb){
 	$("#part9inventory").empty()	
 	$("#part10inventory").empty()
 
-	cb(timestamp, itemAppend, skillAppend)
+	cb(timestamp, timeProcessor, temDmg)
 }
 function frameRequest(timestamp, cb, cb2){
 	const allframes = timeline.frames
@@ -389,107 +389,94 @@ function frameRequest(timestamp, cb, cb2){
 	var event;
 	var events = [];
 	var itemProcessor;	
-	var skillProcessor;
-	for(i=0; i < allframes.length; i++){
+	var skillProcessor; 
+	for(i=1; i < allframes.length; i++){
 		var events = allframes[i].events
-		if(allframes[i].events){
 			for(j=0; j<events.length; j++){
 				event = events[j]
 				eventType = event.eventType
-				skillSlot = event.skillSlot
-				levelUpType = event.levelUpType
-				timestamp = parseInt(event.timestamp)
-				item = parseInt(event.itemId)
-				itemb4= parseInt(event.itemBefore)
-				itema4= parseInt(event.itemAfter)
-				partId = parseInt(event.participantId)
-				victim = parseInt(event.victimId)
-				// skillslot = parseInt(event)			
-				switch(partId){
-					case 1: 
-			  		itemProcessor = partOneItemObject
-			  		skillProcessor = partOneSkillObject
-			  		break;
-					case 2: 
-			  		itemProcessor = partTwoItemObject
-			  		skillProcessor = partTwoSkillObject			  		
-			  		break;
-					case 3: 
-			  		itemProcessor = partThreeItemObject
-			  		skillProcessor = partThreeSkillObject			  		
-			  		break;
-					case 4: 
-			  		itemProcessor = partFourItemObject
-			  		skillProcessor = partFourSkillObject			  		
-			  		break;
-					case 5: 
-			  		itemProcessor = partFiveItemObject
-			  		skillProcessor = partFiveSkillObject			  		
-			  		break;
-					case 6: 
-			  		itemProcessor = partSixItemObject
-			  		skillProcessor = partSixSkillObject			  		
-			  		break;
-					case 7: 
-			  		itemProcessor = partSevenItemObject
-			  		skillProcessor = partSevenSkillObject			  		
-			  		break;
-					case 8: 
-			  		itemProcessor = partEightItemObject
-			  		skillProcessor = partEightSkillObject			  		
-			  		break;
-					case 9: 
-			  		itemProcessor = partNineItemObject
-			  		skillProcessor = partNineSkillObject			  		
-			  		break;
-					case 10: 
-			  		itemProcessor = partTenItemObject
-			  		skillProcessor = partTenSkillObject			  		
-			  		break;
-					default:
-			  		itemProcessor = temmie
-			  		skillProcessor = temmie	  			  			  			  
+				timeProcessor(event, eventType, timeRequested, eventProcessor)
+				console.log(event.timestamp)
+				console.log(loopBreak);
+				if(loopBreak){
+					cb2();
+					return false;
 				}
-				if(eventType == "ITEM_SOLD" || eventType == "ITEM_PURCHASED" || eventType == "ITEM_DESTROYED"){
-					if (timestamp < timeRequested){					
-						cb(event, eventType, timestamp, item, partId, itemProcessor)
-					}else{
-						return
-						// console.log("Greater")
-					}	
-				}else if (eventType == "ITEM_UNDO"){
-					if (timestamp < timeRequested){					
-						cb(event, eventType, timestamp, "0", partId, itemProcessor)
-					}else{
-						return
-						// console.log("Greater")
-					}						
-				}else if (eventType == "SKILL_LEVEL_UP"){
-					if(timestamp < timeRequested){
-						cb2(event, eventType, timestamp, partId, skillSlot, levelUpType, skillProcessor)
-					}else{
-						return
-						// console.log("Greater")
-					}
-				}					
-
-
-
 			}
-		} else{
-			// console.log("No Event Frames")
-		}
+		console.log("meow "+i)	
 	}
-	console.log(champ1Obj)
-	console.log(champ2Obj)
-	console.log(champ3Obj)
-	console.log(champ4Obj)
-	console.log(champ5Obj)
-	console.log(champ6Obj)
-	console.log(champ7Obj)
-	console.log(champ8Obj)
-	console.log(champ9Obj)
-	console.log(champ10Obj)
+}
+function timeProcessor(event, eventType, timeRequested, cb){
+	var event = event
+	timestamp = parseInt(event.timestamp)
+	if(timestamp <= timeRequested){			
+		cb(event, eventType, itemAppend, skillAppend)
+	}else{
+		loopBreak = true
+		return false;
+
+	}	
+}
+function eventProcessor(event, eventType, cb1, cb2){
+	var event = event
+	partId = parseInt(event.participantId)
+	switch(partId){
+		case 1: 
+				itemProcessor = partOneItemObject
+				skillProcessor = partOneSkillObject
+				break;
+		case 2: 
+				itemProcessor = partTwoItemObject
+				skillProcessor = partTwoSkillObject			  		
+				break;
+		case 3: 
+				itemProcessor = partThreeItemObject
+				skillProcessor = partThreeSkillObject			  		
+				break;
+		case 4: 
+				itemProcessor = partFourItemObject
+				skillProcessor = partFourSkillObject			  		
+				break;
+		case 5: 
+				itemProcessor = partFiveItemObject
+				skillProcessor = partFiveSkillObject			  		
+				break;
+		case 6: 
+				itemProcessor = partSixItemObject
+				skillProcessor = partSixSkillObject			  		
+				break;
+		case 7: 
+				itemProcessor = partSevenItemObject
+				skillProcessor = partSevenSkillObject			  		
+				break;
+		case 8: 
+				itemProcessor = partEightItemObject
+				skillProcessor = partEightSkillObject			  		
+				break;
+		case 9: 
+				itemProcessor = partNineItemObject
+				skillProcessor = partNineSkillObject			  		
+				break;
+		case 10: 
+				itemProcessor = partTenItemObject
+				skillProcessor = partTenSkillObject			  		
+				break;
+		default:
+				itemProcessor = temmie
+				skillProcessor = temmie	  			  			  			  
+	}		
+	if(eventType == "ITEM_SOLD" || eventType == "ITEM_PURCHASED" || eventType == "ITEM_DESTROYED"){	
+		item = parseInt(event.itemId)				
+		cb1(event, eventType, timestamp, item, partId, itemProcessor)
+	}else if (eventType == "ITEM_UNDO"){					
+		cb1(event, eventType, timestamp, "0", partId, itemProcessor)						
+	}else if (eventType == "SKILL_LEVEL_UP"){
+		skillSlot = event.skillSlot
+		levelUpType = event.levelUpType			
+		cb2(event, eventType, timestamp, partId, skillSlot, levelUpType, skillProcessor)
+	}
+
+
 }
 function skillAppend(event, eventType, timestamp, partId, skillSlot, levelUpType, cb){
 	console.log("I AM TEMMIE")
@@ -502,6 +489,10 @@ function skillAppend(event, eventType, timestamp, partId, skillSlot, levelUpType
 function temmie(){
 	console.log("I AM TEMMIE")
 
+
+}
+function temDmg(){
+	console.log("AWJROAW")
 }
 function temButtons(timeline){
 	console.log("I AM TEMMIE")
