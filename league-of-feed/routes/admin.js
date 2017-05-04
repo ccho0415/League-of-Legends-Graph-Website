@@ -7,6 +7,9 @@
 var controllers = require("../controllers")
 var champion = require("../controllers/ChampionController.js")
 var match = require("../controllers/MatchController.js")
+var mastery = require("../controllers/MasteryController.js")
+var rune = require("../controllers/RuneController.js")
+var item = require("../controllers/ItemController.js")
 var path = require("path");
 module.exports = function(app) {
 	app.get("/admin", function(req,res){
@@ -27,7 +30,7 @@ module.exports = function(app) {
 
 	});
 	app.post("/admin/match", function(req, res, result){
-		var gamedata = req.body	
+		console.log(req)
 		match.create(gamedata, function(err, result){
 			if(err){
 				console.log(err)
@@ -39,6 +42,44 @@ module.exports = function(app) {
 			var foo = "";
 		})
 	});
+	app.post("/admin/mastery", function(req, res, result){
+		var masterydata = req.body
+		console.log(masterydata)
+		for(var key in masterydata){
+			var obj = masterydata[key]
+			for(var item in obj){
+			mastery.create(obj[item], function(err, result){
+				console.log(result)
+			})
+			}
+		}
+
+	})
+	app.post("/admin/rune", function(req, res, result){
+		var runedata = req.body
+		console.log(runedata)
+		for(var key in runedata){
+			var obj = runedata[key]
+			for(var item in obj){
+				rune.create(obj[item], function(err, result){
+					console.log(result)
+				})
+			}
+		}
+	})
+	app.post("/admin/item", function(req,res, result){
+		var itemdata = req.body
+		for(var key in itemdata){
+			var obj = itemdata[key]
+			for (var part in obj){
+			item.create(obj[part], function(err, result){
+				console.log(result)
+			})
+
+			}		
+		}
+	})
+
 	app.get("/admin/:resource/", function(req, res, result){
 		var resource = req.params.resource
 		var controller = controllers[resource]

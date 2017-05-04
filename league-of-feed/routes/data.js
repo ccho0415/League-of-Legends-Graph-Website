@@ -215,5 +215,86 @@ module.exports = function(app) {
         }
       res.json(allchamps);
     });
+  });
+  app.get("/data/static-mastery", function(req, res){
+    var url = "https://na1.api.riotgames.com/lol/static-data/v3/masteries?masteryListData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+    var allmasteries = [];
+    request(url, function(error, response, body){  
+      var info = JSON.parse(body);
+      const masteries = info.data 
+      const version = info.version 
+      function masteryObj(id, name, description, ranks, version){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.ranks = ranks;
+        this.version = version;
+      }
+      for(var key in masteries){
+        let id = masteries[key].id
+        let name = masteries[key].name
+        let description = masteries[key].description
+        let ranks = masteries[key].ranks
+        var currentmastery = new masteryObj(id, name, description, ranks, version)
+        allmasteries.push(currentmastery);
+      }
+      res.json(allmasteries)
+    })
+  });
+  app.get("/data/static-rune", function(req, res){
+    var url = "https://na1.api.riotgames.com/lol/static-data/v3/runes?runeListData=all&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+    var allrunes = [];
+    request(url, function(error, response, body){  
+      var info = JSON.parse(body);
+      const runes = info.data 
+      const version = info.version 
+      function runeObj(id, name, description, stats, version){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.stats = stats;
+        this.version = version;
+      }
+      for(var key in runes){
+        let id = runes[key].id
+        let name = runes[key].name
+        let description = runes[key].description
+        let stats = runes[key].stats
+        var currentrune = new runeObj(id, name, description, stats, version)
+        allrunes.push(currentrune);
+      }
+      res.json(allrunes)
+    })
+  });
+  app.get("/data/static-item", function(req, res){
+    var url = "https://na1.api.riotgames.com/lol/static-data/v3/items?itemListData=stats&api_key=RGAPI-499bc6f3-5fba-4bc5-bc5d-552e71c3c5e3"
+    var allitems = [];
+    request(url, function(error, response, body){
+      var info = JSON.parse(body);
+      const items = info.data
+      const version = info.version
+      function itemObj(id, name, description, stats, plaintext, version){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.stats = stats;
+        this.plaintext = plaintext;
+        this.version = version;
+      }
+      for(var key in items){
+        let id = items[key].id
+        let name = items[key].name
+        let description = items[key].description
+        let stats = items[key].stats
+        console.log(stats)
+        let plaintext = items[key].plaintext
+        var currentitem = new itemObj(id, name, description, stats, plaintext, version)
+        allitems.push(currentitem);
+      }
+      res.json(allitems)
+    })
   })
+
+
+
 };
