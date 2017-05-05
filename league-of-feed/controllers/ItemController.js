@@ -11,7 +11,7 @@ module.exports = {
 		})
 	},
 	findById: function(id, callback){
-		Item.findOne({"object.id": id}, function(err, item){
+		Item.findOne({"id": id}, function(err, item){
 			if(err){
 				callback(err, null)
 				return

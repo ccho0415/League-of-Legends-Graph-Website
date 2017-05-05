@@ -30,7 +30,7 @@ module.exports = function(app) {
 
 	});
 	app.post("/admin/match", function(req, res, result){
-		console.log(req)
+		var gamedata = req.body
 		match.create(gamedata, function(err, result){
 			if(err){
 				console.log(err)

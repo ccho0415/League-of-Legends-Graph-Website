@@ -10,9 +10,7 @@ var RuneSchema = new Schema({
   name: {
     type: String
   },
-  stats: {
-    type: Number
-  },
+  stats: {},
   description : {
     type: String
   }

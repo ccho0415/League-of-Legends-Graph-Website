@@ -10,9 +10,7 @@ var ItemSchema = new Schema({
   name: {
     type: String
   },
-  stats: {
-    type: String
-  },
+  stats: {},
   plaintext : {
     type: String
   },
