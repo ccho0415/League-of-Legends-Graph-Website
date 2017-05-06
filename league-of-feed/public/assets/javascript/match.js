@@ -9,6 +9,188 @@ var masteryStaticData = [];
 var timeline;
 var matchDuration;
 var loopBreak = false;
+var formulas = {
+	Vayne:{
+		Q:{
+			One  :{
+				ratio: 0.3				
+			},
+			Two :{
+				ratio: 0.35
+			},
+			Three :{
+				ratio: 0.4
+			},
+			Four :{
+				ratio: 0.45
+			},
+			Five :{
+				ratio: 0.5
+			}
+		},
+		W:{
+			One:{
+				ratio: 0.06
+			},
+			Two:{
+				ratio: 0.075
+			},
+			Three:{
+				ratio: 0.09
+			},
+			Four:{
+				ratio: 0.105
+			},
+			Five:{
+				ratio: 0.12
+			}
+		},
+		E:{
+			One:{
+				base: 45
+			},
+			Two:{
+				base: 80
+			},
+			Three:{
+				base: 115
+			},
+			Four:{
+				base: 150
+			},
+			Five:{
+				base: 185
+			}
+		},
+		R:{
+			One:{
+				bonus: 30
+			},
+			Two:{
+				bonus: 50
+			},
+			Three:{
+				bonus: 70
+			}
+		}
+	},
+	Lux:{
+		Q:{
+			One:{
+				base: 50
+			},
+			Two:{
+				base: 100
+			},
+			Three:{
+				base: 150
+			},
+			Four: {
+				base: 200
+			},
+			Five:{
+				base: 250
+			}
+		},
+		E:{
+			One:{
+				base: 60
+			},
+			Two:{
+				base: 105
+			},
+			Three: {
+				base: 150
+			},
+			Four :{
+				base: 195
+			},
+			Five :{
+				base: 240
+			}
+		},
+		R:{
+			One:{
+				base: 300
+			},
+			Two:{
+				base: 400
+			},
+			Three:{
+				base: 500
+			}
+		}
+	},
+	Maokai:{
+		Q:{
+			One:{
+				base: 70
+			},
+			Two:{
+				base: 115
+			},
+			Three: {
+				base: 160
+			},
+			Four : {
+				base: 205
+			},
+			Five: {
+				base: 250
+			}
+		},
+		W:{
+			One:{
+				base: 50
+			},
+			Two:{
+				base: 75
+			},
+			Three:{
+				base: 100
+			},
+			Four:{
+				base: 125
+			},
+			Five:{
+				base: 150
+			}
+		},
+		E:{
+			One:{
+				base: 90,
+				ratio: .12
+			},
+			Two:{
+				base: 140,
+				ratio: .13
+			},
+			Three: {
+				base: 190,
+				ratio: .14
+			},
+			Four:{
+				base:240,
+				ratio: .15
+			},
+			Five:{
+				base: 290,
+				ratio: .16
+			}
+		},
+		R:{
+			One:{
+				base: 150
+			},
+			Two:{
+				base: 225
+			},
+			Three:{
+				base: 300
+			}
+		}
+	}
+}
 
 var champ1Obj = {
 	Item1: "0",
@@ -962,7 +1144,6 @@ function timeHandler(timestamp, cb){
 }
 function frameRequest(timeRequested, cb, cb2){
 	const allframes = timeline.frames
-	console.log(allframes)
 	var timeRequested = parseInt(timeRequested)
 	var event;
 	var events = [];
@@ -977,7 +1158,7 @@ function frameRequest(timeRequested, cb, cb2){
 				timestamp = event.timestamp
 				timeProcessor(event, eventType, timestamp, timeRequested, eventProcessor)
 				if(loopBreak){
-					cb2(temAPRunes);
+					cb2(temDmgCalc);
 					return false;
 				}
 			}
@@ -987,6 +1168,7 @@ function partProcessor(cb){
 	var cb = cb
 	var runeProcessor;
 	var masteryProcessor;
+	var baseProcessor;
 	for(i=0; i<parts.length; i++){
 		var participant = parts[i].partid
 		var participant = parseInt(participant)
@@ -995,123 +1177,134 @@ function partProcessor(cb){
 					cb = champ1Processor
 					runeProcessor = champ1RuneProcessor
 					masteryProcessor = champ1MasteryProcessor
+					baseProcessor = champ1BaseProcessor
 					break;
 			case 2:
 					cb = champ2Processor
 					runeProcessor = champ2RuneProcessor
 					masteryProcessor = champ2MasteryProcessor
+					baseProcessor = champ2BaseProcessor
 					break;
 			case 3:
 					cb = champ3Processor
 					runeProcessor = champ3RuneProcessor
 					masteryProcessor = champ3MasteryProcessor
+					baseProcessor = champ3BaseProcessor
 					break;
 			case 4:
 					cb = champ4Processor
 					runeProcessor = champ4RuneProcessor
 					masteryProcessor = champ4MasteryProcessor
+					baseProcessor = champ4BaseProcessor
 					break;
 			case 5:
 					cb = champ5Processor
 					runeProcessor = champ5RuneProcessor
 					masteryProcessor = champ5MasteryProcessor
+					baseProcessor = champ5BaseProcessor
 					break;
 			case 6:
 					cb = champ6Processor
 					runeProcessor = champ6RuneProcessor
 					masteryProcessor = champ6MasteryProcessor
+					baseProcessor = champ6BaseProcessor
 					break;
 			case 7:
 					cb = champ7Processor
 					runeProcessor = champ7RuneProcessor
 					masteryProcessor = champ7MasteryProcessor
+					baseProcessor = champ7BaseProcessor
 					break;
 			case 8:
 					cb = champ8Processor
 					runeProcessor = champ8RuneProcessor
 					masteryProcessor = champ8MasteryProcessor
+					baseProcessor = champ8BaseProcessor
 					break;
 			case 9:
 					cb = champ9Processor
 					runeProcessor = champ9RuneProcessor
 					masteryProcessor = champ9MasteryProcessor
+					baseProcessor = champ9BaseProcessor
 					break;
 			case 10:
 					cb = champ10Processor
 					runeProcessor = champ10RuneProcessor
 					masteryProcessor = champ10MasteryProcessor
+					baseProcessor = champ10BaseProcessor
 					break;
 			default:
 					cb = temmie
 					break;
 		}
-		cb(parts[i], runeProcessor, masteryProcessor)
+		cb(parts[i], runeProcessor, masteryProcessor, baseProcessor)
 	}
 }
-function champ1Processor(participant, cb1, cb2){
+function champ1Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
-	cb2(masteries, temmie)
+	cb2(masteries, champMasteryAppend)
+	cb3(participant, champBaseAppend)
 }
-function champ2Processor(participant, cb1, cb2){
+function champ2Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)	
 }
-function champ3Processor(participant, cb1, cb2){
+function champ3Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ4Processor(participant, cb1, cb2){
+function champ4Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ5Processor(participant, cb1, cb2){
+function champ5Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ6Processor(participant, cb1, cb2){
+function champ6Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ7Processor(participant, cb1, cb2){
+function champ7Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ8Processor(participant, cb1, cb2){
+function champ8Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ9Processor(participant, cb1, cb2){
+function champ9Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
-function champ10Processor(participant, cb1, cb2){
+function champ10Processor(participant, cb1, cb2, cb3){
 	var participant = participant
 	var runes = participant.runes
 	var masteries = participant.masteries
@@ -1125,14 +1318,26 @@ function champ1RuneProcessor(runes, cb){
 		var multiplier = parseInt(value.rank)
 		var runeId = value.runeId
 		cb(runeId, multiplier, champ1Obj, temmie)
-
 	})
 }
-
 function champ1MasteryProcessor(masteries, cb){
-	console.log(masteries)
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ1Obj, temmie)
+	})
 }
-
+function champ1BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ1Obj)
+		}
+	})
+}
 function champ2RuneProcessor(runes, cb){
 	var runes = runes
 	runes.forEach(function(value){
@@ -1142,8 +1347,23 @@ function champ2RuneProcessor(runes, cb){
 
 	})
 }
-function champ2MasteryProcessor(){
-	
+function champ2MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ2Obj, temmie)
+	})	
+}
+function champ2BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ2Obj)
+		}
+	})
 }
 function champ3RuneProcessor(runes, cb){
 	var runes = runes
@@ -1154,8 +1374,23 @@ function champ3RuneProcessor(runes, cb){
 
 	})
 }
-function champ3MasteryProcessor(){
-	
+function champ3MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ3Obj, temmie)
+	})	
+}
+function champ3BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ3Obj)
+		}
+	})	
 }
 function champ4RuneProcessor(runes, cb){
 	var runes = runes
@@ -1166,8 +1401,23 @@ function champ4RuneProcessor(runes, cb){
 
 	})
 }
-function champ4MasteryProcessor(){
-	
+function champ4MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ4Obj, temmie)
+	})	
+}
+function champ4BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ4Obj)
+		}
+	})		
 }
 function champ5RuneProcessor(runes, cb){
 	var runes = runes
@@ -1178,8 +1428,23 @@ function champ5RuneProcessor(runes, cb){
 
 	})
 }
-function champ5MasteryProcessor(){
-	
+function champ5MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ5Obj, temmie)
+	})	
+}
+function champ5BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ5Obj)
+		}
+	})		
 }
 function champ6RuneProcessor(runes, cb){
 	var runes = runes
@@ -1190,8 +1455,23 @@ function champ6RuneProcessor(runes, cb){
 
 	})
 }
-function champ6MasteryProcessor(){
-	
+function champ6MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ6Obj, temmie)
+	})	
+}
+function champ6BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ6Obj)
+		}
+	})		
 }
 function champ7RuneProcessor(runes, cb){
 	var runes = runes
@@ -1202,8 +1482,23 @@ function champ7RuneProcessor(runes, cb){
 
 	})
 }
-function champ7MasteryProcessor(){
-	
+function champ7MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ7Obj, temmie)
+	})	
+}
+function champ7BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ7Obj)
+		}
+	})		
 }
 function champ8RuneProcessor(runes, cb){
 	var runes = runes
@@ -1214,8 +1509,23 @@ function champ8RuneProcessor(runes, cb){
 
 	})
 }
-function champ8MasteryProcessor(){
-	
+function champ8MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ8Obj, temmie)
+	})	
+}
+function champ8BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ8Obj)
+		}
+	})		
 }
 function champ9RuneProcessor(runes, cb){
 	var runes = runes
@@ -1226,8 +1536,23 @@ function champ9RuneProcessor(runes, cb){
 
 	})
 }
-function champ9MasteryProcessor(){
-	
+function champ9MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ9Obj, temmie)
+	})	
+}
+function champ9BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ9Obj)
+		}
+	})		
 }
 function champ10RuneProcessor(runes, cb){
 	var runes = runes
@@ -1238,8 +1563,23 @@ function champ10RuneProcessor(runes, cb){
 
 	})
 }
-function champ10MasteryProcessor(){
-	
+function champ10MasteryProcessor(masteries, cb){
+	var masteries = masteries
+	masteries.forEach(function(value){
+		var rank = value.rank
+		var masteryId = value.masteryId
+		cb(masteryId, rank, champ10Obj, temmie)
+	})	
+}
+function champ10BaseProcessor(participant, cb){
+	var participant = parseInt(participant.champ)
+	$.each(champStaticData, function(key, value){
+		var champStaticObj =value
+		var id = champStaticObj.id
+		if(participant == id){
+			cb(champStaticObj, champ10Obj)
+		}
+	})		
 }
 function champRuneAppend(runeId, multiplier, champObj, cb){
 	var runeToSearch = parseInt(runeId)
@@ -1255,48 +1595,132 @@ function champRuneAppend(runeId, multiplier, champObj, cb){
 						let AD = parseFloat(value) * multiplier
 						let newAD = parseFloat(champObj.AD) + AD
 						champObj.AD = newAD
-						console.log(champObj)
 					} else if(key == "FlatSpellBlockMod"){
 						let spellblock = parseFloat(value) * multiplier
 						let newspellblock = parseFloat(champObj.spellblock) + spellblock
-						champObj.spellblock = newspellblock
-						console.log(champObj)						
+						champObj.spellblock = newspellblock						
 					} else if(key == "PercentAttackSpeedMod"){
 						let attackspeed = parseFloat(value) * multiplier
 						let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
 						champObj.attackspeed = newattackspeed
-						console.log(champObj)
 					} else if (key == "rFlatMagicPenetrationMod"){
 						let apPen = parseFloat(value) * multiplier
 						let newapPen = parseFloat(champObj.apPen) + apPen
 						champObj.apPen = newapPen
-						console.log(champObj)
 					} else if (key == "FlatMagicDamageMod"){
 						let AP = parseFloat(value) * multiplier
 						let newAP = parseFloat(champObj.AP) + AP
-						champObj.AP = newAP
-						console.log(champObj)						
+						champObj.AP = newAP						
 					} else if (key == "FlatCritChanceMod"){
 						let critchance = parseFloat(value) * multiplier
 						let newcritchance = parseFloat(champObj.critchance) + critchance
-						champObj.critchance = newcritchance
-						console.log(champObj)							
+						champObj.critchance = newcritchance							
 					} else if (key == "FlatCritDamageMod"){
 						let critdamage = parseFloat(value) * multiplier
 						let newcritdamage = parseFloat(champObj.critdamage) + critdamage
-						champObj.critdamage = newcritdamage
-						console.log(champObj)							
+						champObj.critdamage = newcritdamage							
 					} else if (key == "FlatArmorMod"){
 						let armor = parseFloat(value) * multiplier
 						let newarmor = parseFloat(champObj.armor) + armor
-						champObj.armor = newarmor
-						console.log(champObj)						
+						champObj.armor = newarmor						
 					}
 				})
 			}
 		}
 	})
 
+}
+function champMasteryAppend(masteryId, rank, champObj, cb){
+	var masteryToCompare = parseInt(masteryId)
+	var rank = rank
+	var champObj = champObj
+	if(masteryToCompare == 6111){
+		if(rank == 1){
+			let attackspeed = 0.008
+			let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
+			champObj.attackspeed = newattackspeed
+		}else if(rank ==2){
+			let attackspeed = 0.016
+			let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
+			champObj.attackspeed = newattackspeed
+		}else if(rank ==3){
+			let attackspeed = 0.024
+			let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
+			champObj.attackspeed = newattackspeed
+		}else if(rank ==4){
+			let attackspeed = 0.032
+			let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
+			champObj.attackspeed = newattackspeed
+		}else if(rank ==5){
+			let attackspeed = 0.04
+			let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
+			champObj.attackspeed = newattackspeed
+		}
+	}else if (masteryToCompare == 6352){
+		if(rank == 1){
+			let cd = -0.01
+			let newcd = parseFloat(champObj.cd) + cd
+			champObj.cd = newcd
+		}else if(rank ==2){
+			let cd = -0.02
+			let newcd = parseFloat(champObj.cd) + cd
+			champObj.cd = newcd
+		}else if(rank ==3){
+			let cd = -0.03
+			let newcd = parseFloat(champObj.cd) + cd
+			champObj.cd = newcd
+		}else if(rank ==4){
+			let cd = -0.04
+			let newcd = parseFloat(champObj.cd) + cd
+			champObj.cd = newcd
+		}else if(rank ==5){
+			let cd = -0.05
+			let newcd = parseFloat(champObj.cd) + cd
+			champObj.cd = newcd
+		}
+	}else if(masteryToCompare == 6232){
+		if(rank == 1){
+			let hp = -0.01
+			let newhp = parseFloat(champObj.hp) + hp
+			champObj.hp = newhp
+		}else if(rank ==2){
+			let hp = -0.02
+			let newhp = parseFloat(champObj.hp) + hp
+			champObj.hp = newhp
+		}else if(rank ==3){
+			let hp = -0.03
+			let newhp = parseFloat(champObj.hp) + hp
+			champObj.hp = newhp
+		}else if(rank ==4){
+			let hp = -0.04
+			let newhp = parseFloat(champObj.hp) + hp
+			champObj.hp = newhp
+		}else if(rank ==5){
+			let hp = -0.05
+			let newhp = parseFloat(champObj.hp) + hp
+			champObj.hp = newhp
+		}		
+	}
+
+}
+function champBaseAppend(champStaticObj, champObj){
+	var staticAd = champStaticObj.ad
+	var staticArmor = champStaticObj.armor
+	var staticHp = champStaticObj.hp
+	var staticSpellblock = champStaticObj.spellblock
+	let AD = parseFloat(staticAd)
+	let newAD = parseFloat(champObj.AD) + AD
+	champObj.AD = newAD
+	let armor = parseFloat(staticArmor)
+	let newArmor = parseFloat(champObj.armor) + armor
+	champObj.armor = newArmor
+	let HP = parseFloat(staticHp)
+	let newHP = parseFloat(champObj.HP)+ HP
+	champObj.HP = newHP
+	let spellBlock = parseFloat(staticSpellblock)
+	let newSpellBlock = parseFloat(champObj.spellblock) + spellBlock
+	champObj.spellblock = newSpellBlock
+	console.log(champObj)
 }
 function timeProcessor(event, eventType, timestamp, timeRequested, cb){
 	var event = event
@@ -3769,39 +4193,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -3821,39 +4236,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -3873,39 +4279,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -3925,39 +4322,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -3977,39 +4365,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -4029,39 +4408,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -4081,39 +4451,36 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
-							console.log(champ1Obj)
+		
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
-							console.log(champ1Obj)
+		
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
-							console.log(champ1Obj)
+		
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
-							console.log(champ1Obj)
+		
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
-							console.log(champ1Obj)
+		
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ1Obj.attackspeed) + parseFloat(attackspeed)
 							champ1Obj.attackspeed = newAttackSpeed
-							console.log(champ1Obj)
+		
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ1Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ1Obj.critchance = newCritChance
-							console.log(champ1Obj)
 						}
 						
 					})					
@@ -4134,39 +4501,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4186,39 +4544,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4238,39 +4587,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4290,39 +4630,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4342,39 +4673,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4394,39 +4716,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4446,39 +4759,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
-							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
-							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
-							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
-							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
-							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ2Obj.attackspeed) + parseFloat(attackspeed)
 							champ2Obj.attackspeed = newAttackSpeed
-							console.log(champ2Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ2Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ2Obj.critchance = newCritChance
-							console.log(champ2Obj)
 						}
 						
 					})					
@@ -4498,39 +4802,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4550,39 +4845,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4602,39 +4888,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4654,39 +4931,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4706,39 +4974,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4758,39 +5017,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4810,39 +5060,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
-							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
-							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
-							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
-							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
-							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ3Obj.attackspeed) + parseFloat(attackspeed)
 							champ3Obj.attackspeed = newAttackSpeed
-							console.log(champ3Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ3Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ3Obj.critchance = newCritChance
-							console.log(champ3Obj)
 						}
 						
 					})					
@@ -4862,39 +5103,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -4914,39 +5146,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -4966,39 +5189,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -5018,39 +5232,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -5070,39 +5275,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -5122,39 +5318,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -5174,39 +5361,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
-							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
-							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
-							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
-							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
-							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ4Obj.attackspeed) + parseFloat(attackspeed)
 							champ4Obj.attackspeed = newAttackSpeed
-							console.log(champ4Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ4Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ4Obj.critchance = newCritChance
-							console.log(champ4Obj)
 						}
 						
 					})					
@@ -5226,39 +5404,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5278,39 +5447,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5330,39 +5490,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5382,39 +5533,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5434,39 +5576,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5486,39 +5619,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5538,39 +5662,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
-							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
-							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
-							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
-							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
-							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ5Obj.attackspeed) + parseFloat(attackspeed)
 							champ5Obj.attackspeed = newAttackSpeed
-							console.log(champ5Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ5Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ5Obj.critchance = newCritChance
-							console.log(champ5Obj)
 						}
 						
 					})					
@@ -5590,39 +5705,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5642,39 +5748,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5694,39 +5791,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5746,39 +5834,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5798,39 +5877,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5850,39 +5920,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5902,39 +5963,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
-							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
-							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
-							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
-							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
-							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ6Obj.attackspeed) + parseFloat(attackspeed)
 							champ6Obj.attackspeed = newAttackSpeed
-							console.log(champ6Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ6Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ6Obj.critchance = newCritChance
-							console.log(champ6Obj)
 						}
 						
 					})					
@@ -5954,39 +6006,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6006,39 +6049,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6058,39 +6092,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6110,39 +6135,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6162,39 +6178,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6214,39 +6221,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6266,39 +6264,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
-							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
-							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
-							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
-							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
-							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ7Obj.attackspeed) + parseFloat(attackspeed)
 							champ7Obj.attackspeed = newAttackSpeed
-							console.log(champ7Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ7Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ7Obj.critchance = newCritChance
-							console.log(champ7Obj)
 						}
 						
 					})					
@@ -6370,39 +6359,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
-							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
-							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
-							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
-							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
-							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ8Obj.attackspeed) + parseFloat(attackspeed)
 							champ8Obj.attackspeed = newAttackSpeed
-							console.log(champ8Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ8Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ8Obj.critchance = newCritChance
-							console.log(champ8Obj)
 						}
 						
 					})					
@@ -6422,39 +6402,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
-							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
-							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
-							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
-							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
-							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ8Obj.attackspeed) + parseFloat(attackspeed)
 							champ8Obj.attackspeed = newAttackSpeed
-							console.log(champ8Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ8Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ8Obj.critchance = newCritChance
-							console.log(champ8Obj)
 						}
 						
 					})					
@@ -6474,39 +6445,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
-							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
-							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
-							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
-							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
-							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ8Obj.attackspeed) + parseFloat(attackspeed)
 							champ8Obj.attackspeed = newAttackSpeed
-							console.log(champ8Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ8Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ8Obj.critchance = newCritChance
-							console.log(champ8Obj)
 						}
 						
 					})					
@@ -6526,39 +6488,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
-							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
-							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
-							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
-							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
-							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ8Obj.attackspeed) + parseFloat(attackspeed)
 							champ8Obj.attackspeed = newAttackSpeed
-							console.log(champ8Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ8Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ8Obj.critchance = newCritChance
-							console.log(champ8Obj)
 						}
 						
 					})					
@@ -6578,39 +6531,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
-							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
-							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
-							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
-							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
-							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ8Obj.attackspeed) + parseFloat(attackspeed)
 							champ8Obj.attackspeed = newAttackSpeed
-							console.log(champ8Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ8Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ8Obj.critchance = newCritChance
-							console.log(champ8Obj)
 						}
 						
 					})					
@@ -6630,39 +6574,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
-							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
-							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
-							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
-							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
-							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ8Obj.attackspeed) + parseFloat(attackspeed)
 							champ8Obj.attackspeed = newAttackSpeed
-							console.log(champ8Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ8Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ8Obj.critchance = newCritChance
-							console.log(champ8Obj)
 						}
 						
 					})					
@@ -6682,39 +6617,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -6734,39 +6660,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -6786,39 +6703,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -6838,39 +6746,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -6890,39 +6789,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -6942,39 +6832,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -6994,39 +6875,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
-							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
-							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
-							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
-							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
-							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ9Obj.attackspeed) + parseFloat(attackspeed)
 							champ9Obj.attackspeed = newAttackSpeed
-							console.log(champ9Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ9Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ9Obj.critchance = newCritChance
-							console.log(champ9Obj)
 						}
 						
 					})					
@@ -7047,39 +6919,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7099,39 +6962,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7151,39 +7005,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7203,39 +7048,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7255,39 +7091,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7307,39 +7134,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7359,39 +7177,30 @@ function temItemStats(cb){
 							let AP = value
 							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
-							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
 							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
-							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
 							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
-							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
 							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
-							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
 							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
-							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
 							let attackspeed = value
 							let newAttackSpeed = parseFloat(champ10Obj.attackspeed) + parseFloat(attackspeed)
 							champ10Obj.attackspeed = newAttackSpeed
-							console.log(champ10Obj)
 						}else if (key == "FlatCritChanceMod"){
-							console.log("True")
 							let critchance = value
 							let newCritChance = parseFloat(champ10Obj.critchance) + parseFloat(critchance)
-							console.log(parseFloat(critchance))
 							champ10Obj.critchance = newCritChance
-							console.log(champ10Obj)
 						}
 						
 					})					
@@ -7399,15 +7208,354 @@ function temItemStats(cb){
 			}
 		}
 	}
-	cb()	
+	cb(temmie)	
 }
 //  ============================================= Adding Stats from Runes ================================================================================
-function temAPRunes(){
-	console.log("AIIII")
+function temDmgCalc(cb){
+	$.each(parts, function(key, value){
+		if(value.partid == "1"){
+			cb = temDmgCalcPart1
+			cb(value.champ, appendDmgCalc)
+		} else if(value.partid == "2"){
+			cb = temDmgCalcPart2
+			cb(value.champ, appendDmgCalc)
+		} else if(value.partid == "3"){
+			cb = temDmgCalcPart3
+			cb(value.champ, appendDmgCalc)
+		}
+	})	
 }
 
+function temDmgCalcPart1(champid, cb){
+	let QLevel = champ1Obj.Q
+	var QDmg;
+	let WLevel = champ1Obj.W
+	var WDmg;
+	let ELevel = champ1Obj.E
+	var EDmg;
+	let RLevel = champ1Obj.R
+	var RDmg = 0
+	let AP = parseFloat(champ1Obj.AP)
+	let AD = parseFloat(champ1Obj.AD)
+	let armor = parseFloat(champ1Obj.armor)
+	let HP = parseFloat(champ1Obj.HP)
+	let attackspeed = parseFloat(champ1Obj.attackspeed)
+	let critchance = parseFloat(champ1Obj.critchance)
+	let spellblock = parseFloat(champ1Obj.spellblock)
+	let cd = parseFloat(champ1Obj.cd)
+	let apPen = parseFloat(champ1Obj.apPen)
+	let adPen = parseFloat(champ1Obj.adPen)
+	let critdmg = parseFloat(champ1Obj.critdmg)
+	if(QLevel == 1){
+		let QRatio = formulas.Vayne.Q.One.ratio
+		let ratio = parseFloat(QRatio)
+		let dmg = (AD + (ratio * AD))*(1+(critchance*(1+critdmg))) * (100/ (100 + (100-adPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let QRatio = formulas.Vayne.Q.Two.ratio
+		let ratio = parseFloat(QRatio)
+		let dmg = (AD + (ratio * AD))*(1+(critchance*(1+critdmg))) * (100/ (100 + (100-adPen)))
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let QRatio = formulas.Vayne.Q.Three.ratio
+		let ratio = parseFloat(QRatio)
+		let dmg = (AD + (ratio * AD))*(1+(critchance*(1+critdmg))) * (100/ (100 + (100-adPen)))
+		QDmg = dmg
+	}else if(QLevel == 4){
+		let QRatio = formulas.Vayne.Q.Four.ratio
+		let ratio = parseFloat(QRatio)
+		let dmg = (AD + (ratio * AD))*(1+(critchance*(1+critdmg))) * (100/ (100 + (100-adPen)))
+		QDmg = dmg
+	}else if(QLevel == 5){
+		let QRatio = formulas.Vayne.Q.Five.ratio
+		let ratio = parseFloat(QRatio)
+		let dmg = (AD + (ratio * AD))*(1+(critchance*(1+critdmg))) * (100/ (100 + (100-adPen)))
+		QDmg = dmg
+	}
+	if(WLevel == 1){
+		let WRatio = formulas.Vayne.W.One.ratio
+		let ratio = parseFloat(WRatio)
+		let dmg = WRatio*10000
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let WRatio = formulas.Vayne.W.Two.ratio
+		let ratio = parseFloat(WRatio)
+		let dmg = WRatio*10000
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let WRatio = formulas.Vayne.W.Three.ratio
+		let ratio = parseFloat(WRatio)
+		let dmg = WRatio*10000
+		WDmg = dmg
+	}else if(WLevel == 4){
+		let WRatio = formulas.Vayne.W.Four.ratio
+		let ratio = parseFloat(WRatio)
+		let dmg = WRatio*10000
+		WDmg = dmg
+	}else if(WLevel == 5){
+		let WRatio = formulas.Vayne.W.Five.ratio
+		let ratio = parseFloat(WRatio)
+		let dmg = WRatio*10000
+		WDmg = dmg
+	}
+	if(ELevel == 1){
+		let stringbase = formulas.Vayne.E.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base + (0.5*AD)) * (100/(100+(100-adPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbase = formulas.Vayne.E.Two.base
+		let base = parseFloat(stringbase)
+		let dmg =  (base + (0.5*AD)) * (100/(100+(100-adPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbase = formulas.Vayne.E.Three.base
+		let base = parseFloat(stringbase)
+		let dmg =  (base + (0.5*AD)) * (100/(100+(100-adPen)))
+		EDmg = dmg
+	}else if(ELevel == 4){
+		let stringbase = formulas.Vayne.E.Four.base
+		let base = parseFloat(stringbase)
+		let dmg =  (base + (0.5*AD)) * (100/(100+(100-adPen)))
+		EDmg = dmg
+	}else if(ELevel == 5){
+		let stringbase = formulas.Vayne.E.Five.base
+		let base = parseFloat(stringbase)
+		let dmg =  (base + (0.5*AD)) * (100/(100+(100-adPen)))
+		EDmg = dmg
+	}	
+cb(QDmg, WDmg, EDmg, RDmg, champ1Obj)
+}
+function temDmgCalcPart2(champid, cb){
+	let QLevel = champ2Obj.Q
+	var QDmg;
+	let WLevel = champ2Obj.W
+	var WDmg = 0
+	let ELevel = champ2Obj.E
+	var EDmg;
+	let RLevel = champ2Obj.R
+	var RDmg;
+	let AP = parseFloat(champ2Obj.AP)
+	let AD = parseFloat(champ2Obj.AD)
+	let armor = parseFloat(champ2Obj.armor)
+	let HP = parseFloat(champ2Obj.HP)
+	let attackspeed = parseFloat(champ2Obj.attackspeed)
+	let critchance = parseFloat(champ2Obj.critchance)
+	let spellblock = parseFloat(champ2Obj.spellblock)
+	let cd = parseFloat(champ2Obj.cd)
+	let apPen = parseFloat(champ2Obj.apPen)
+	let adPen = parseFloat(champ2Obj.adPen)
+	let critdmg = parseFloat(champ2Obj.critdmg)	
+	if(QLevel == 1){
+		let stringbase = formulas.Lux.Q.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.7))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Lux.Q.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.7))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let stringbase = formulas.Lux.Q.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.7))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 4){
+		let stringbase = formulas.Lux.Q.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.7))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel ==5){
+		let stringbase = formulas.Lux.Q.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.7))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}
+	if(ELevel == 1){
+		let stringbase = formulas.Lux.E.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.6))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbase = formulas.Lux.E.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.6))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbase = formulas.Lux.E.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.6))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 4){
+		let stringbase = formulas.Lux.E.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.6))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel ==5){
+		let stringbase = formulas.Lux.E.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.6))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}
+	if(RLevel == 1){
+		let stringbase = formulas.Lux.R.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.75))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 2){
+		let stringbase = formulas.Lux.R.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.75))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 3){
+		let stringbase = formulas.Lux.R.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (AP*0.75))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}
+cb(QDmg, WDmg, EDmg, RDmg, champ2Obj)		
+}
+function temDmgCalcPart3(champid, cb){
+	let QLevel = champ3Obj.Q
+	var QDmg;
+	let WLevel = champ3Obj.W
+	var WDmg;
+	let ELevel = champ3Obj.E
+	var EDmg = 0;
+	let RLevel = champ3Obj.R
+	var RDmg;
+	let AP = parseFloat(champ3Obj.AP)
+	let AD = parseFloat(champ3Obj.AD)
+	let armor = parseFloat(champ3Obj.armor)
+	let HP = parseFloat(champ3Obj.HP)
+	let attackspeed = parseFloat(champ3Obj.attackspeed)
+	let critchance = parseFloat(champ3Obj.critchance)
+	let spellblock = parseFloat(champ3Obj.spellblock)
+	let cd = parseFloat(champ3Obj.cd)
+	let apPen = parseFloat(champ3Obj.apPen)
+	let adPen = parseFloat(champ3Obj.adPen)
+	let critdmg = parseFloat(champ3Obj.critdmg)	
+	if(QLevel == 1)	{
+		let stringbase = formulas.Maokai.Q.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Maokai.Q.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 3){
+		let stringbase = formulas.Maokai.Q.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
 
-
+	}else if(QLevel == 4){
+		let stringbase = formulas.Maokai.Q.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 5){
+		let stringbase = formulas.Maokai.Q.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}
+	if(WLevel == 1)	{
+		let stringbase = formulas.Maokai.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg	
+	}else if(WLevel == 2){
+		let stringbase = formulas.Maokai.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg			
+	}else if(WLevel == 3){
+		let stringbase = formulas.Maokai.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg			
+	}else if(WLevel == 4){
+		let stringbase = formulas.Maokai.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg			
+	}else if(WLevel == 5){
+		let stringbase = formulas.Maokai.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.4*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg			
+	}
+	// if(ELevel == 1)	{
+	// 	let stringbase = formulas.Maokai.E.One.base
+	// 	let base = parseFloat(stringbase)
+	// 	let stringratio = formulas.Maokai.E.One.ratio
+	// 	let ratio = parseFloat(stringratio)
+	// 	let dmg = (base + ((ratio+(4*(AP/10000)))*10000))*(100/(100+(100-apPen)))
+	// 	let EDmg = dmg
+	// }else if(ELevel == 2){
+	// 	let stringbase = formulas.Maokai.E.Two.base
+	// 	let base = parseFloat(stringbase)
+	// 	let stringratio = formulas.Maokai.E.Two.ratio
+	// 	let ratio = parseFloat(stringratio)
+	// 	let dmg = (base + ((ratio+(4*(AP/10000)))*10000))*(100/(100+(100-apPen)))
+	// 	let EDmg = dmg
+	// }else if(ELevel == 3){
+	// 	let stringbase = formulas.Maokai.E.Three.base
+	// 	let base = parseFloat(stringbase)
+	// 	let stringratio = formulas.Maokai.E.Four.ratio
+	// 	let ratio = parseFloat(stringratio)
+	// 	console.log(ratio)
+	// 	let dmg = ratio+( 4*(AP/10000))
+	// 	let EDmg = dmg
+	// }else if(ELevel == 4){
+	// 	let stringbase = formulas.Maokai.E.Four.base
+	// 	let base = parseFloat(stringbase)
+	// 	let stringratio = formulas.Maokai.E.Four.ratio
+	// 	let ratio = parseFloat(stringratio)
+	// 	console.log(AP)
+	// 	let dmg = (AP/10000)
+	// 	let EDmg = dmg
+	// }else if(ELevel == 5){
+	// 	let stringbase = formulas.Maokai.E.Five.base
+	// 	let base = parseFloat(stringbase)
+	// 	let stringratio = formulas.Maokai.E.Five.ratio
+	// 	let ratio = parseFloat(stringratio)
+	// 	let dmg = (base + ((ratio+(4*(AP/10000)))*10000))*(100/(100+(100-apPen)))
+	// 	let EDmg = dmg
+	// }
+	if(RLevel == 1)	{
+		let stringbase = formulas.Maokai.R.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.75*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg		
+	}else if(RLevel == 2){
+		let stringbase = formulas.Maokai.R.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.75*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg		
+	}else if(RLevel == 3){
+		let stringbase = formulas.Maokai.R.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+ (.75*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg		
+	}
+	console.log(QDmg)
+	console.log(WDmg)
+	console.log(EDmg)
+	console.log(RDmg)
+cb(QDmg, WDmg, EDmg, RDmg, champ3Obj)		
+}
+function appendDmgCalc(QDmg, WDmg, EDmg, RDmg, champObj){
+var QDmg = parseFloat(QDmg)
+var EDmg = parseFloat(EDmg)
+var WDmg = parseFloat(WDmg)
+var RDmg = parseFloat(RDmg)
+champObj.TotalDmg = QDmg + EDmg + WDmg + RDmg
+}
 function temmie(){
 	console.log("I AM TEMMIE")
 
