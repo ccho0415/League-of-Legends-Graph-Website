@@ -1029,73 +1029,163 @@ function appendChampDiv(parts){
 		let role = parts[i].role
 		let team = parts[i].team			
 		if(team == 100 && lane == "TOP"){
-			$("#t1top").html(
+			$("#t1top").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+				
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 100 && lane == "JUNGLE"){
-			$("#t1jung").html(
+			$("#t1jung").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 100 && lane == "MIDDLE"){
-			$("#t1mid").html(
+			$("#t1mid").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+					
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 100 && lane == "BOTTOM" && role == "DUO_CARRY"){
-			$("#t1bot").html(
+			$("#t1bot").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+					
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 100 && lane == "BOTTOM" && role == "DUO_SUPPORT"){
-			$("#t1sup").html(
+			$("#t1sup").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 200 && lane == "TOP"){
-			$("#t2top").html(
+			$("#t2top").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 200 && lane == "JUNGLE"){
-			$("#t2jung").html(
+			$("#t2jung").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}else if(team == 200 && lane == "MIDDLE"){
-			$("#t2mid").html(
+			$("#t2mid").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if(team == 200 && lane == "BOTTOM" && role == "DUO_CARRY"){
-			$("#t2bot").html(
+			$("#t2bot").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		} else if (team == 200 && lane == "BOTTOM" && role == "DUO_SUPPORT"){
-			$("#t2sup").html(
+			$("#t2sup").append(
 				"<h5 class = 'champname'>"+champname+"</h5>"+
 				"<img class = 'champimg' src ='"+imgurl+"'>"+
-				"<div class = 'champinvetory' id='part"+participantId+"inventory'></div>"+					
+				"<div class = 'champinvetory' id='part"+participantId+"inventory'>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item1'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item2'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item3'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item4'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item5'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item6'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"item7'></div>"+
+				"<div class = 'champitem' id = 'part"+participantId+"itemtrinket'></div>"+																				
+				"</div>"+				
 				"<div class='partid' id = part"+participantId+" data-participant="+participantId+" style='display: none;'>"		
 			)
 		}
@@ -1513,17 +1603,87 @@ function timeHandler(timestamp, cb){
 	champ10Obj.cd = 0
 	champ10Obj.apPen = 0
 	champ10Obj.adPen = 0
-	champ10Obj.critdmg = 0											
-	$("#part1inventory").empty()
-	$("#part2inventory").empty()	
-	$("#part3inventory").empty()	
-	$("#part4inventory").empty()	
-	$("#part5inventory").empty()
-	$("#part6inventory").empty()
-	$("#part7inventory").empty()	
-	$("#part8inventory").empty()	
-	$("#part9inventory").empty()	
-	$("#part10inventory").empty()
+	champ10Obj.critdmg = 0	
+	$("#part1item1").empty()
+	$("#part1item2").empty()
+	$("#part1item3").empty()
+	$("#part1item4").empty()
+	$("#part1item5").empty()
+	$("#part1item6").empty()
+	$("#part1item7").empty()
+	$("#part1itemtrinket").empty()	
+	$("#part2item1").empty()
+	$("#part2item2").empty()
+	$("#part2item3").empty()
+	$("#part2item4").empty()
+	$("#part2item5").empty()
+	$("#part2item6").empty()
+	$("#part2item7").empty()
+	$("#part2itemtrinket").empty()	
+	$("#part3item1").empty()
+	$("#part3item2").empty()
+	$("#part3item3").empty()
+	$("#part3item4").empty()
+	$("#part3item5").empty()
+	$("#part3item6").empty()
+	$("#part3item7").empty()
+	$("#part3itemtrinket").empty()	
+	$("#part4item1").empty()
+	$("#part4item2").empty()
+	$("#part4item3").empty()
+	$("#part4item4").empty()
+	$("#part4item5").empty()
+	$("#part4item6").empty()
+	$("#part4item7").empty()
+	$("#part4itemtrinket").empty()	
+	$("#part5item1").empty()
+	$("#part5item2").empty()
+	$("#part5item3").empty()
+	$("#part5item4").empty()
+	$("#part5item5").empty()
+	$("#part5item6").empty()
+	$("#part5item7").empty()
+	$("#part5itemtrinket").empty()							
+	$("#part6item1").empty()
+	$("#part6item2").empty()
+	$("#part6item3").empty()
+	$("#part6item4").empty()
+	$("#part6item5").empty()
+	$("#part6item6").empty()
+	$("#part6item7").empty()
+	$("#part6itemtrinket").empty()
+	$("#part7item1").empty()
+	$("#part7item2").empty()
+	$("#part7item3").empty()
+	$("#part7item4").empty()
+	$("#part7item5").empty()
+	$("#part7item6").empty()
+	$("#part7item7").empty()
+	$("#part7itemtrinket").empty()
+	$("#part8item1").empty()
+	$("#part8item2").empty()
+	$("#part8item3").empty()
+	$("#part8item4").empty()
+	$("#part8item5").empty()
+	$("#part8item6").empty()
+	$("#part8item7").empty()
+	$("#part8itemtrinket").empty()	
+	$("#part9item1").empty()
+	$("#part9item2").empty()
+	$("#part9item3").empty()
+	$("#part9item4").empty()
+	$("#part9item5").empty()
+	$("#part9item6").empty()
+	$("#part9item7").empty()
+	$("#part9itemtrinket").empty()		
+	$("#part10item1").empty()
+	$("#part10item2").empty()
+	$("#part10item3").empty()
+	$("#part10item4").empty()
+	$("#part10item5").empty()
+	$("#part10item6").empty()
+	$("#part10item7").empty()
+	$("#part10itemtrinket").empty()						
 	cb(timestamp, timeProcessor, temItemStats)
 }
 function frameRequest(timeRequested, cb, cb2){
@@ -1616,9 +1776,13 @@ function partProcessor(cb){
 					runeProcessor = champ10RuneProcessor
 					masteryProcessor = champ10MasteryProcessor
 					baseProcessor = champ10BaseProcessor
+
 					break;
 			default:
 					cb = temmie
+					runeProcessor = temmie
+					masteryProcessor = temmie
+					baseProcessor = temmie		
 					break;
 		}
 		cb(parts[i], runeProcessor, masteryProcessor, baseProcessor)
@@ -1630,7 +1794,7 @@ function champ1Processor(participant, cb1, cb2, cb3){
 	var masteries = participant.masteries
 	cb1(runes, champRuneAppend)
 	cb2(masteries, champMasteryAppend)
-	cb3(participant, champBaseAppend)
+	cb3(participant, champBaseAppend)	
 }
 function champ2Processor(participant, cb1, cb2, cb3){
 	var participant = participant
@@ -1695,7 +1859,167 @@ function champ10Processor(participant, cb1, cb2, cb3){
 	cb1(runes, champRuneAppend)
 	cb2(masteries, temmie)
 }
+function champ1ImageProcessor(){
+	var item1div ="";
+	var item2div ="";
+	var item3div ="";
+	var item4div ="";
+	var item5div ="";
+	var item6div ="";
+	var item7div ="";						
+	console.log("MEOW?")
+	var item1id = champ1Obj.Item1
+	var item2id = champ1Obj.Item2
+	var item3id = champ1Obj.Item3
+	var item4id = champ1Obj.Item4
+	var item5id = champ1Obj.Item5
+	var item6id = champ1Obj.Item6
+	var item7id = champ1Obj.Item7
+	if(item1id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item1id+".png"
+		$("#part1item1").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item1").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}
+	if(item2id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item2id+".png"
+		$("#part1item2").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item2").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}
+	if(item3id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item3id+".png"
+		$("#part1item3").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item3").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}
+	if(item4id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item4id+".png"
+		$("#part1item4").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item4").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}
+	if(item5id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item5id+".png"
+		$("#part1item5").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item5").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}
+	if(item6id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item6id+".png"
+		$("#part1item6").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item6").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}
+	if(item7id !== "0"){
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+item7id+".png"
+		$("#part1item7").append($("<img>",{class: "ddragonimg", src: imgurl}) )		
+	}else{
+		let imgurl = "http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/3649.png"
+		$("#part1item7").append($("<img>",{class: "ddragonimg", src: imgurl}) )				
+	}	
+}
+function champ2ImageProcessor(){
+	$("#part2item1").empty()
+	$("#part2item2").empty()
+	$("#part2item3").empty()
+	$("#part2item4").empty()
+	$("#part2item5").empty()
+	$("#part2item6").empty()
+	$("#part2item7").empty()
+	$("#part2itemtrinket").empty()	
+}
+function champ3ImageProcessor(){
+	$("#part3item1").empty()
+	$("#part3item2").empty()
+	$("#part3item3").empty()
+	$("#part3item4").empty()
+	$("#part3item5").empty()
+	$("#part3item6").empty()
+	$("#part3item7").empty()
+	$("#part3itemtrinket").empty()		
+}
+function champ4ImageProcessor(){
+	$("#part4item1").empty()
+	$("#part4item2").empty()
+	$("#part4item3").empty()
+	$("#part4item4").empty()
+	$("#part4item5").empty()
+	$("#part4item6").empty()
+	$("#part4item7").empty()
+	$("#part4itemtrinket").empty()		
+}
+function champ5ImageProcessor(){
+	$("#part5item1").empty()
+	$("#part5item2").empty()
+	$("#part5item3").empty()
+	$("#part5item4").empty()
+	$("#part5item5").empty()
+	$("#part5item6").empty()
+	$("#part5item7").empty()
+	$("#part5itemtrinket").empty()							
+	
+}
+function champ6ImageProcessor(){
+	$("#part6item1").empty()
+	$("#part6item2").empty()
+	$("#part6item3").empty()
+	$("#part6item4").empty()
+	$("#part6item5").empty()
+	$("#part6item6").empty()
+	$("#part6item7").empty()
+	$("#part6itemtrinket").empty()
 
+}
+function champ7ImageProcessor(){
+	$("#part7item1").empty()
+	$("#part7item2").empty()
+	$("#part7item3").empty()
+	$("#part7item4").empty()
+	$("#part7item5").empty()
+	$("#part7item6").empty()
+	$("#part7item7").empty()
+	$("#part7itemtrinket").empty()	
+}
+function champ8ImageProcessor(){
+	$("#part8item1").empty()
+	$("#part8item2").empty()
+	$("#part8item3").empty()
+	$("#part8item4").empty()
+	$("#part8item5").empty()
+	$("#part8item6").empty()
+	$("#part8item7").empty()
+	$("#part8itemtrinket").empty()	
+}
+function champ9ImageProcessor(){
+	$("#part9item1").empty()
+	$("#part9item2").empty()
+	$("#part9item3").empty()
+	$("#part9item4").empty()
+	$("#part9item5").empty()
+	$("#part9item6").empty()
+	$("#part9item7").empty()
+	$("#part9itemtrinket").empty()	
+}
+function champ10ImageProcessor(){
+	$("#part10item1").empty()
+	$("#part10item2").empty()
+	$("#part10item3").empty()
+	$("#part10item4").empty()
+	$("#part10item5").empty()
+	$("#part10item6").empty()
+	$("#part10item7").empty()
+	$("#part10itemtrinket").empty()	
+}
+function itemImageAppend(){
+
+}
 function champ1RuneProcessor(runes, cb){
 	var runes = runes
 	runes.forEach(function(value){
@@ -2201,2167 +2525,782 @@ function itemAppend(event, eventType, timestamp, item, partId, cb){
 function partOneItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ1Obj.Consumable.push(item)
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")							
+		champ1Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ1Obj.ItemTrinket = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item1 == "0"){
-		champ1Obj.Item1 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item2 == "0"){
-		champ1Obj.Item2 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")						
+		champ1Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item3 == "0"){
-		champ1Obj.Item3 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item4 == "0"){
-		champ1Obj.Item4 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")				
+		champ1Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item5 == "0"){
-		champ1Obj.Item5 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item6 == "0"){
-		champ1Obj.Item6 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")							
+		champ1Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ1Obj.Item7 == "0"){
-		champ1Obj.Item7 = item
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")				
+		champ1Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ1Obj.Item1 == item){
-		champ1Obj.Item1 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")						
+		champ1Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ1Obj.Item2 == item){
-		champ1Obj.Item2 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ1Obj.Item3 == item){
-		champ1Obj.Item3 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")						
+		champ1Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ1Obj.Item4 == item){
-		champ1Obj.Item4 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")						
+		champ1Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ1Obj.Item5 == item){
-		champ1Obj.Item5 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")							
+		champ1Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ1Obj.Item6 == item){
-		champ1Obj.Item6 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")							
+		champ1Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ1Obj.Item7 == item){
-		champ1Obj.Item7 = "0"
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")							
+		champ1Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ1Obj.Item1 == event.itemBefore){
-		champ1Obj.Item1 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ1Obj.Item2 == event.itemBefore){
-		champ1Obj.Item2 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ1Obj.Item3 == event.itemBefore){
-		champ1Obj.Item3 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ1Obj.Item4 == event.itemBefore){
-		champ1Obj.Item4 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")			
+		champ1Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ1Obj.Item5 == event.itemBefore){
-		champ1Obj.Item5 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part1inventory").html("<div>"+print+"</div>")					
+		champ1Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ1Obj.Item6 == event.itemBefore){
-		champ1Obj.Item6 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv +"<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-
-		$("#part1inventory").html("<div>"+print+"</div>")				
+		champ1Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ1Obj.Item7 == event.itemBefore){
-		champ1Obj.Item7 = event.itemAfter
-		
-		$.each(champ1Obj, function(key, value){
-			inventorydiv = inventorydiv +"<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-
-		$("#part1inventory").html("<div>"+print+"</div>")				
+		champ1Obj.Item7 = event.itemAfter				
 			return
 	}
 }
 function partTwoItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ2Obj.Consumable.push(item)
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")			
+		champ2Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ2Obj.ItemTrinket = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item1 == "0"){
-		champ2Obj.Item1 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item2 == "0"){
-		champ2Obj.Item2 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item3 == "0"){
-		champ2Obj.Item3 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item4 == "0"){
-		champ2Obj.Item4 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item5 == "0"){
-		champ2Obj.Item5 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item6 == "0"){
-		champ2Obj.Item6 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ2Obj.Item7 == "0"){
-		champ2Obj.Item7 = item
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ2Obj.Item1 == item){
-		champ2Obj.Item1 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ2Obj.Item2 == item){
-		champ2Obj.Item2 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ2Obj.Item3 == item){
-		champ2Obj.Item3 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ2Obj.Item4 == item){
-		champ2Obj.Item4 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ2Obj.Item5 == item){
-		champ2Obj.Item5 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ2Obj.Item6 == item){
-		champ2Obj.Item6 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")						
+		champ2Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ2Obj.Item7 == item){
-		champ2Obj.Item7 = "0"
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")						
+		champ2Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ2Obj.Item1 == event.itemBefore){
-		champ2Obj.Item1 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ2Obj.Item2 == event.itemBefore){
-		champ2Obj.Item2 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")					
+		champ2Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ2Obj.Item3 == event.itemBefore){
-		champ2Obj.Item3 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ2Obj.Item4 == event.itemBefore){
-		champ2Obj.Item4 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ2Obj.Item5 == event.itemBefore){
-		champ2Obj.Item5 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ2Obj.Item6 == event.itemBefore){
-		champ2Obj.Item6 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ2Obj.Item7 == event.itemBefore){
-		champ2Obj.Item7 = event.itemAfter
-		
-		$.each(champ2Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part2inventory").html("<div>"+print+"</div>")				
+		champ2Obj.Item7 = event.itemAfter				
 			return
-	}		
+	}	
 }
 function partThreeItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ3Obj.Consumable.push(item)
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ3Obj.ItemTrinket = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")			
+		champ3Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item1 == "0"){
-		champ3Obj.Item1 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item2 == "0"){
-		champ3Obj.Item2 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item3 == "0"){
-		champ3Obj.Item3 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item4 == "0"){
-		champ3Obj.Item4 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item5 == "0"){
-		champ3Obj.Item5 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")			
+		champ3Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item6 == "0"){
-		champ3Obj.Item6 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")			
+		champ3Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ3Obj.Item7 == "0"){
-		champ3Obj.Item7 = item
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")			
+		champ3Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ3Obj.Item1 == item){
-		champ3Obj.Item1 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ3Obj.Item2 == item){
-		champ3Obj.Item2 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ3Obj.Item3 == item){
-		champ3Obj.Item3 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ3Obj.Item4 == item){
-		champ3Obj.Item4 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ3Obj.Item5 == item){
-		champ3Obj.Item5 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")						
+		champ3Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ3Obj.Item6 == item){
-		champ3Obj.Item6 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ3Obj.Item7 == item){
-		champ3Obj.Item7 = "0"
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ3Obj.Item1 == event.itemBefore){
-		champ3Obj.Item1 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ3Obj.Item2 == event.itemBefore){
-		champ3Obj.Item2 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ3Obj.Item3 == event.itemBefore){
-		champ3Obj.Item3 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ3Obj.Item4 == event.itemBefore){
-		champ3Obj.Item4 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")					
+		champ3Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ3Obj.Item5 == event.itemBefore){
-		champ3Obj.Item5 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ3Obj.Item6 == event.itemBefore){
-		champ3Obj.Item6 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ3Obj.Item7 == event.itemBefore){
-		champ3Obj.Item7 = event.itemAfter
-		
-		$.each(champ3Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part3inventory").html("<div>"+print+"</div>")				
+		champ3Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 function partFourItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	 var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
-	 }
+	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ4Obj.Consumable.push(item)
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ4Obj.ItemTrinket = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item1 == "0"){
-		champ4Obj.Item1 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item2 == "0"){
-		champ4Obj.Item2 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item3 == "0"){
-		champ4Obj.Item3 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item4 == "0"){
-		champ4Obj.Item4 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item5 == "0"){
-		champ4Obj.Item5 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item6 == "0"){
-		champ4Obj.Item6 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ4Obj.Item7 == "0"){
-		champ4Obj.Item7 = item
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ4Obj.Item1 == item){
-		champ4Obj.Item1 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ4Obj.Item2 == item){
-		champ4Obj.Item2 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ4Obj.Item3 == item){
-		champ4Obj.Item3 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ4Obj.Item4 == item){
-		champ4Obj.Item4 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ4Obj.Item5 == item){
-		champ4Obj.Item5 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ4Obj.Item6 == item){
-		champ4Obj.Item6 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ4Obj.Item7 == item){
-		champ4Obj.Item7 = "0"
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ4Obj.Item1 == event.itemBefore){
-		champ4Obj.Item1 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ4Obj.Item2 == event.itemBefore){
-		champ4Obj.Item2 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ4Obj.Item3 == event.itemBefore){
-		champ4Obj.Item3 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ4Obj.Item4 == event.itemBefore){
-		champ4Obj.Item4 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")					
+		champ4Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ4Obj.Item5 == event.itemBefore){
-		champ4Obj.Item5 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ4Obj.Item6 == event.itemBefore){
-		champ4Obj.Item6 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ4Obj.Item7 == event.itemBefore){
-		champ4Obj.Item7 = event.itemAfter
-		
-		$.each(champ4Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part4inventory").html("<div>"+print+"</div>")				
+		champ4Obj.Item7 = event.itemAfter				
 			return
-	}	
+	}		
 }
 function partFiveItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = ""
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ5Obj.Consumable.push(item)
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")					
+		champ5Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ5Obj.ItemTrinket = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});				
+		champ5Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item1 == "0"){
-		champ5Obj.Item1 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});		
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")				
+		champ5Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item2 == "0"){
-		champ5Obj.Item2 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});	
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")					
+		champ5Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item3 == "0"){
-		champ5Obj.Item3 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item4 == "0"){
-		champ5Obj.Item4 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item5 == "0"){
-		champ5Obj.Item5 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item6 == "0"){
-		champ5Obj.Item6 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ5Obj.Item7 == "0"){
-		champ5Obj.Item7 = item
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")		
+		champ5Obj.Item7 = item			
+			return
 	}else if(eventType == "ITEM_DESTROYED" && champ5Obj.Item1 == item){
-		champ5Obj.Item1 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ5Obj.Item2 == item){
-		champ5Obj.Item2 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ5Obj.Item3 == item){
-		champ5Obj.Item3 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ5Obj.Item4 == item){
-		champ5Obj.Item4 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ5Obj.Item5 == item){
-		champ5Obj.Item5 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ5Obj.Item6 == item){
-		champ5Obj.Item6 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ5Obj.Item7 == item){
-		champ5Obj.Item7 = "0"
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")							
+		champ5Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ5Obj.Item1 == event.itemBefore){
-		champ5Obj.Item1 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ5Obj.Item2 == event.itemBefore){
-		champ5Obj.Item2 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ5Obj.Item3 == event.itemBefore){
-		champ5Obj.Item3 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ5Obj.Item4 == event.itemBefore){
-		champ5Obj.Item4 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ5Obj.Item5 == event.itemBefore){
-		champ5Obj.Item5 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ5Obj.Item6 == event.itemBefore){
-		champ5Obj.Item6 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ5Obj.Item7 == event.itemBefore){
-		champ5Obj.Item7 = event.itemAfter
-		
-		$.each(champ5Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part5inventory").html("<div>"+print+"</div>")						
+		champ5Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 function partSixItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
+	 if(event.itemBefore == 0){
+	 	console.log(event)
+	 	return
+	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ6Obj.Consumable.push(item)
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ6Obj.ItemTrinket = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item1 == "0"){
-		champ6Obj.Item1 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item2 == "0"){
-		champ6Obj.Item2 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item3 == "0"){
-		champ6Obj.Item3 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item4 == "0"){
-		champ6Obj.Item4 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item5 == "0"){
-		champ6Obj.Item5 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item6 == "0"){
-		champ6Obj.Item6 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ6Obj.Item7 == "0"){
-		champ6Obj.Item7 = item
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ6Obj.Item1 == item){
-		champ6Obj.Item1 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")					
+		champ6Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ6Obj.Item2 == item){
-		champ6Obj.Item2 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")					
+		champ6Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ6Obj.Item3 == item){
-		champ6Obj.Item3 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ6Obj.Item4 == item){
-		champ6Obj.Item4 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ6Obj.Item5 == item){
-		champ6Obj.Item5 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ6Obj.Item6 == item){
-		champ6Obj.Item6 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ6Obj.Item7 == item){
-		champ6Obj.Item7 = "0"
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ6Obj.Item1 == event.itemBefore){
-		champ6Obj.Item1 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")				
+		champ6Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ6Obj.Item2 == event.itemBefore){
-		champ6Obj.Item2 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ6Obj.Item3 == event.itemBefore){
-		champ6Obj.Item3 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ6Obj.Item4 == event.itemBefore){
-		champ6Obj.Item4 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ6Obj.Item5 == event.itemBefore){
-		champ6Obj.Item5 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ6Obj.Item6 == event.itemBefore){
-		champ6Obj.Item6 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ6Obj.Item7 == event.itemBefore){
-		champ6Obj.Item7 = event.itemAfter
-		
-		$.each(champ6Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part6inventory").html("<div>"+print+"</div>")			
+		champ6Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 function partSevenItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ7Obj.Consumable.push(item)
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ7Obj.ItemTrinket = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")		
+		champ7Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item1 == "0"){
-		champ7Obj.Item1 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item2 == "0"){
-		champ7Obj.Item2 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item3 == "0"){
-		champ7Obj.Item3 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item4 == "0"){
-		champ7Obj.Item4 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item5 == "0"){
-		champ7Obj.Item5 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item6 == "0"){
-		champ7Obj.Item6 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ7Obj.Item7 == "0"){
-		champ7Obj.Item7 = item
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ7Obj.Item1 == item){
-		champ7Obj.Item1 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ7Obj.Item2 == item){
-		champ7Obj.Item2 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ7Obj.Item3 == item){
-		champ7Obj.Item3 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ7Obj.Item4 == item){
-		champ7Obj.Item4 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ7Obj.Item5 == item){
-		champ7Obj.Item5 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ7Obj.Item6 == item){
-		champ7Obj.Item6 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ7Obj.Item7 == item){
-		champ7Obj.Item7 = "0"
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ7Obj.Item1 == event.itemBefore){
-		champ7Obj.Item1 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ7Obj.Item2 == event.itemBefore){
-		champ7Obj.Item2 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ7Obj.Item3 == event.itemBefore){
-		champ7Obj.Item3 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ7Obj.Item4 == event.itemBefore){
-		champ7Obj.Item4 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ7Obj.Item5 == event.itemBefore){
-		champ7Obj.Item5 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")			
+		champ7Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ7Obj.Item6 == event.itemBefore){
-		champ7Obj.Item6 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ7Obj.Item7 == event.itemBefore){
-		champ7Obj.Item7 = event.itemAfter
-		
-		$.each(champ7Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part7inventory").html("<div>"+print+"</div>")				
+		champ7Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 function partEightItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ8Obj.Consumable.push(item)
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ8Obj.ItemTrinket = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")		
+		champ8Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item1 == "0"){
-		champ8Obj.Item1 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item2 == "0"){
-		champ8Obj.Item2 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item3 == "0"){
-		champ8Obj.Item3 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item4 == "0"){
-		champ8Obj.Item4 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item5 == "0"){
-		champ8Obj.Item5 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item6 == "0"){
-		champ8Obj.Item6 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ8Obj.Item7 == "0"){
-		champ8Obj.Item7 = item
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ8Obj.Item1 == item){
-		champ8Obj.Item1 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ8Obj.Item2 == item){
-		champ8Obj.Item2 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ8Obj.Item3 == item){
-		champ8Obj.Item3 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ8Obj.Item4 == item){
-		champ8Obj.Item4 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ8Obj.Item5 == item){
-		champ8Obj.Item5 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ8Obj.Item6 == item){
-		champ8Obj.Item6 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ8Obj.Item7 == item){
-		champ8Obj.Item7 = "0"
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ8Obj.Item1 == event.itemBefore){
-		champ8Obj.Item1 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ8Obj.Item2 == event.itemBefore){
-		champ8Obj.Item2 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ8Obj.Item3 == event.itemBefore){
-		champ8Obj.Item3 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ8Obj.Item4 == event.itemBefore){
-		champ8Obj.Item4 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")				
+		champ8Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ8Obj.Item5 == event.itemBefore){
-		champ8Obj.Item5 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ8Obj.Item6 == event.itemBefore){
-		champ8Obj.Item6 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ8Obj.Item7 == event.itemBefore){
-		champ8Obj.Item7 = event.itemAfter
-		
-		$.each(champ8Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part8inventory").html("<div>"+print+"</div>")			
+		champ8Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 function partNineItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ9Obj.Consumable.push(item)
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ9Obj.ItemTrinket = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item1 == "0"){
-		champ9Obj.Item1 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item2 == "0"){
-		champ9Obj.Item2 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item3 == "0"){
-		champ9Obj.Item3 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item4 == "0"){
-		champ9Obj.Item4 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item5 == "0"){
-		champ9Obj.Item5 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item6 == "0"){
-		champ9Obj.Item6 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ9Obj.Item7 == "0"){
-		champ9Obj.Item7 = item
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ9Obj.Item1 == item){
-		champ9Obj.Item1 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ9Obj.Item2 == item){
-		champ9Obj.Item2 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ9Obj.Item3 == item){
-		champ9Obj.Item3 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ9Obj.Item4 == item){
-		champ9Obj.Item4 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ9Obj.Item5 == item){
-		champ9Obj.Item5 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ9Obj.Item6 == item){
-		champ9Obj.Item6 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ9Obj.Item7 == item){
-		champ9Obj.Item7 = "0"
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ9Obj.Item1 == event.itemBefore){
-		champ9Obj.Item1 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ9Obj.Item2 == event.itemBefore){
-		champ9Obj.Item2 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ9Obj.Item3 == event.itemBefore){
-		champ9Obj.Item3 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ9Obj.Item4 == event.itemBefore){
-		champ9Obj.Item4 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")				
+		champ9Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ9Obj.Item5 == event.itemBefore){
-		champ9Obj.Item5 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ9Obj.Item6 == event.itemBefore){
-		champ9Obj.Item6 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ9Obj.Item7 == event.itemBefore){
-		champ9Obj.Item7 = event.itemAfter
-		
-		$.each(champ9Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part9inventory").html("<div>"+print+"</div>")			
+		champ9Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 function partTenItemObject(event, eventType, timestamp, item, partId){
 	var consumable = [2031, 2032, 2033, 2009, 2010, 2055, 2138, 2139, 2140, 2003];
 	var trinket = [3340, 3341, 3361, 3362, 3363, 3364];
-	var inventorydiv = "";
 	 if(event.itemBefore == 0){
 	 	console.log(event)
 	 	return
 	 }	
 	if(eventType == "ITEM_PURCHASED" && consumable.indexOf(item)!== -1){
-		champ10Obj.Consumable.push(item)
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Consumable.push(item)						
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && trinket.indexOf(item) !== -1){
-		champ10Obj.ItemTrinket = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.ItemTrinket = item					
 			return			
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item1 == "0"){
-		champ10Obj.Item1 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item1 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item2 == "0"){
-		champ10Obj.Item2 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item2 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item3 == "0"){
-		champ10Obj.Item3 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item3 = item					
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item4 == "0"){
-		champ10Obj.Item4 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item4 = item				
 			return		
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item5 == "0"){
-		champ10Obj.Item5 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item5 = item					
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item6 == "0"){
-		champ10Obj.Item6 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item6 = item							
 			return
 	}else if (eventType == "ITEM_PURCHASED" && champ10Obj.Item7 == "0"){
-		champ10Obj.Item7 = item
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item7 = item			
 			return
 	}else if(eventType == "ITEM_DESTROYED" && champ10Obj.Item1 == item){
-		champ10Obj.Item1 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")					
+		champ10Obj.Item1 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ10Obj.Item2 == item){
-		champ10Obj.Item2 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item2 = "0"				
 		return 
 	}else if (eventType == "ITEM_DESTROYED" && champ10Obj.Item3 == item){
-		champ10Obj.Item3 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")					
+		champ10Obj.Item3 = "0"						
 			return 
 	}else if (eventType == "ITEM_DESTROYED" && champ10Obj.Item4 == item){
-		champ10Obj.Item4 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")					
+		champ10Obj.Item4 = "0"						
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ10Obj.Item5 == item){
-		champ10Obj.Item5 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")					
+		champ10Obj.Item5 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ10Obj.Item6 == item){
-		champ10Obj.Item6 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item6 = "0"							
 			return
 	}else if (eventType == "ITEM_DESTROYED" && champ10Obj.Item7 == item){
-		champ10Obj.Item7 = "0"
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item7 = "0"							
 			return
 	}else if(eventType == "ITEM_UNDO" && champ10Obj.Item1 == event.itemBefore){
-		champ10Obj.Item1 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item1 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ10Obj.Item2 == event.itemBefore){
-		champ10Obj.Item2 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item2 = event.itemAfter					
 		return 
 	}else if (eventType == "ITEM_UNDO" && champ10Obj.Item3 == event.itemBefore){
-		champ10Obj.Item3 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item3 = event.itemAfter					
 			return 
 	}else if (eventType == "ITEM_UNDO" && champ10Obj.Item4 == event.itemBefore){
-		champ10Obj.Item4 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item4 = event.itemAfter			
 			return
 	}else if (eventType == "ITEM_UNDO" && champ10Obj.Item5 == event.itemBefore){
-		champ10Obj.Item5 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item5 = event.itemAfter					
 			return
 	}else if (eventType == "ITEM_UNDO" && champ10Obj.Item6 == event.itemBefore){
-		champ10Obj.Item6 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item6 = event.itemAfter				
 			return
 	}else if (eventType == "ITEM_UNDO" && champ10Obj.Item7 == event.itemBefore){
-		champ10Obj.Item7 = event.itemAfter
-		
-		$.each(champ10Obj, function(key, value){
-			inventorydiv = inventorydiv + "<span>"+key + "</span> Value: <img src = http://ddragon.leagueoflegends.com/cdn/7.9.1/img/item/"+value+".png>";
-		});
-		var print = inventorydiv
-		$("#part10inventory").html("<div>"+print+"</div>")				
+		champ10Obj.Item7 = event.itemAfter				
 			return
-	}
+	}	
 }
 //============================================ Dynamic skill Point Tracker==============================================================================
 function skillAppend(event, eventType, timestamp, partId, skillSlot, levelUpType, cb){
@@ -7592,42 +6531,62 @@ function temItemStats(cb){
 			}
 		}
 	}
-	cb(temmie)	
+	cb(temmie, temmie)	
 }
 //  ============================================= Adding Stats from Runes ================================================================================
-function temDmgCalc(cb){
+function temDmgCalc(cb, cb2){
 	$.each(parts, function(key, value){
 		console.log(value)
 		if(value.partid == "1"){
 			cb = temDmgCalcPart1
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ1ImageProcessor
+			cb2()
 		} else if(value.partid == "2"){
 			cb = temDmgCalcPart2
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ2ImageProcessor
+			cb2()			
 		} else if(value.partid == "3"){
 			cb = temDmgCalcPart3
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ3ImageProcessor
+			cb2()			
 		}else if(value.partid == "4"){
 			cb = temDmgCalcPart4
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ4ImageProcessor
+			cb2()			
 		}else if(value.partid =="5"){
 			cb = temDmgCalcPart5
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ5ImageProcessor
+			cb2()			
 		}else if(value.partid =="6"){
 			cb = temDmgCalcPart6
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ6ImageProcessor
+			cb2()			
 		}else if(value.partid == "7"){
 			cb = temDmgCalcPart7
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ7ImageProcessor
+			cb2()			
 		}else if(value.partid == "8"){
 			cb = temDmgCalcPart8
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ8ImageProcessor
+			cb2()			
 		}else if(value.partid == "9"){
 			cb = temDmgCalcPart9
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ9ImageProcessor
+			cb2()			
 		}else if(value.partid == "10"){
 			cb = temDmgCalcPart10
 			cb(value.champ, appendDmgCalc)
+			cb2 = champ10ImageProcessor
+			cb2()			
 		}
 	})	
 }
