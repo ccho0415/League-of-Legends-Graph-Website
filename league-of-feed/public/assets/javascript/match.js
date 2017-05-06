@@ -32,7 +32,11 @@ var champ1Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0
 }
 var champ2Obj = {
 	Item1: "0",
@@ -56,7 +60,11 @@ var champ2Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ3Obj = {
 	Item1: "0",
@@ -80,7 +88,11 @@ var champ3Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ4Obj = {
 	Item1: "0",
@@ -104,7 +116,11 @@ var champ4Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ5Obj = {
 	Item1: "0",
@@ -128,7 +144,11 @@ var champ5Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ6Obj = {
 	Item1: "0",
@@ -152,7 +172,11 @@ var champ6Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ7Obj = {
 	Item1: "0",
@@ -176,7 +200,11 @@ var champ7Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ8Obj = {
 	Item1: "0",
@@ -200,7 +228,11 @@ var champ8Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ9Obj = {
 	Item1: "0",
@@ -224,7 +256,11 @@ var champ9Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 var champ10Obj = {
 	Item1: "0",
@@ -248,7 +284,11 @@ var champ10Obj = {
 	HP: 0,
 	attackspeed : 0,
 	critchance : 0,
-	spellblock : 0			
+	spellblock : 0,
+	cd: 0,
+	apPen: 0,
+	adPen: 0,
+	critdmg: 0			
 }
 function champObj(name, id, patch, ad, adper, armor, armorper, asoff, asper, crit, critper, hp, hpper, hpreg, hpregper, movespeed, mp, mpper, mpreg, mpregper, range, spellblock, spellblockper, q, w, e, r){
 	this.name = name;
@@ -298,8 +338,10 @@ function runeObj(id, name, stats, description){
 	this.stats = stats;
 	this.description = description;
 }
-function masteryObj(){
-
+function masteryObj(id, name, description){
+	this.id = id;
+	this.name = name;
+	this.description = description;
 }
 function timeconvertseconds(millis) {
   var minutes = Math.floor(millis / 60);
@@ -563,11 +605,34 @@ function createRuneObj(static, cb){
 	runeStaticData.push(currentrune)
 }
 //======================================= Creating Objects for Static Mastery Data=================================================
-function temMasteries(){
-
+function temMasteries(cb){
+	const allparticipants = parts
+	for(i=0; i<allparticipants.length; i++){
+		let masteryarr = parts[i].masteries
+		for(j=0; j<masteryarr.length; j++){
+			let mastery = masteryarr[j].masteryId
+			if(allmastery.indexOf(mastery) ==-1){
+				allmastery.push(mastery)
+				cb(mastery, createMasteryObj)
+			}
+		}
+	}
 }
-function getMasteries(cb){
-console.log("TEM MASTERIES")
+function getMasteries(mastery, cb){
+	$.ajax({
+		url:"/admin/mastery/id/"+mastery,
+		method:"GET"
+	}).done(function(data){
+		var masteryobj = data.results	
+		cb(masteryobj, temmie)
+	})
+}
+function createMasteryObj(static, cb){
+	let id = static.id
+	let name = static.name
+	let description = static.description
+	var currentmastery = new masteryObj(id, name, description)
+	masteryStaticData.push(currentmastery)
 }
 // ========================================= Creating Objects for Static Item Data ======================================
 function temItem(timeline, cb){
@@ -612,7 +677,7 @@ function createItemObj(static, cb){
 	var currentitem = new itemObj (id, name, stats, description, plaintext)
 	itemStaticData.push(currentitem)
 }
-
+// =========================================== Event Listener =================================================================
 $("body").on("click", ".objectiveButton", function(e){
 	var timestamp = $(this).attr("data-timestamp")
 	temButtonHandler(timestamp, timeHandler)
@@ -645,6 +710,10 @@ function timeHandler(timestamp, cb){
 	champ1Obj.attackspeed = 0
 	champ1Obj.critchance = 0
 	champ1Obj.spellblock = 0
+	champ1Obj.cd = 0
+	champ1Obj.apPen = 0
+	champ1Obj.adPen = 0
+	champ1Obj.critdmg = 0	
 	champ2Obj.Item1 = "0"
 	champ2Obj.Item2 = "0"
 	champ2Obj.Item3 = "0"
@@ -666,7 +735,11 @@ function timeHandler(timestamp, cb){
 	champ2Obj.HP = 0
 	champ2Obj.attackspeed = 0
 	champ2Obj.critchance = 0
-	champ2Obj.spellblock = 0			
+	champ2Obj.spellblock = 0
+	champ2Obj.cd = 0
+	champ2Obj.apPen = 0
+	champ2Obj.adPen = 0
+	champ2Obj.critdmg = 0				
 	champ3Obj.Item1 = "0"
 	champ3Obj.Item2 = "0"
 	champ3Obj.Item3 = "0"
@@ -688,7 +761,11 @@ function timeHandler(timestamp, cb){
 	champ3Obj.HP = 0
 	champ3Obj.attackspeed = 0
 	champ3Obj.critchance = 0
-	champ3Obj.spellblock = 0					
+	champ3Obj.spellblock = 0
+	champ3Obj.cd = 0
+	champ3Obj.apPen = 0
+	champ3Obj.adPen = 0
+	champ3Obj.critdmg = 0						
 	champ4Obj.Item1 = "0"
 	champ4Obj.Item2 = "0"
 	champ4Obj.Item3 = "0"
@@ -710,7 +787,11 @@ function timeHandler(timestamp, cb){
 	champ4Obj.HP = 0
 	champ4Obj.attackspeed = 0
 	champ4Obj.critchance = 0
-	champ4Obj.spellblock = 0				
+	champ4Obj.spellblock = 0
+	champ4Obj.cd = 0
+	champ4Obj.apPen = 0
+	champ4Obj.adPen = 0
+	champ4Obj.critdmg = 0					
 	champ5Obj.Item1 = "0"
 	champ5Obj.Item2 = "0"
 	champ5Obj.Item3 = "0"
@@ -732,7 +813,11 @@ function timeHandler(timestamp, cb){
 	champ5Obj.HP = 0
 	champ5Obj.attackspeed = 0
 	champ5Obj.critchance = 0
-	champ5Obj.spellblock = 0					
+	champ5Obj.spellblock = 0
+	champ5Obj.cd = 0
+	champ5Obj.apPen = 0
+	champ5Obj.adPen = 0
+	champ5Obj.critdmg = 0						
 	champ6Obj.Item1 = "0"
 	champ6Obj.Item2 = "0"
 	champ6Obj.Item3 = "0"
@@ -754,7 +839,11 @@ function timeHandler(timestamp, cb){
 	champ6Obj.HP = 0
 	champ6Obj.attackspeed = 0
 	champ6Obj.critchance = 0
-	champ6Obj.spellblock = 0				
+	champ6Obj.spellblock = 0
+	champ6Obj.cd = 0
+	champ6Obj.apPen = 0
+	champ6Obj.adPen = 0
+	champ6Obj.critdmg = 0					
 	champ7Obj.Item1 = "0"
 	champ7Obj.Item2 = "0"
 	champ7Obj.Item3 = "0"
@@ -776,7 +865,11 @@ function timeHandler(timestamp, cb){
 	champ7Obj.HP = 0
 	champ7Obj.attackspeed = 0
 	champ7Obj.critchance = 0
-	champ7Obj.spellblock = 0					
+	champ7Obj.spellblock = 0
+	champ7Obj.cd = 0
+	champ7Obj.apPen = 0
+	champ7Obj.adPen = 0
+	champ7Obj.critdmg = 0						
 	champ8Obj.Item1 = "0"
 	champ8Obj.Item2 = "0"
 	champ8Obj.Item3 = "0"
@@ -798,7 +891,11 @@ function timeHandler(timestamp, cb){
 	champ8Obj.HP = 0
 	champ8Obj.attackspeed = 0
 	champ8Obj.critchance = 0
-	champ8Obj.spellblock = 0					
+	champ8Obj.spellblock = 0
+	champ8Obj.cd = 0
+	champ8Obj.apPen = 0
+	champ8Obj.adPen = 0
+	champ8Obj.critdmg = 0						
 	champ9Obj.Item1 = "0"
 	champ9Obj.Item2 = "0"
 	champ9Obj.Item3 = "0"
@@ -820,7 +917,11 @@ function timeHandler(timestamp, cb){
 	champ9Obj.HP = 0
 	champ9Obj.attackspeed = 0
 	champ9Obj.critchance = 0
-	champ9Obj.spellblock = 0				
+	champ9Obj.spellblock = 0
+	champ9Obj.cd = 0
+	champ9Obj.apPen = 0
+	champ9Obj.adPen = 0
+	champ9Obj.critdmg = 0					
 	champ10Obj.Item1 = "0"
 	champ10Obj.Item2 = "0"
 	champ10Obj.Item3 = "0"
@@ -842,7 +943,11 @@ function timeHandler(timestamp, cb){
 	champ10Obj.HP = 0
 	champ10Obj.attackspeed = 0
 	champ10Obj.critchance = 0
-	champ10Obj.spellblock = 0										
+	champ10Obj.spellblock = 0
+	champ10Obj.cd = 0
+	champ10Obj.apPen = 0
+	champ10Obj.adPen = 0
+	champ10Obj.critdmg = 0											
 	$("#part1inventory").empty()
 	$("#part2inventory").empty()	
 	$("#part3inventory").empty()	
@@ -862,7 +967,8 @@ function frameRequest(timeRequested, cb, cb2){
 	var event;
 	var events = [];
 	var itemProcessor;	
-	var skillProcessor; 
+	var skillProcessor;
+	partProcessor(temmie)	 
 	for(i=1; i < allframes.length; i++){
 		var events = allframes[i].events
 			for(j=0; j<events.length; j++){
@@ -876,6 +982,321 @@ function frameRequest(timeRequested, cb, cb2){
 				}
 			}
 	}
+}
+function partProcessor(cb){
+	var cb = cb
+	var runeProcessor;
+	var masteryProcessor;
+	for(i=0; i<parts.length; i++){
+		var participant = parts[i].partid
+		var participant = parseInt(participant)
+		switch (participant){
+			case 1:
+					cb = champ1Processor
+					runeProcessor = champ1RuneProcessor
+					masteryProcessor = champ1MasteryProcessor
+					break;
+			case 2:
+					cb = champ2Processor
+					runeProcessor = champ2RuneProcessor
+					masteryProcessor = champ2MasteryProcessor
+					break;
+			case 3:
+					cb = champ3Processor
+					runeProcessor = champ3RuneProcessor
+					masteryProcessor = champ3MasteryProcessor
+					break;
+			case 4:
+					cb = champ4Processor
+					runeProcessor = champ4RuneProcessor
+					masteryProcessor = champ4MasteryProcessor
+					break;
+			case 5:
+					cb = champ5Processor
+					runeProcessor = champ5RuneProcessor
+					masteryProcessor = champ5MasteryProcessor
+					break;
+			case 6:
+					cb = champ6Processor
+					runeProcessor = champ6RuneProcessor
+					masteryProcessor = champ6MasteryProcessor
+					break;
+			case 7:
+					cb = champ7Processor
+					runeProcessor = champ7RuneProcessor
+					masteryProcessor = champ7MasteryProcessor
+					break;
+			case 8:
+					cb = champ8Processor
+					runeProcessor = champ8RuneProcessor
+					masteryProcessor = champ8MasteryProcessor
+					break;
+			case 9:
+					cb = champ9Processor
+					runeProcessor = champ9RuneProcessor
+					masteryProcessor = champ9MasteryProcessor
+					break;
+			case 10:
+					cb = champ10Processor
+					runeProcessor = champ10RuneProcessor
+					masteryProcessor = champ10MasteryProcessor
+					break;
+			default:
+					cb = temmie
+					break;
+		}
+		cb(parts[i], runeProcessor, masteryProcessor)
+	}
+}
+function champ1Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ2Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)	
+}
+function champ3Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ4Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ5Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ6Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ7Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ8Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ9Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+function champ10Processor(participant, cb1, cb2){
+	var participant = participant
+	var runes = participant.runes
+	var masteries = participant.masteries
+	cb1(runes, champRuneAppend)
+	cb2(masteries, temmie)
+}
+
+function champ1RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ1Obj, temmie)
+
+	})
+}
+
+function champ1MasteryProcessor(masteries, cb){
+	console.log(masteries)
+}
+
+function champ2RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ2Obj, temmie)
+
+	})
+}
+function champ2MasteryProcessor(){
+	
+}
+function champ3RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ3Obj, temmie)
+
+	})
+}
+function champ3MasteryProcessor(){
+	
+}
+function champ4RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ4Obj, temmie)
+
+	})
+}
+function champ4MasteryProcessor(){
+	
+}
+function champ5RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ5Obj, temmie)
+
+	})
+}
+function champ5MasteryProcessor(){
+	
+}
+function champ6RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ6Obj, temmie)
+
+	})
+}
+function champ6MasteryProcessor(){
+	
+}
+function champ7RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ7Obj, temmie)
+
+	})
+}
+function champ7MasteryProcessor(){
+	
+}
+function champ8RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ8Obj, temmie)
+
+	})
+}
+function champ8MasteryProcessor(){
+	
+}
+function champ9RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ9Obj, temmie)
+
+	})
+}
+function champ9MasteryProcessor(){
+	
+}
+function champ10RuneProcessor(runes, cb){
+	var runes = runes
+	runes.forEach(function(value){
+		var multiplier = parseInt(value.rank)
+		var runeId = value.runeId
+		cb(runeId, multiplier, champ10Obj, temmie)
+
+	})
+}
+function champ10MasteryProcessor(){
+	
+}
+function champRuneAppend(runeId, multiplier, champObj, cb){
+	var runeToSearch = parseInt(runeId)
+	var multiplier = parseInt(multiplier)
+	var champObj = champObj
+	$.each(runeStaticData, function(key, value){
+		var runeobj = value
+		if(runeobj.id == runeToSearch){
+			if(runeobj.stats){
+				runedata= runeobj.stats
+				$.each(runedata, function(key, value){
+					if (key == "FlatPhysicalDamageMod"){
+						let AD = parseFloat(value) * multiplier
+						let newAD = parseFloat(champObj.AD) + AD
+						champObj.AD = newAD
+						console.log(champObj)
+					} else if(key == "FlatSpellBlockMod"){
+						let spellblock = parseFloat(value) * multiplier
+						let newspellblock = parseFloat(champObj.spellblock) + spellblock
+						champObj.spellblock = newspellblock
+						console.log(champObj)						
+					} else if(key == "PercentAttackSpeedMod"){
+						let attackspeed = parseFloat(value) * multiplier
+						let newattackspeed = parseFloat(champObj.attackspeed) + attackspeed
+						champObj.attackspeed = newattackspeed
+						console.log(champObj)
+					} else if (key == "rFlatMagicPenetrationMod"){
+						let apPen = parseFloat(value) * multiplier
+						let newapPen = parseFloat(champObj.apPen) + apPen
+						champObj.apPen = newapPen
+						console.log(champObj)
+					} else if (key == "FlatMagicDamageMod"){
+						let AP = parseFloat(value) * multiplier
+						let newAP = parseFloat(champObj.AP) + AP
+						champObj.AP = newAP
+						console.log(champObj)						
+					} else if (key == "FlatCritChanceMod"){
+						let critchance = parseFloat(value) * multiplier
+						let newcritchance = parseFloat(champObj.critchance) + critchance
+						champObj.critchance = newcritchance
+						console.log(champObj)							
+					} else if (key == "FlatCritDamageMod"){
+						let critdamage = parseFloat(value) * multiplier
+						let newcritdamage = parseFloat(champObj.critdamage) + critdamage
+						champObj.critdamage = newcritdamage
+						console.log(champObj)							
+					} else if (key == "FlatArmorMod"){
+						let armor = parseFloat(value) * multiplier
+						let newarmor = parseFloat(champObj.armor) + armor
+						champObj.armor = newarmor
+						console.log(champObj)						
+					}
+				})
+			}
+		}
+	})
+
 }
 function timeProcessor(event, eventType, timestamp, timeRequested, cb){
 	var event = event
@@ -3346,27 +3767,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3398,27 +3819,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3450,27 +3871,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3502,27 +3923,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3554,27 +3975,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3606,27 +4027,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3658,27 +4079,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ1Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ1Obj.AP) + parseFloat(AP)
 							champ1Obj.AP = newAP
 							console.log(champ1Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ1Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ1Obj.AD) + parseFloat(AD)
 							champ1Obj.AD = newAD
 							console.log(champ1Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ1Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ1Obj.armor) + parseFloat(armor)
 							champ1Obj.armor = newArmor
 							console.log(champ1Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ1Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ1Obj.HP) + parseFloat(hp)
 							champ1Obj.HP = newHP
 							console.log(champ1Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ1Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ1Obj.spellblock) + parseFloat(spellblock)
 							champ1Obj.spellblock = newSpellblock
 							console.log(champ1Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3711,27 +4132,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3763,27 +4184,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3815,27 +4236,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3867,27 +4288,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3919,27 +4340,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -3971,27 +4392,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4023,27 +4444,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ2Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ2Obj.AP) + parseFloat(AP)
 							champ2Obj.AP = newAP
 							console.log(champ2Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ2Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ2Obj.AD) + parseFloat(AD)
 							champ2Obj.AD = newAD
 							console.log(champ2Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ2Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ2Obj.armor) + parseFloat(armor)
 							champ2Obj.armor = newArmor
 							console.log(champ2Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ2Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ2Obj.HP) + parseFloat(hp)
 							champ2Obj.HP = newHP
 							console.log(champ2Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ2Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ2Obj.spellblock) + parseFloat(spellblock)
 							champ2Obj.spellblock = newSpellblock
 							console.log(champ2Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4075,27 +4496,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4127,27 +4548,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4179,27 +4600,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4231,27 +4652,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4283,27 +4704,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4335,27 +4756,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4387,27 +4808,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ3Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ3Obj.AP) + parseFloat(AP)
 							champ3Obj.AP = newAP
 							console.log(champ3Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ3Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ3Obj.AD) + parseFloat(AD)
 							champ3Obj.AD = newAD
 							console.log(champ3Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ3Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ3Obj.armor) + parseFloat(armor)
 							champ3Obj.armor = newArmor
 							console.log(champ3Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ3Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ3Obj.HP) + parseFloat(hp)
 							champ3Obj.HP = newHP
 							console.log(champ3Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ3Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ3Obj.spellblock) + parseFloat(spellblock)
 							champ3Obj.spellblock = newSpellblock
 							console.log(champ3Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4439,27 +4860,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4491,27 +4912,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4543,27 +4964,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4595,27 +5016,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4647,27 +5068,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4699,27 +5120,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4751,27 +5172,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ4Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ4Obj.AP) + parseFloat(AP)
 							champ4Obj.AP = newAP
 							console.log(champ4Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ4Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ4Obj.AD) + parseFloat(AD)
 							champ4Obj.AD = newAD
 							console.log(champ4Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ4Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ4Obj.armor) + parseFloat(armor)
 							champ4Obj.armor = newArmor
 							console.log(champ4Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ4Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ4Obj.HP) + parseFloat(hp)
 							champ4Obj.HP = newHP
 							console.log(champ4Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ4Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ4Obj.spellblock) + parseFloat(spellblock)
 							champ4Obj.spellblock = newSpellblock
 							console.log(champ4Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4803,27 +5224,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4855,27 +5276,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4907,27 +5328,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -4959,27 +5380,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5011,27 +5432,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5063,27 +5484,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5115,27 +5536,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ5Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ5Obj.AP) + parseFloat(AP)
 							champ5Obj.AP = newAP
 							console.log(champ5Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ5Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ5Obj.AD) + parseFloat(AD)
 							champ5Obj.AD = newAD
 							console.log(champ5Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ5Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ5Obj.armor) + parseFloat(armor)
 							champ5Obj.armor = newArmor
 							console.log(champ5Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ5Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ5Obj.HP) + parseFloat(hp)
 							champ5Obj.HP = newHP
 							console.log(champ5Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ5Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ5Obj.spellblock) + parseFloat(spellblock)
 							champ5Obj.spellblock = newSpellblock
 							console.log(champ5Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5167,27 +5588,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5219,27 +5640,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5271,27 +5692,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5323,27 +5744,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5375,27 +5796,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5427,27 +5848,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5479,27 +5900,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ6Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ6Obj.AP) + parseFloat(AP)
 							champ6Obj.AP = newAP
 							console.log(champ6Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ6Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ6Obj.AD) + parseFloat(AD)
 							champ6Obj.AD = newAD
 							console.log(champ6Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ6Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ6Obj.armor) + parseFloat(armor)
 							champ6Obj.armor = newArmor
 							console.log(champ6Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ6Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ6Obj.HP) + parseFloat(hp)
 							champ6Obj.HP = newHP
 							console.log(champ6Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ6Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ6Obj.spellblock) + parseFloat(spellblock)
 							champ6Obj.spellblock = newSpellblock
 							console.log(champ6Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5531,27 +5952,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5583,27 +6004,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5635,27 +6056,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5687,27 +6108,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5739,27 +6160,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5791,27 +6212,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5843,27 +6264,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ7Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ7Obj.AP) + parseFloat(AP)
 							champ7Obj.AP = newAP
 							console.log(champ7Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ7Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ7Obj.AD) + parseFloat(AD)
 							champ7Obj.AD = newAD
 							console.log(champ7Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ7Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ7Obj.armor) + parseFloat(armor)
 							champ7Obj.armor = newArmor
 							console.log(champ7Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ7Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ7Obj.HP) + parseFloat(hp)
 							champ7Obj.HP = newHP
 							console.log(champ7Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ7Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ7Obj.spellblock) + parseFloat(spellblock)
 							champ7Obj.spellblock = newSpellblock
 							console.log(champ7Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5895,27 +6316,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5947,27 +6368,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -5999,27 +6420,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6051,27 +6472,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6103,27 +6524,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6155,27 +6576,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6207,27 +6628,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ8Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ8Obj.AP) + parseFloat(AP)
 							champ8Obj.AP = newAP
 							console.log(champ8Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ8Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ8Obj.AD) + parseFloat(AD)
 							champ8Obj.AD = newAD
 							console.log(champ8Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ8Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ8Obj.armor) + parseFloat(armor)
 							champ8Obj.armor = newArmor
 							console.log(champ8Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ8Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ8Obj.HP) + parseFloat(hp)
 							champ8Obj.HP = newHP
 							console.log(champ8Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ8Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ8Obj.spellblock) + parseFloat(spellblock)
 							champ8Obj.spellblock = newSpellblock
 							console.log(champ8Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6259,27 +6680,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6311,27 +6732,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6363,27 +6784,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6415,27 +6836,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6467,27 +6888,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6519,27 +6940,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6571,27 +6992,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ9Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ9Obj.AP) + parseFloat(AP)
 							champ9Obj.AP = newAP
 							console.log(champ9Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ9Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ9Obj.AD) + parseFloat(AD)
 							champ9Obj.AD = newAD
 							console.log(champ9Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ9Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ9Obj.armor) + parseFloat(armor)
 							champ9Obj.armor = newArmor
 							console.log(champ9Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ9Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ9Obj.HP) + parseFloat(hp)
 							champ9Obj.HP = newHP
 							console.log(champ9Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ9Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ9Obj.spellblock) + parseFloat(spellblock)
 							champ9Obj.spellblock = newSpellblock
 							console.log(champ9Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6624,27 +7045,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6676,27 +7097,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6728,27 +7149,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6780,27 +7201,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6832,27 +7253,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6884,27 +7305,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
@@ -6936,27 +7357,27 @@ function temItemStats(cb){
 					$.each(itemdata, function(key, value){
 						if(key == "FlatMagicDamageMod"){
 							let AP = value
-							let newAP = parseInt(champ10Obj.AP) + parseInt(AP)
+							let newAP = parseFloat(champ10Obj.AP) + parseFloat(AP)
 							champ10Obj.AP = newAP
 							console.log(champ10Obj)
 						}else if (key == "FlatPhysicalDamageMod"){
 							let AD = value
-							let newAD = parseInt(champ10Obj.AD) + parseInt(AD)
+							let newAD = parseFloat(champ10Obj.AD) + parseFloat(AD)
 							champ10Obj.AD = newAD
 							console.log(champ10Obj)
 						}else if (key == "FlatArmorMod"){
 							let armor = value
-							let newArmor = parseInt(champ10Obj.armor) + parseInt(armor)
+							let newArmor = parseFloat(champ10Obj.armor) + parseFloat(armor)
 							champ10Obj.armor = newArmor
 							console.log(champ10Obj)
 						}else if (key == "FlatHPPoolMod"){
 							let hp = value
-							let newHP= parseInt(champ10Obj.HP) + parseInt(hp)
+							let newHP= parseFloat(champ10Obj.HP) + parseFloat(hp)
 							champ10Obj.HP = newHP
 							console.log(champ10Obj)
 						}else if (key == "FlatSpellBlockMod"){
 							let spellblock = value
-							let newSpellblock = parseInt(champ10Obj.spellblock) + parseInt(spellblock)
+							let newSpellblock = parseFloat(champ10Obj.spellblock) + parseFloat(spellblock)
 							champ10Obj.spellblock = newSpellblock
 							console.log(champ10Obj)
 						}else if (key == "PercentAttackSpeedMod"){
