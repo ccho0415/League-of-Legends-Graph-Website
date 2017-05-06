@@ -189,6 +189,390 @@ var formulas = {
 				base: 300
 			}
 		}
+	},
+	Janna :{
+		Q:{
+			One :{
+				base: 105
+			},
+			Two:{
+				base: 145
+			},
+			Three:{
+				base: 185
+			},
+			Four:{
+				base: 225
+			},
+			Five:{
+				base: 265
+			}
+
+
+		},
+		W:{
+			One :{
+				base: 60
+			},
+			Two:{
+				base: 115
+			},
+			Three:{
+				base: 170
+			},
+			Four:{
+				base: 225
+			},
+			Five:{
+				base: 280
+			}
+		},
+		E:{
+			One :{
+				base: 10
+			},
+			Two:{
+				base: 17.5
+			},
+			Three:{
+				base: 25
+			},
+			Four:{
+				base: 32.5
+			},
+			Five:{
+				base: 40
+			}
+		},
+		R:{
+
+		}
+	},
+	Gragas:{
+		Q:{
+			One :{
+				base: 80
+			},
+			Two:{
+				base: 120
+			},
+			Three:{
+				base: 160
+			},
+			Four:{
+				base: 200
+			},
+			Five:{
+				base: 240
+			}
+
+		},
+		W:{
+			One :{
+				base: 20
+			},
+			Two:{
+				base: 50
+			},
+			Three:{
+				base: 80
+			},
+			Four:{
+				base: 110
+			},
+			Five:{
+				base: 140
+			}
+
+		},
+		E:{
+			One :{
+				base: 80
+			},
+			Two:{
+				base: 130
+			},
+			Three:{
+				base: 180
+			},
+			Four:{
+				base: 230
+			},
+			Five:{
+				base: 280
+			}
+
+		},
+		R:{
+			One :{
+				base: 200
+			},
+			Two:{
+				base: 300
+			},
+			Three:{
+				base: 400
+			}
+
+		}
+	},
+	Cassiopeia:{
+		Q:{
+			One :{
+				base: 25
+			},
+			Two:{
+				base: 40
+			},
+			Three:{
+				base: 55
+			},
+			Four:{
+				base: 70
+			},
+			Five:{
+				base: 85
+			}
+
+		},
+		W:{
+			One :{
+				base: 20
+			},
+			Two:{
+				base: 35
+			},
+			Three:{
+				base: 50
+			},
+			Four:{
+				base: 65
+			},
+			Five:{
+				base: 80
+			}
+
+		},
+		E:{
+			One :{
+				baseone:52,
+				basetwo:10
+			},
+			Two:{
+				baseone:68,
+				basetwo:40
+			},
+			Three:{
+				baseone:88,
+				basetwo:70
+			},
+			Four:{
+				baseone:100,
+				basetwo:100
+			},
+			Five:{
+				baseone:120,
+				basetwo:130
+			}
+
+		},
+		R:{
+			One :{
+				base: 150
+			},
+			Two:{
+				base: 250
+			},
+			Three:{
+				base: 350
+			}
+		}
+	},
+	Caitlyn:{
+		Q:{
+			One :{
+				base: 30,
+				ratio: 1.3
+			},
+			Two:{
+				base: 70,
+				ratio: 1.4
+			},
+			Three:{
+				base: 110,
+				ratio: 1.5
+			},
+			Four:{
+				base: 150,
+				ratio: 1.6
+			},
+			Five:{
+				base: 190,
+				ratio: 1.7
+			}
+
+		},
+		W:{
+			One :{
+				base: 30
+			},
+			Two:{
+				base: 70
+			},
+			Three:{
+				base: 110
+			},
+			Four:{
+				base: 150
+			},
+			Five:{
+				base: 190
+			}
+
+		},
+		E:{
+			One :{
+				base: 70
+			},
+			Two:{
+				base: 110
+			},
+			Three:{
+				base: 150
+			},
+			Four:{
+				base: 190
+			},
+			Five:{
+				base: 230
+			}
+
+		},
+		R:{
+			One :{
+				base: 250
+			},
+			Two:{
+				base: 475
+			},
+			Three:{
+				base: 700
+			}
+
+		}
+	},
+	Rakan:{
+		Q:{
+			One :{
+				base: 70
+			},
+			Two:{
+				base: 115
+			},
+			Three:{
+				base: 160
+			},
+			Four:{
+				base: 205
+			},
+			Five:{
+				base: 250
+			}
+
+		},
+		W:{
+			One :{
+				base: 70
+			},
+			Two:{
+				base: 110
+			},
+			Three:{
+				base: 150
+			},
+			Four:{
+				base: 190
+			},
+			Five:{
+				base: 230
+			}
+
+		},
+		R:{
+			One :{
+				base: 100
+			},
+			Two:{
+				base: 200
+			},
+			Three:{
+				base: 300
+			}
+
+		}
+	},
+	Tryndamere:{
+		E:{
+			One :{
+				base: 70
+			},
+			Two:{
+				base: 100
+			},
+			Three:{
+				base: 130
+			},
+			Four:{
+				base: 160
+			},
+			Five:{
+				base: 190
+			}
+
+		}
+	},
+	DrMundo:{
+		W:{
+			One :{
+				base: 17.5
+			},
+			Two:{
+				base: 25
+			},
+			Three:{
+				base: 32.5
+			},
+			Four:{
+				base: 40
+			},
+			Five:{
+				base: 47.5
+			}
+
+		},
+		E:{
+			One :{
+				base: 60,
+				ratio: 0.03
+			},
+			Two:{
+				base: 100,
+				ratio: 0.035
+			},
+			Three:{
+				base: 140,
+				ratio: 0.04
+			},
+			Four:{
+				base: 180,
+				ratio: 0.045
+			},
+			Five:{
+				base: 220,
+				ratio:0.05
+			}
+
+		}
 	}
 }
 
@@ -7213,6 +7597,7 @@ function temItemStats(cb){
 //  ============================================= Adding Stats from Runes ================================================================================
 function temDmgCalc(cb){
 	$.each(parts, function(key, value){
+		console.log(value)
 		if(value.partid == "1"){
 			cb = temDmgCalcPart1
 			cb(value.champ, appendDmgCalc)
@@ -7221,6 +7606,27 @@ function temDmgCalc(cb){
 			cb(value.champ, appendDmgCalc)
 		} else if(value.partid == "3"){
 			cb = temDmgCalcPart3
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid == "4"){
+			cb = temDmgCalcPart4
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid =="5"){
+			cb = temDmgCalcPart5
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid =="6"){
+			cb = temDmgCalcPart6
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid == "7"){
+			cb = temDmgCalcPart7
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid == "8"){
+			cb = temDmgCalcPart8
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid == "9"){
+			cb = temDmgCalcPart9
+			cb(value.champ, appendDmgCalc)
+		}else if(value.partid == "10"){
+			cb = temDmgCalcPart10
 			cb(value.champ, appendDmgCalc)
 		}
 	})	
@@ -7548,6 +7954,675 @@ function temDmgCalcPart3(champid, cb){
 	console.log(EDmg)
 	console.log(RDmg)
 cb(QDmg, WDmg, EDmg, RDmg, champ3Obj)		
+}
+function temDmgCalcPart4(champid, cb){
+	let QLevel = champ4Obj.Q
+	var QDmg;
+	let WLevel = champ4Obj.W
+	var WDmg;
+	let ELevel = champ4Obj.E
+	var EDmg = 0;
+	let RLevel = champ4Obj.R
+	var RDmg = 0;
+	let AP = parseFloat(champ4Obj.AP)
+	let AD = parseFloat(champ4Obj.AD)
+	let armor = parseFloat(champ4Obj.armor)
+	let HP = parseFloat(champ4Obj.HP)
+	let attackspeed = parseFloat(champ4Obj.attackspeed)
+	let critchance = parseFloat(champ4Obj.critchance)
+	let spellblock = parseFloat(champ4Obj.spellblock)
+	let cd = parseFloat(champ4Obj.cd)
+	let apPen = parseFloat(champ4Obj.apPen)
+	let adPen = parseFloat(champ4Obj.adPen)
+	let critdmg = parseFloat(champ4Obj.critdmg)	
+	if(QLevel ==1){
+		let stringbase = formulas.Janna.Q.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.65*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Janna.Q.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.65*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let stringbase = formulas.Janna.Q.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.65*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 4){
+		let stringbase = formulas.Janna.Q.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.65*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 5){
+		let stringbase = formulas.Janna.Q.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.65*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}
+	if(WLevel ==1){
+		let stringbase = formulas.Janna.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let stringbase = formulas.Janna.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let stringbase = formulas.Janna.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 4){
+		let stringbase = formulas.Janna.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 5){
+		let stringbase = formulas.Janna.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}
+cb(QDmg, WDmg, EDmg, RDmg, champ4Obj)	
+}
+function temDmgCalcPart5(champid, cb){
+	let QLevel = champ5Obj.Q
+	var QDmg;
+	let WLevel = champ5Obj.W
+	var WDmg;
+	let ELevel = champ5Obj.E
+	var EDmg 
+	let RLevel = champ5Obj.R
+	var RDmg 
+	let AP = parseFloat(champ5Obj.AP)
+	let AD = parseFloat(champ5Obj.AD)
+	let armor = parseFloat(champ5Obj.armor)
+	let HP = parseFloat(champ5Obj.HP)
+	let attackspeed = parseFloat(champ5Obj.attackspeed)
+	let critchance = parseFloat(champ5Obj.critchance)
+	let spellblock = parseFloat(champ5Obj.spellblock)
+	let cd = parseFloat(champ5Obj.cd)
+	let apPen = parseFloat(champ5Obj.apPen)
+	let adPen = parseFloat(champ5Obj.adPen)
+	let critdmg = parseFloat(champ5Obj.critdmg)	
+	if(QLevel ==1){
+		let stringbase = formulas.Gragas.Q.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))*1.5
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Gragas.Q.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))*1.5
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let stringbase = formulas.Gragas.Q.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))*1.5
+		QDmg = dmg		
+	}else if(QLevel == 4){
+		let stringbase = formulas.Gragas.Q.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))*1.5
+		QDmg = dmg		
+	}else if(QLevel == 5){
+		let stringbase = formulas.Gragas.Q.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))*1.5
+		QDmg = dmg		
+	}
+	if(WLevel ==1){
+		let stringbase = formulas.Gragas.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(.08*10000))+(.3*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let stringbase = formulas.Gragas.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(.08*10000))+(.3*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let stringbase = formulas.Gragas.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(.08*10000))+(.3*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 4){
+		let stringbase = formulas.Gragas.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(.08*10000))+(.3*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 5){
+		let stringbase = formulas.Gragas.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(.08*10000))+(.3*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}
+	if(ELevel ==1){
+		let stringbase = formulas.Gragas.E.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbase = formulas.Gragas.E.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbase = formulas.Gragas.E.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 4){
+		let stringbase = formulas.Gragas.E.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 5){
+		let stringbase = formulas.Gragas.E.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.6*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}	
+	if(RLevel ==1){
+		let stringbase = formulas.Gragas.R.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 2){
+		let stringbase = formulas.Gragas.R.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 3){
+		let stringbase = formulas.Gragas.R.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg		
+	}
+cb(QDmg, WDmg, EDmg, RDmg, champ5Obj)	
+}
+function temDmgCalcPart6(champid, cb){
+	let QLevel = champ6Obj.Q
+	var QDmg;
+	let WLevel = champ6Obj.W
+	var WDmg;
+	let ELevel = champ6Obj.E
+	var EDmg 
+	let RLevel = champ6Obj.R
+	var RDmg 
+	let AP = parseFloat(champ6Obj.AP)
+	let AD = parseFloat(champ6Obj.AD)
+	let armor = parseFloat(champ6Obj.armor)
+	let HP = parseFloat(champ6Obj.HP)
+	let attackspeed = parseFloat(champ6Obj.attackspeed)
+	let critchance = parseFloat(champ6Obj.critchance)
+	let spellblock = parseFloat(champ6Obj.spellblock)
+	let cd = parseFloat(champ6Obj.cd)
+	let apPen = parseFloat(champ6Obj.apPen)
+	let adPen = parseFloat(champ6Obj.adPen)
+	let critdmg = parseFloat(champ6Obj.critdmg)
+	if(QLevel ==1){
+		let stringbase = formulas.Cassiopeia.Q.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.233*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Cassiopeia.Q.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.233*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let stringbase = formulas.Cassiopeia.Q.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.233*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 4){
+		let stringbase = formulas.Cassiopeia.Q.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.233*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 5){
+		let stringbase = formulas.Cassiopeia.Q.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.233*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}
+
+	if(WLevel ==1){
+		let stringbase = formulas.Cassiopeia.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.15*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let stringbase = formulas.Cassiopeia.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.15*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let stringbase = formulas.Cassiopeia.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.15*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 4){
+		let stringbase = formulas.Cassiopeia.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.15*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 5){
+		let stringbase = formulas.Cassiopeia.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.15*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}
+
+	if(ELevel ==1){
+		let stringbaseone = formulas.Cassiopeia.E.One.baseone
+		let baseone = parseFloat(stringbaseone)
+		let stringbasetwo = formulas.Cassiopeia.E.One.basetwo
+		let basetwo = parseFloat(stringbasetwo)		
+		let dmg = (baseone+(.6*AP))*(100/(100+(100-apPen)))+ (basetwo+(.35*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbaseone = formulas.Cassiopeia.E.Two.baseone
+		let baseone = parseFloat(stringbaseone)
+		let stringbasetwo = formulas.Cassiopeia.E.Two.basetwo
+		let basetwo = parseFloat(stringbasetwo)
+		let dmg = (baseone+(.1*AP))*(100/(100+(100-apPen))) + (basetwo+(.35*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbaseone = formulas.Cassiopeia.E.Three.baseone
+		let baseone = parseFloat(stringbaseone)
+		let stringbasetwo = formulas.Cassiopeia.E.Three.basetwo
+		let basetwo = parseFloat(stringbasetwo)
+		let dmg = (baseone+(.1*AP))*(100/(100+(100-apPen)))+ (basetwo+(.35*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 4){
+		let stringbaseone = formulas.Cassiopeia.E.Four.baseone
+		let baseone = parseFloat(stringbaseone)
+		let stringbasetwo = formulas.Cassiopeia.E.Four.basetwo
+		let basetwo = parseFloat(stringbasetwo)
+		let dmg = (baseone+(.1*AP))*(100/(100+(100-apPen)))+ (basetwo+(.35*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 5){
+		let stringbaseone = formulas.Cassiopeia.E.Five.baseone
+		let baseone = parseFloat(stringbaseone)
+		let stringbasetwo = formulas.Cassiopeia.E.Five.basetwo
+		let basetwo = parseFloat(stringbasetwo)
+		let dmg = (baseone+(.1*AP))*(100/(100+(100-apPen)))+ (basetwo+(.35*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}
+	if(RLevel ==1){
+		let stringbase = formulas.Cassiopeia.R.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 2){
+		let stringbase = formulas.Cassiopeia.R.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 3){
+		let stringbase = formulas.Cassiopeia.R.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg		
+	}
+cb(QDmg, WDmg, EDmg, RDmg, champ6Obj)	
+}
+function temDmgCalcPart7(champid, cb){
+	let QLevel = champ7Obj.Q
+	var QDmg;
+	let WLevel = champ7Obj.W
+	var WDmg;
+	let ELevel = champ7Obj.E
+	var EDmg 
+	let RLevel = champ7Obj.R
+	var RDmg 
+	let AP = parseFloat(champ7Obj.AP)
+	let AD = parseFloat(champ7Obj.AD)
+	let armor = parseFloat(champ7Obj.armor)
+	let HP = parseFloat(champ7Obj.HP)
+	let attackspeed = parseFloat(champ7Obj.attackspeed)
+	let critchance = parseFloat(champ7Obj.critchance)
+	let spellblock = parseFloat(champ7Obj.spellblock)
+	let cd = parseFloat(champ7Obj.cd)
+	let apPen = parseFloat(champ7Obj.apPen)
+	let adPen = parseFloat(champ7Obj.adPen)
+	let critdmg = parseFloat(champ7Obj.critdmg)	
+	if(QLevel ==1){
+		let stringbase = formulas.Caitlyn.Q.One.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.Caitlyn.Q.One.ratio
+		let ratio = parseFloat(stringratio)
+		let dmg = (base+(ratio*AD))*(100/(100+(100-adPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Caitlyn.Q.Two.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.Caitlyn.Q.One.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (base+(ratio*AD))*(100/(100+(100-adPen)))
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let stringbase = formulas.Caitlyn.Q.Three.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.Caitlyn.Q.One.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (base+(ratio*AD))*(100/(100+(100-adPen)))
+		QDmg = dmg		
+	}else if(QLevel == 4){
+		let stringbase = formulas.Caitlyn.Q.Four.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.Caitlyn.Q.One.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (base+(ratio*AD))*(100/(100+(100-adPen)))
+		QDmg = dmg		
+	}else if(QLevel == 5){
+		let stringbase = formulas.Caitlyn.Q.Five.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.Caitlyn.Q.One.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (base+(ratio*AD))*(100/(100+(100-adPen)))
+		QDmg = dmg		
+	}
+	if(WLevel ==1){
+		let stringbase = formulas.Caitlyn.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AD))*(100/(100+(100-adPen)))
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let stringbase = formulas.Caitlyn.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AD))*(100/(100+(100-adPen)))
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let stringbase = formulas.Caitlyn.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AD))*(100/(100+(100-adPen)))
+		WDmg = dmg		
+	}else if(WLevel == 4){
+		let stringbase = formulas.Caitlyn.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AD))*(100/(100+(100-adPen)))
+		WDmg = dmg		
+	}else if(WLevel == 5){
+		let stringbase = formulas.Caitlyn.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.7*AD))*(100/(100+(100-adPen)))
+		WDmg = dmg		
+	}
+	if(ELevel ==1){
+		let stringbase = formulas.Caitlyn.E.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.8*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbase = formulas.Caitlyn.E.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.8*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbase = formulas.Caitlyn.E.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.8*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 4){
+		let stringbase = formulas.Caitlyn.E.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.8*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 5){
+		let stringbase = formulas.Caitlyn.E.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.8*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}
+	if(RLevel ==1){
+		let stringbase = formulas.Caitlyn.R.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(2*AD))*(100/(100+(100-adPen)))
+		RDmg = dmg
+	}else if(RLevel == 2){
+		let stringbase = formulas.Caitlyn.R.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(2*AD))*(100/(100+(100-adPen)))
+		RDmg = dmg
+	}else if(RLevel == 3){
+		let stringbase = formulas.Caitlyn.R.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(2*AD))*(100/(100+(100-adPen)))
+		RDmg = dmg		
+	}
+cb(QDmg, WDmg, EDmg, RDmg, champ7Obj)
+}
+function temDmgCalcPart8(champid, cb){
+	let QLevel = champ8Obj.Q
+	var QDmg;
+	let WLevel = champ8Obj.W
+	var WDmg;
+	let ELevel = champ8Obj.E
+	var EDmg = 0;
+	let RLevel = champ8Obj.R
+	var RDmg 
+	let AP = parseFloat(champ8Obj.AP)
+	let AD = parseFloat(champ8Obj.AD)
+	let armor = parseFloat(champ8Obj.armor)
+	let HP = parseFloat(champ8Obj.HP)
+	let attackspeed = parseFloat(champ8Obj.attackspeed)
+	let critchance = parseFloat(champ8Obj.critchance)
+	let spellblock = parseFloat(champ8Obj.spellblock)
+	let cd = parseFloat(champ8Obj.cd)
+	let apPen = parseFloat(champ8Obj.apPen)
+	let adPen = parseFloat(champ8Obj.adPen)
+	let critdmg = parseFloat(champ8Obj.critdmg)
+	if(QLevel ==1){
+		let stringbase = formulas.Rakan.Q.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 2){
+		let stringbase = formulas.Rakan.Q.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg
+	}else if(QLevel == 3){
+		let stringbase = formulas.Rakan.Q.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 4){
+		let stringbase = formulas.Rakan.Q.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}else if(QLevel == 5){
+		let stringbase = formulas.Rakan.Q.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		QDmg = dmg		
+	}
+	if(WLevel ==1){
+		let stringbase = formulas.Rakan.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let stringbase = formulas.Rakan.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let stringbase = formulas.Rakan.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 4){
+		let stringbase = formulas.Rakan.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 5){
+		let stringbase = formulas.Rakan.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}
+	if(RLevel ==1){
+		let stringbase = formulas.Rakan.R.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 2){
+		let stringbase = formulas.Rakan.R.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg
+	}else if(RLevel == 3){
+		let stringbase = formulas.Rakan.R.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.5*AP))*(100/(100+(100-apPen)))
+		RDmg = dmg		
+	}
+cb(QDmg, WDmg, EDmg, RDmg, champ8Obj)
+}
+function temDmgCalcPart9(champid, cb){
+	let QLevel = champ9Obj.Q
+	var QDmg = 0;
+	let WLevel = champ9Obj.W
+	var WDmg = 0;
+	let ELevel = champ9Obj.E
+	var EDmg;
+	let RLevel = champ9Obj.R
+	var RDmg = 0;
+	let AP = parseFloat(champ9Obj.AP)
+	let AD = parseFloat(champ9Obj.AD)
+	let armor = parseFloat(champ9Obj.armor)
+	let HP = parseFloat(champ9Obj.HP)
+	let attackspeed = parseFloat(champ9Obj.attackspeed)
+	let critchance = parseFloat(champ9Obj.critchance)
+	let spellblock = parseFloat(champ9Obj.spellblock)
+	let cd = parseFloat(champ9Obj.cd)
+	let apPen = parseFloat(champ9Obj.apPen)
+	let adPen = parseFloat(champ9Obj.adPen)
+	let critdmg = parseFloat(champ9Obj.critdmg)
+	if(ELevel == 1){
+		let stringbase = formulas.Tryndamere.E.One.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(1.2*AD))+(1*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbase = formulas.Tryndamere.E.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(1.2*AD))+(1*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbase = formulas.Tryndamere.E.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(1.2*AD))+(1*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 4){
+		let stringbase = formulas.Tryndamere.E.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(1.2*AD))+(1*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}else if(ELevel == 5){
+		let stringbase = formulas.Tryndamere.E.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = ((base+(1.2*AD))+(1*AP))*(100/(100+(100-apPen)))
+		EDmg = dmg		
+	}	
+	console.log(EDmg)
+cb(QDmg, WDmg, EDmg, RDmg, champ9Obj)
+}
+function temDmgCalcPart10(champid, cb){
+	let QLevel = champ10Obj.Q
+	var QDmg = 0;
+	let WLevel = champ10Obj.W
+	var WDmg 
+	let ELevel = champ10Obj.E
+	var EDmg
+	let RLevel = champ10Obj.R
+	var RDmg = 0;
+	let AP = parseFloat(champ10Obj.AP)
+	let AD = parseFloat(champ10Obj.AD)
+	let armor = parseFloat(champ10Obj.armor)
+	let HP = parseFloat(champ10Obj.HP)
+	let attackspeed = parseFloat(champ10Obj.attackspeed)
+	let critchance = parseFloat(champ10Obj.critchance)
+	let spellblock = parseFloat(champ10Obj.spellblock)
+	let cd = parseFloat(champ10Obj.cd)
+	let apPen = parseFloat(champ10Obj.apPen)
+	let adPen = parseFloat(champ10Obj.adPen)
+	let critdmg = parseFloat(champ10Obj.critdmg)
+	if(WLevel ==1){
+		let stringbase = formulas.DrMundo.W.One.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.1*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 2){
+		let stringbase = formulas.DrMundo.W.Two.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.1*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg
+	}else if(WLevel == 3){
+		let stringbase = formulas.DrMundo.W.Three.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.1*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 4){
+		let stringbase = formulas.DrMundo.W.Four.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.1*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}else if(WLevel == 5){
+		let stringbase = formulas.DrMundo.W.Five.base
+		let base = parseFloat(stringbase)
+		let dmg = (base+(.1*AP))*(100/(100+(100-apPen)))
+		WDmg = dmg		
+	}
+
+
+	if(ELevel ==1){
+		let stringbase = formulas.DrMundo.E.One.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.DrMundo.E.One.ratio
+		let ratio = parseFloat(stringratio)
+		let dmg = (AD+base+(ratio*HP))*(100/(100+(100-adPen)))
+		EDmg = dmg
+	}else if(ELevel == 2){
+		let stringbase = formulas.DrMundo.E.Two.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.DrMundo.E.Two.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (AD+base+(ratio*HP))*(100/(100+(100-adPen)))
+		EDmg = dmg
+	}else if(ELevel == 3){
+		let stringbase = formulas.DrMundo.E.Three.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.DrMundo.E.Three.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (AD+base+(ratio*HP))*(100/(100+(100-adPen)))
+		EDmg = dmg		
+	}else if(ELevel == 4){
+		let stringbase = formulas.DrMundo.E.Four.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.DrMundo.E.Four.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (AD+base+(ratio*HP))*(100/(100+(100-adPen)))
+		EDmg = dmg		
+	}else if(ELevel == 5){
+		let stringbase = formulas.DrMundo.E.Five.base
+		let base = parseFloat(stringbase)
+		let stringratio = formulas.DrMundo.E.Five.ratio
+		let ratio = parseFloat(stringratio)		
+		let dmg = (AD+base+(ratio*HP))*(100/(100+(100-adPen)))
+		EDmg = dmg		
+	}	
+cb(QDmg, WDmg, EDmg, RDmg, champ10Obj)
 }
 function appendDmgCalc(QDmg, WDmg, EDmg, RDmg, champObj){
 var QDmg = parseFloat(QDmg)
